@@ -1,0 +1,300 @@
+(WP_parameter_bubble_ensures_permutation_is_equivalence
+ (wp_parameter_bubble_ensures_permutation_is_equivalence 0
+  (wp_parameter_bubble_ensures_permutation_is_equivalence-1 nil
+   3593348454
+   ("" (skosimp*)
+    (("" (prop)
+      (("1" (replace -31 -33 lr)
+        (("1" (replace -31 -34 lr)
+          (("1" (hide -35)
+            (("1" (replace -1 -7 lr)
+              (("1" (replace -1 -8 lr)
+                (("1" (replace -1 -9 lr)
+                  (("1" (replace -1 -10 lr)
+                    (("1" (replace -1 -11 lr)
+                      (("1" (replace -1 -15 lr)
+                        (("1" (replace -1 -16 lr)
+                          (("1" (replace -1 -19 lr)
+                            (("1" (replace -1 -21 lr)
+                              (("1"
+                                (replace -21 -22 lr)
+                                (("1"
+                                  (hide -21)
+                                  (("1"
+                                    (hide -30)
+                                    (("1"
+                                      (expand "uspermut_is_equiv" 1)
+                                      (("1"
+                                        (smash)
+                                        (("1"
+                                          (hide 1 2 3 5)
+                                          (("1"
+                                            (inst 1 "intp_intm_a!4")
+                                            (("1"
+                                              (inst 1 "intp_intm_a!1")
+                                              (("1"
+                                                (inst 1 "a!1")
+                                                (("1"
+                                                  (inst
+                                                   1
+                                                   "integer_of_int32(i!2)")
+                                                  (("1"
+                                                    (inst
+                                                     1
+                                                     "1 + integer_of_int32(i!2)")
+                                                    (("1"
+                                                      (expand
+                                                       "bubble_sorted")
+                                                      (("1"
+                                                        (inst
+                                                         1
+                                                         "integer_of_int32(i!2)")
+                                                        (("1"
+                                                          (inst
+                                                           1
+                                                           "1 + integer_of_int32(i!2)")
+                                                          (("1"
+                                                            (smash)
+                                                            (("1"
+                                                              (skolem!)
+                                                              (("1"
+                                                                (flatten)
+                                                                (("1"
+                                                                  (inst?
+                                                                   -28)
+                                                                  (("1"
+                                                                    (smash)
+                                                                    (("1"
+                                                                      (replace
+                                                                       -28
+                                                                       1
+                                                                       lr)
+                                                                      (("1"
+                                                                        (expand
+                                                                         "swapped")
+                                                                        (("1"
+                                                                          (prop)
+                                                                          (("1"
+                                                                            (replace
+                                                                             -27
+                                                                             1
+                                                                             rl)
+                                                                            (("1"
+                                                                              (replace
+                                                                               -28
+                                                                               1
+                                                                               rl)
+                                                                              (("1"
+                                                                                (use
+                                                                                 "shift_shift[intp]")
+                                                                                (("1"
+                                                                                  (replace
+                                                                                   -1
+                                                                                   -23
+                                                                                   lr)
+                                                                                  (("1"
+                                                                                    (assert)
+                                                                                    nil
+                                                                                    nil))
+                                                                                  nil))
+                                                                                nil))
+                                                                              nil))
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (replace
+                                                                       -28
+                                                                       1
+                                                                       lr)
+                                                                      (("2"
+                                                                        (inst
+                                                                         -16
+                                                                         "k1!1")
+                                                                        (("2"
+                                                                          (inst
+                                                                           -8
+                                                                           "k1!1")
+                                                                          (("2"
+                                                                            (grind)
+                                                                            nil
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (replace -31 -33 lr)
+        (("2" (replace -31 -34 lr)
+          (("2" (hide -35)
+            (("2" (replace -21 -22 lr)
+              (("2" (hide -31)
+                (("2" (expand "uspermut_is_equiv" 1)
+                  (("2" (smash)
+                    (("2" (hide 1 2 3 5)
+                      (("2" (inst 1 "intp_intm_a!4")
+                        (("2" (inst 1 "intp_intm_a!1")
+                          (("2" (inst 1 "a!1")
+                            (("2" (inst 1 "integer_of_int32(i!2)")
+                              (("2"
+                                (inst 1 "1 + integer_of_int32(i!2)")
+                                (("2"
+                                  (expand "bubble_sorted")
+                                  (("2"
+                                    (inst 1 "integer_of_int32(i!2)")
+                                    (("2"
+                                      (inst
+                                       1
+                                       "1 + integer_of_int32(i!2)")
+                                      (("2"
+                                        (smash)
+                                        (("2"
+                                          (skolem!)
+                                          (("2"
+                                            (flatten)
+                                            (("2"
+                                              (inst? -30)
+                                              (("2"
+                                                (smash)
+                                                (("1"
+                                                  (replace -30 1 lr)
+                                                  (("1"
+                                                    (expand "swapped")
+                                                    (("1"
+                                                      (prop)
+                                                      (("1"
+                                                        (replace
+                                                         -29
+                                                         1
+                                                         rl)
+                                                        (("1"
+                                                          (replace
+                                                           -30
+                                                           1
+                                                           rl)
+                                                          (("1"
+                                                            (use
+                                                             "shift_shift[intp]")
+                                                            (("1"
+                                                              (replace
+                                                               -1
+                                                               -24
+                                                               lr)
+                                                              (("1"
+                                                                (assert)
+                                                                nil
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil)
+                                                 ("2"
+                                                  (replace -30 1 lr)
+                                                  (("2"
+                                                    (inst -16 "k1!1")
+                                                    (("2"
+                                                      (inst -8 "k1!1")
+                                                      (("2"
+                                                        (grind)
+                                                        nil
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (int_plus_int_is_int application-judgement "int" integers nil)
+    (memory nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (pointer nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (swapped const-decl "bool"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (shift_shift formula-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (bubble_sorted const-decl "bool"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (integer_of_int32 const-decl "int"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (int32 nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (uspermut_is_equiv inductive-decl "bool"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil))
+   shostak)))
+

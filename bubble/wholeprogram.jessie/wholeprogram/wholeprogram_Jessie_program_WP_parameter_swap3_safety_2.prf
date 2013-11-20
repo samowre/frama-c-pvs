@@ -1,0 +1,11 @@
+(WP_parameter_swap3_safety
+ (wp_parameter_swap3_safety 0
+  (wp_parameter_swap3_safety-1 nil 3591557498
+   ("" (skosimp*) (("" (assert) nil nil)) nil)
+   ((int_minus_int_is_int application-judgement "int" integers nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil))
+   shostak)))
+

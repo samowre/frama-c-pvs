@@ -1,0 +1,719 @@
+theory Jessie_model
+
+use import int.Int
+
+use bool.Bool
+
+use import jessie3theories.Jessie_memory_model
+
+type charP
+
+type int32
+
+type int8
+
+type intP
+
+type padding
+
+type uint8
+
+type unsigned_charP
+
+type voidP
+
+function charP_tag  : (tag_id charP)
+
+axiom charP_int "charP_int": ((int_of_tag charP_tag) = (1))
+
+function charP_of_pointer_address (pointer ()) : (pointer charP)
+
+axiom charP_of_pointer_address_of_pointer_addr "charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer charP).
+  (p = (charP_of_pointer_address (pointer_address p))))
+
+axiom charP_parenttag_bottom "charP_parenttag_bottom":
+ (parenttag charP_tag bottom_tag)
+
+axiom charP_tags "charP_tags":
+ (forall x:(pointer charP).
+  (forall charP_tag_table:(tag_table charP).
+   (instanceof charP_tag_table x charP_tag)))
+
+function integer_of_int32 int32 : int
+
+predicate dom(k:int32) (n:int32) =
+ ((Int.(>=) (integer_of_int32 k) (0))
+ /\ (Int.(<=) (integer_of_int32 k) (Int.(-) (integer_of_int32 n) (1))))
+
+predicate eq_int32(x:int32) (y:int32) =
+ ((integer_of_int32 x) = (integer_of_int32 y))
+
+function integer_of_int8 int8 : int
+
+predicate eq_int8(x:int8) (y:int8) =
+ ((integer_of_int8 x) = (integer_of_int8 y))
+
+function integer_of_uint8 uint8 : int
+
+predicate eq_uint8(x:uint8) (y:uint8) =
+ ((integer_of_uint8 x) = (integer_of_uint8 y))
+
+function int32_of_integer int : int32
+
+axiom int32_coerce "int32_coerce":
+ (forall x:int.
+  (((Int.(<=) (-2147483648) x) /\ (Int.(<=) x (2147483647))) ->
+   ((integer_of_int32 (int32_of_integer x)) = x)))
+
+axiom int32_extensionality "int32_extensionality":
+ (forall x:int32.
+  (forall y:int32[((integer_of_int32 x) = (integer_of_int32 y))].
+   (((integer_of_int32 x) = (integer_of_int32 y)) -> (x = y))))
+
+axiom int32_range "int32_range":
+ (forall x:int32.
+  ((Int.(<=) (-2147483648) (integer_of_int32 x))
+  /\ (Int.(<=) (integer_of_int32 x) (2147483647))))
+
+function int8_of_integer int : int8
+
+axiom int8_coerce "int8_coerce":
+ (forall x:int.
+  (((Int.(<=) (-128) x) /\ (Int.(<=) x (127))) ->
+   ((integer_of_int8 (int8_of_integer x)) = x)))
+
+axiom int8_extensionality "int8_extensionality":
+ (forall x:int8.
+  (forall y:int8[((integer_of_int8 x) = (integer_of_int8 y))].
+   (((integer_of_int8 x) = (integer_of_int8 y)) -> (x = y))))
+
+axiom int8_range "int8_range":
+ (forall x:int8.
+  ((Int.(<=) (-128) (integer_of_int8 x))
+  /\ (Int.(<=) (integer_of_int8 x) (127))))
+
+function intP_tag  : (tag_id intP)
+
+axiom intP_int "intP_int": ((int_of_tag intP_tag) = (1))
+
+function intP_of_pointer_address (pointer ()) : (pointer intP)
+
+axiom intP_of_pointer_address_of_pointer_addr "intP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer intP).
+  (p = (intP_of_pointer_address (pointer_address p))))
+
+axiom intP_parenttag_bottom "intP_parenttag_bottom":
+ (parenttag intP_tag bottom_tag)
+
+axiom intP_tags "intP_tags":
+ (forall x:(pointer intP).
+  (forall intP_tag_table:(tag_table intP).
+   (instanceof intP_tag_table x intP_tag)))
+
+predicate left_valid_struct_charP(p:(pointer charP)) (a:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_min charP_alloc_table p) <= a)
+
+predicate left_valid_struct_intP(p:(pointer intP)) (a:int) (intP_alloc_table:(alloc_table intP)) =
+ ((offset_min intP_alloc_table p) <= a)
+
+predicate left_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_min unsigned_charP_alloc_table p) <= a)
+
+predicate left_valid_struct_voidP(p:(pointer voidP)) (a:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_min voidP_alloc_table p) <= a)
+
+axiom pointer_addr_of_charP_of_pointer_address "pointer_addr_of_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (charP_of_pointer_address p))))
+
+axiom pointer_addr_of_intP_of_pointer_address "pointer_addr_of_intP_of_pointer_address":
+ (forall p:(pointer ()). (p = (pointer_address (intP_of_pointer_address p))))
+
+function unsigned_charP_of_pointer_address (pointer ()) : (pointer unsigned_charP)
+
+axiom pointer_addr_of_unsigned_charP_of_pointer_address "pointer_addr_of_unsigned_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (unsigned_charP_of_pointer_address p))))
+
+function voidP_of_pointer_address (pointer ()) : (pointer voidP)
+
+axiom pointer_addr_of_voidP_of_pointer_address "pointer_addr_of_voidP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (voidP_of_pointer_address p))))
+
+predicate right_valid_struct_charP(p:(pointer charP)) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_max charP_alloc_table p) >= b)
+
+predicate right_valid_struct_intP(p:(pointer intP)) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ ((offset_max intP_alloc_table p) >= b)
+
+predicate right_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_max unsigned_charP_alloc_table p) >= b)
+
+predicate right_valid_struct_voidP(p:(pointer voidP)) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_max voidP_alloc_table p) >= b)
+
+predicate strict_valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_root_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) = a)
+ /\ ((offset_max intP_alloc_table p) = b))
+
+predicate strict_valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+predicate strict_valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_struct_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) = a)
+ /\ ((offset_max intP_alloc_table p) = b))
+
+predicate strict_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+function uint8_of_integer int : uint8
+
+axiom uint8_coerce "uint8_coerce":
+ (forall x:int.
+  (((Int.(<=) (0) x) /\ (Int.(<=) x (255))) ->
+   ((integer_of_uint8 (uint8_of_integer x)) = x)))
+
+axiom uint8_extensionality "uint8_extensionality":
+ (forall x:uint8.
+  (forall y:uint8[((integer_of_uint8 x) = (integer_of_uint8 y))].
+   (((integer_of_uint8 x) = (integer_of_uint8 y)) -> (x = y))))
+
+axiom uint8_range "uint8_range":
+ (forall x:uint8.
+  ((Int.(<=) (0) (integer_of_uint8 x))
+  /\ (Int.(<=) (integer_of_uint8 x) (255))))
+
+function unsigned_charP_tag  : (tag_id unsigned_charP)
+
+axiom unsigned_charP_int "unsigned_charP_int":
+ ((int_of_tag unsigned_charP_tag) = (1))
+
+axiom unsigned_charP_of_pointer_address_of_pointer_addr "unsigned_charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer unsigned_charP).
+  (p = (unsigned_charP_of_pointer_address (pointer_address p))))
+
+axiom unsigned_charP_parenttag_bottom "unsigned_charP_parenttag_bottom":
+ (parenttag unsigned_charP_tag bottom_tag)
+
+axiom unsigned_charP_tags "unsigned_charP_tags":
+ (forall x:(pointer unsigned_charP).
+  (forall unsigned_charP_tag_table:(tag_table unsigned_charP).
+   (instanceof unsigned_charP_tag_table x unsigned_charP_tag)))
+
+predicate valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_root_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) <= a)
+ /\ ((offset_max intP_alloc_table p) >= b))
+
+predicate valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+predicate valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_struct_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) <= a)
+ /\ ((offset_max intP_alloc_table p) >= b))
+
+predicate valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+function voidP_tag  : (tag_id voidP)
+
+axiom voidP_int "voidP_int": ((int_of_tag voidP_tag) = (1))
+
+axiom voidP_of_pointer_address_of_pointer_addr "voidP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer voidP).
+  (p = (voidP_of_pointer_address (pointer_address p))))
+
+axiom voidP_parenttag_bottom "voidP_parenttag_bottom":
+ (parenttag voidP_tag bottom_tag)
+
+axiom voidP_tags "voidP_tags":
+ (forall x:(pointer voidP).
+  (forall voidP_tag_table:(tag_table voidP).
+   (instanceof voidP_tag_table x voidP_tag)))
+
+end
+
+module Jessie_program
+
+use import int.Int
+
+use bool.Bool
+
+use import jessie3theories.Jessie_memory_model
+
+use import Jessie_model
+
+use import ref.Ref
+
+use import jessie3.JessieDivision
+
+use import jessie3.Jessie_memory_model_parameters
+
+use import jessie3_integer.Integer
+
+exception Loop_continue_exc ()
+
+exception Loop_exit_exc ()
+
+exception Return_label_exc ()
+
+val charP_alloc_table : ref (alloc_table charP)
+
+val charP_tag_table : ref (tag_table charP)
+
+val alloc_struct_charP
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { true } writes { charP_alloc_table, charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val alloc_struct_charP_requires
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { (Int.(>=) n (0)) } writes { charP_alloc_table,
+    charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val intP_alloc_table : ref (alloc_table intP)
+
+val intP_tag_table : ref (tag_table intP)
+
+val alloc_struct_intP
+ (n:int)
+  (intP_alloc_table:ref (alloc_table intP))
+   (intP_tag_table:ref (tag_table intP)) : (pointer intP)
+    requires { true } writes { intP_alloc_table, intP_tag_table }
+     ensures { ((strict_valid_struct_intP result (0) (Int.(-) n (1))
+                !intP_alloc_table)
+               /\ ((alloc_extends (old !intP_alloc_table) !intP_alloc_table)
+                  /\ ((alloc_fresh (old !intP_alloc_table) result n)
+                     /\ (instanceof !intP_tag_table result intP_tag)))) }
+
+val alloc_struct_intP_requires
+ (n:int)
+  (intP_alloc_table:ref (alloc_table intP))
+   (intP_tag_table:ref (tag_table intP)) : (pointer intP)
+    requires { (Int.(>=) n (0)) } writes { intP_alloc_table, intP_tag_table }
+     ensures { ((strict_valid_struct_intP result (0) (Int.(-) n (1))
+                !intP_alloc_table)
+               /\ ((alloc_extends (old !intP_alloc_table) !intP_alloc_table)
+                  /\ ((alloc_fresh (old !intP_alloc_table) result n)
+                     /\ (instanceof !intP_tag_table result intP_tag)))) }
+
+val unsigned_charP_alloc_table : ref (alloc_table unsigned_charP)
+
+val unsigned_charP_tag_table : ref (tag_table unsigned_charP)
+
+val alloc_struct_unsigned_charP
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { true } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val alloc_struct_unsigned_charP_requires
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { (Int.(>=) n (0)) } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val voidP_alloc_table : ref (alloc_table voidP)
+
+val voidP_tag_table : ref (tag_table voidP)
+
+val alloc_struct_voidP
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { true } writes { voidP_alloc_table, voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val alloc_struct_voidP_requires
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { (Int.(>=) n (0)) } writes { voidP_alloc_table,
+    voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val any_int32 (_anonymous:()) : int32 requires { true }  ensures { true }
+
+val any_int8 (_anonymous:()) : int8 requires { true }  ensures { true }
+
+val any_uint8 (_anonymous:()) : uint8 requires { true }  ensures { true }
+
+val int32_of_integer_
+ (x:int) : int32
+  requires { ((Int.(<=) (-2147483648) x) /\ (Int.(<=) x (2147483647))) }
+   ensures { ((integer_of_int32 result) = x) }
+
+val int8_of_integer_
+ (x:int) : int8
+  requires { ((Int.(<=) (-128) x) /\ (Int.(<=) x (127))) }
+   ensures { ((integer_of_int8 result) = x) }
+
+val safe_int32_of_integer_
+ (x:int) : int32
+  requires { true }  ensures { ((integer_of_int32 result) = x) }
+
+val safe_int8_of_integer_
+ (x:int) : int8 requires { true }  ensures { ((integer_of_int8 result) = x) }
+
+val safe_uint8_of_integer_
+ (x:int) : uint8
+  requires { true }  ensures { ((integer_of_uint8 result) = x) }
+
+val swap3
+ (a:(pointer intP))
+  (n_1:int32)
+   (i:int32)
+    (j:int32)
+     (intP_intM_a_1:ref (memory intP int32))
+      (intP_a_1_alloc_table:(alloc_table intP)) : ()
+       requires { true } reads { intP_intM_a_1 }  writes { intP_intM_a_1 }
+        ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/wholeprogram.jc" 50 9 16#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/" 0 0 0#
+                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 12 30#
+                    ((integer_of_int32
+                     (select (old !intP_intM_a_1)
+                     (shift a (integer_of_int32 i)))) = (integer_of_int32
+                                                        (select
+                                                        !intP_intM_a_1
+                                                        (shift a
+                                                        (integer_of_int32 j))))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 34 52#
+                       ((integer_of_int32
+                        (select (old !intP_intM_a_1)
+                        (shift a (integer_of_int32 j)))) = (integer_of_int32
+                                                           (select
+                                                           !intP_intM_a_1
+                                                           (shift a
+                                                           (integer_of_int32
+                                                           i))))))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 7 12 109#
+                         (forall i1:int32.
+                          ((dom i1 n_1) ->
+                           (exists i2:int32.
+                            ((dom i2 n_1)
+                            /\ ((integer_of_int32
+                                (select (old !intP_intM_a_1)
+                                (shift a (integer_of_int32 i1)))) = (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_1
+                                                                    (shift a
+                                                                    (integer_of_int32
+                                                                    i2)))))))))))))
+                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 1 5 10#
+                     (not_assigns intP_a_1_alloc_table (old !intP_intM_a_1)
+                     !intP_intM_a_1
+                     (pset_union
+                     (pset_range (pset_singleton a) (integer_of_int32 j)
+                     (integer_of_int32 j))
+                     (pset_range (pset_singleton a) (integer_of_int32 i)
+                     (integer_of_int32 i))))))) }
+
+val swap3_requires
+ (a:(pointer intP))
+  (n_1:int32)
+   (i:int32)
+    (j:int32)
+     (intP_intM_a_1:ref (memory intP int32))
+      (intP_a_1_alloc_table:(alloc_table intP)) : ()
+       requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/" 0 0 0#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 16 22#
+                   (Int.(>=) (integer_of_int32 n_1) (0)))
+                  /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                      (Int.(<=) (offset_min intP_a_1_alloc_table a) (0)))
+                     /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                         (Int.(>=) (offset_max intP_a_1_alloc_table a)
+                         (Int.(-) (integer_of_int32 n_1) (1))))
+                        /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 16 27#
+                            (dom i n_1))
+                           /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 31 42#
+                              (dom j n_1))))))) }
+       reads { intP_intM_a_1 }  writes { intP_intM_a_1 }
+        ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/wholeprogram.jc" 50 9 16#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/" 0 0 0#
+                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 12 30#
+                    ((integer_of_int32
+                     (select (old !intP_intM_a_1)
+                     (shift a (integer_of_int32 i)))) = (integer_of_int32
+                                                        (select
+                                                        !intP_intM_a_1
+                                                        (shift a
+                                                        (integer_of_int32 j))))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 34 52#
+                       ((integer_of_int32
+                        (select (old !intP_intM_a_1)
+                        (shift a (integer_of_int32 j)))) = (integer_of_int32
+                                                           (select
+                                                           !intP_intM_a_1
+                                                           (shift a
+                                                           (integer_of_int32
+                                                           i))))))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 7 12 109#
+                         (forall i1:int32.
+                          ((dom i1 n_1) ->
+                           (exists i2:int32.
+                            ((dom i2 n_1)
+                            /\ ((integer_of_int32
+                                (select (old !intP_intM_a_1)
+                                (shift a (integer_of_int32 i1)))) = (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_1
+                                                                    (shift a
+                                                                    (integer_of_int32
+                                                                    i2)))))))))))))
+                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 1 5 10#
+                     (not_assigns intP_a_1_alloc_table (old !intP_intM_a_1)
+                     !intP_intM_a_1
+                     (pset_union
+                     (pset_range (pset_singleton a) (integer_of_int32 j)
+                     (integer_of_int32 j))
+                     (pset_range (pset_singleton a) (integer_of_int32 i)
+                     (integer_of_int32 i))))))) }
+
+val uint8_of_integer_
+ (x:int) : uint8
+  requires { ((Int.(<=) (0) x) /\ (Int.(<=) x (255))) }
+   ensures { ((integer_of_uint8 result) = x) }
+
+let swap3_ensures_default "expl:Function swap3, default behavior"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 1 5 10#=
+ fun (a : (pointer intP)) (n_1 : int32) (i : int32) (j : int32) (intP_intM_a_1 : ref (memory intP int32)) (intP_a_1_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 16 22#
+              (Int.(>=) (integer_of_int32 n_1) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                 (Int.(<=) (offset_min intP_a_1_alloc_table a) (0)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                    (Int.(>=) (offset_max intP_a_1_alloc_table a)
+                    (Int.(-) (integer_of_int32 n_1) (1))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 16 27#
+                       (dom i n_1))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 31 42#
+                         (dom j n_1)))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/wholeprogram.jc" 50 9 16#
+            ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 12 30#
+              ((integer_of_int32
+               (select (old !intP_intM_a_1) (shift a (integer_of_int32 i)))) = 
+              (integer_of_int32
+              (select !intP_intM_a_1 (shift a (integer_of_int32 j))))))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 6 34 52#
+                 ((integer_of_int32
+                  (select (old !intP_intM_a_1)
+                  (shift a (integer_of_int32 j)))) = (integer_of_int32
+                                                     (select !intP_intM_a_1
+                                                     (shift a
+                                                     (integer_of_int32 i))))))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 7 12 109#
+                   (forall i1:int32.
+                    ((dom i1 n_1) ->
+                     (exists i2:int32.
+                      ((dom i2 n_1)
+                      /\ ((integer_of_int32
+                          (select (old !intP_intM_a_1)
+                          (shift a (integer_of_int32 i1)))) = (integer_of_int32
+                                                              (select
+                                                              !intP_intM_a_1
+                                                              (shift a
+                                                              (integer_of_int32
+                                                              i2)))))))))))))
+            /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 1 5 10#
+               (not_assigns intP_a_1_alloc_table (old !intP_intM_a_1)
+               !intP_intM_a_1
+               (pset_union
+               (pset_range (pset_singleton a) (integer_of_int32 j)
+               (integer_of_int32 j))
+               (pset_range (pset_singleton a) (integer_of_int32 i)
+               (integer_of_int32 i))))))) }('Init: 
+                                           try
+                                            begin
+                                              (let d = ref (any_int32 ()) in
+                                              ('C_3: 
+                                              ('C_8: 
+                                              ('C_11: 
+                                              begin
+                                                (let jessie_16 =
+                                                (d := ('C_2: 
+                                                      ((safe_acc_ !intP_intM_a_1) 
+                                                       ('C_1: 
+                                                       ((shift a) (integer_of_int32 j)))))) in
+                                                ());
+                                               (let jessie_22 =
+                                               (let jessie_18 =
+                                               ('C_5: 
+                                               ((safe_acc_ !intP_intM_a_1) 
+                                                ('C_4: 
+                                                ((shift a) (integer_of_int32 i))))) in
+                                               (let jessie_19 = a in
+                                               (let jessie_20 =
+                                               (integer_of_int32 j) in
+                                               (let jessie_21 =
+                                               ((shift jessie_19) jessie_20) in
+                                               (((safe_upd_ intP_intM_a_1) jessie_21) jessie_18))))) in
+                                               ());
+                                               (let jessie_28 =
+                                               (let jessie_24 = !d in
+                                               (let jessie_25 = a in
+                                               (let jessie_26 =
+                                               (integer_of_int32 i) in
+                                               (let jessie_27 =
+                                               ((shift jessie_25) jessie_26) in
+                                               (((safe_upd_ intP_intM_a_1) jessie_27) jessie_24))))) in
+                                               ()); (raise Return) end))));
+                                             (raise Return) end with
+                                            Return -> () end) 
+
+let swap3_safety "expl:Function swap3, Safety"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 1 5 10#=
+ fun (a : (pointer intP)) (n_1 : int32) (i : int32) (j : int32) (intP_intM_a_1 : ref (memory intP int32)) (intP_a_1_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 16 22#
+              (Int.(>=) (integer_of_int32 n_1) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                 (Int.(<=) (offset_min intP_a_1_alloc_table a) (0)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 3 26 47#
+                    (Int.(>=) (offset_max intP_a_1_alloc_table a)
+                    (Int.(-) (integer_of_int32 n_1) (1))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 16 27#
+                       (dom i n_1))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap31.c" 4 31 42#
+                         (dom j n_1)))))))  } ensures { true }('Init: 
+                                                              try
+                                                               begin
+                                                                 (let d =
+                                                                 ref 
+                                                                 (any_int32 ()) in
+                                                                 ('C_3: 
+                                                                 ('C_8: 
+                                                                 ('C_11: 
+                                                                 begin
+                                                                   (let jessie_2 =
+                                                                   (d := 
+                                                                    ('C_2: 
+                                                                    ("expl:pointer dereference"
+                                                                    #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 4 7 15#
+                                                                    ((((offset_acc_ intP_a_1_alloc_table) !intP_intM_a_1) a) 
+                                                                    (integer_of_int32 j))))) in
+                                                                   ());
+                                                                  (let jessie_8 =
+                                                                  (let jessie_4 =
+                                                                  ('C_5: 
+                                                                  ("expl:pointer dereference"
+                                                                  #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/swap3.c" 5 10 18#
+                                                                  ((((offset_acc_ intP_a_1_alloc_table) !intP_intM_a_1) a) 
+                                                                   (integer_of_int32 i)))) in
+                                                                  (let jessie_5 =
+                                                                  a in
+                                                                  (let jessie_6 =
+                                                                  (integer_of_int32 j) in
+                                                                  (let jessie_7 =
+                                                                  ((shift jessie_5) jessie_6) in
+                                                                  ("expl:pointer dereference"
+                                                                  #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/wholeprogram.jc" 67 14 73#
+                                                                  (((((offset_upd_ intP_a_1_alloc_table) intP_intM_a_1) jessie_5) jessie_6) jessie_4)))))) in
+                                                                  ());
+                                                                  (let jessie_14 =
+                                                                  (let jessie_10 =
+                                                                  !d in
+                                                                  (let jessie_11 =
+                                                                  a in
+                                                                  (let jessie_12 =
+                                                                  (integer_of_int32 i) in
+                                                                  (let jessie_13 =
+                                                                  ((shift jessie_11) jessie_12) in
+                                                                  ("expl:pointer dereference"
+                                                                  #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/swap/wholeprogram.jessie/wholeprogram.jc" 68 15 48#
+                                                                  (((((offset_upd_ intP_a_1_alloc_table) intP_intM_a_1) jessie_11) jessie_12) jessie_10)))))) in
+                                                                  ());
+                                                                  (raise
+                                                                   Return)
+                                                                 end))));
+                                                                (raise
+                                                                 Return) end
+                                                               with Return ->
+                                                               () end) 
+
+end
+
+

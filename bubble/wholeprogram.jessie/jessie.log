@@ -1,0 +1,676 @@
+WHYLIB is not set, using /usr/local/lib/why as default
+Parsing
+Normalization
+Typing logic labels
+Typing code
+Typing axiomatic Padding
+Typing logic type declaration padding
+Typing axiomatic Padding
+Typing tag intP
+Typing tag unsigned_charP
+Typing tag charP
+Typing tag voidP
+Computation of call graph
+***********************************
+Logic call graph: has 4 components
+***********************************
+Component 0:
+ swapped calls: 
+
+Component 1:
+ dom calls: 
+
+Component 2:
+ bubble_sorted calls: 
+
+Component 3:
+ Permut_Is_Equiv calls: Permut_Is_Equiv, swapped,
+Permut_Is_Equiv, bubble_sorted, Permut_Is_Equiv, Permut_Is_Equiv,
+Permut_Is_Equiv, Permut_Is_Equiv, Permut_Is_Equiv,
+Permut_Is_Equiv
+
+******************************
+Call graph: has 2 components
+******************************
+Component 0:
+ swap3 calls: 
+
+Component 1:
+ bubble calls: swap3
+
+Adding invariants
+Computation of regions
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_2_6, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_3_7, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_3_7, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_0_11, dummy_region,
+dummy_region
+arg:a_5_9, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_5_9, dummy_region,
+dummy_region
+param:a_12, dummy_region,
+dummy_region
+arg:a_6_10, dummy_region,
+dummy_region
+param:a_1_4, dummy_region,
+dummy_region
+arg:a_6_10, dummy_region,
+dummy_region
+param:a_1_13, dummy_region,
+dummy_region
+arg:a_2_6, dummy_region,
+dummy_region
+param:a_1_14, dummy_region,
+dummy_region
+arg:a_3_7, dummy_region,
+dummy_region
+param:a_1_15, dummy_region,
+dummy_region
+arg:a_3_7, dummy_region,
+dummy_region
+param:a_1_16, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_1_17, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_1_18, dummy_region,
+dummy_region
+arg:a_4_8, dummy_region,
+dummy_region
+param:a_0_19, dummy_region,
+dummy_region
+arg:a_5_9, dummy_region,
+dummy_region
+param:a_1_20, dummy_region,
+dummy_region
+arg:a_5_9, dummy_region,
+dummy_region
+param:a_21, dummy_region,
+dummy_region
+arg:a_6_10, dummy_region,
+dummy_region
+param:a_1_22, dummy_region,
+dummy_region
+arg:a_6_10, dummy_region,
+dummy_region
+Separation: treating function swap3
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:a_23, dummy_region,
+dummy_region
+arg:a_0_2, dummy_region,
+dummy_region
+Separation: treating function swap3
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:a_24, dummy_region,
+dummy_region
+arg:a_0_2, dummy_region,
+dummy_region
+Separation: treating function bubble
+param:a_0_25, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_26, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_27, dummy_region, dummy_region,
+dummy_region
+arg:a_5, dummy_region, dummy_region,
+dummy_region
+param:dummy_region
+arg:dummy_region
+param:a_0_28, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_29, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_30, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_31, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_32, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_33, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_34, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_35, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_36, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_37, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_38, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_39, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_40, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_41, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_42, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_43, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+Separation: treating function bubble
+param:a_0_44, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_45, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_46, dummy_region, dummy_region,
+dummy_region
+arg:a_5, dummy_region, dummy_region,
+dummy_region
+param:dummy_region
+arg:dummy_region
+param:a_0_47, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_48, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_49, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_50, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_51, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_52, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_53, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_54, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_55, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_56, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_57, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_58, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_59, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_60, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_0_61, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+param:a_1_62, dummy_region,
+dummy_region
+arg:a_5, dummy_region,
+dummy_region
+Computation of effects
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects for logic function swapped:
+ alloc_table: 
+ tag_table: 
+ memories: (mem-field(intM),a_1) (L1, L2)
+ raw memories: 
+ precise memories: 
+ globals: 
+ locals: 
+
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects for logic function dom:
+ alloc_table: 
+ tag_table: 
+ memories: 
+ raw memories: 
+ precise memories: 
+ globals: 
+ locals: 
+
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects for logic function bubble_sorted:
+ alloc_table: 
+ tag_table: 
+ memories: (mem-field(intM),a_0_3) (Here)
+ raw memories: 
+ precise memories: 
+ globals: 
+ locals: 
+
+Effects: doing one iteration...
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L, L2 -> L}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L2, L2 -> L1}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L2, L2 -> L3}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L3}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = bubble_sorted
+fi == app.jc_app_fun ? false
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = swapped
+fi == app.jc_app_fun ? false
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Effects: doing one iteration...
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L, L2 -> L}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L2, L2 -> L1}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L2, L2 -> L3}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L3}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = bubble_sorted
+fi == app.jc_app_fun ? false
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = swapped
+fi == app.jc_app_fun ? false
+Jc_effect.effects_from_app, fi = Permut_Is_Equiv, app = Permut_Is_Equiv
+fi == app.jc_app_fun ? true
+fi labels = {L1, L2} ; app label_assoc = {L1 -> L1, L2 -> L2}
+Effects: fixpoint reached
+Effects for logic function Permut_Is_Equiv:
+ alloc_table: 
+ tag_table: 
+ memories: (mem-field(intM),a_1_4) (L1, L2)
+ raw memories: 
+ precise memories: 
+ globals: 
+ locals: 
+
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects: removing global reads w/o writes
+Effects for function swap3:
+ reads:  alloc_table: (alloc-root(intP),a_0_2) (Here, Old)
+         tag_table: 
+         memories: (mem-field(intM),a_0_2) (Here, Old)
+         raw memories: (mem-field(intM),a_0_2) (Here, Old)
+         precise memories: 
+         globals: 
+         locals: d (Here)
+
+ writes:  alloc_table: 
+          tag_table: 
+          memories: (mem-field(intM),a_0_2) (Here, Old)
+          raw memories: (mem-field(intM),a_0_2) (Here, Old)
+          precise memories: 
+          globals: 
+          locals: d (Here)
+
+ raises: 
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects: removing global reads w/o writes
+Effects for function bubble:
+ reads:  alloc_table: (alloc-root(intP),a_5) (Here, Old)
+         tag_table: 
+         memories: (mem-field(intM),a_5) (Here, Pre, Old)
+         raw memories: (mem-field(intM),a_5) (Here, Old)
+         precise memories: 
+         globals: 
+         locals: k (Here), i_0 (Here)
+
+ writes:  alloc_table: 
+          tag_table: 
+          memories: (mem-field(intM),a_5) (Here, Old)
+          raw memories: (mem-field(intM),a_5) (Here, Old)
+          precise memories: 
+          globals: 
+          locals: k (Here), i_0 (Here)
+
+ raises: 
+Translate logic types
+Translate structures
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+Translate variants
+all_allocs(root charP):
+  Found 1 allocs.
+all_memories(root charP):
+  Found 0 memories.
+all_allocs(root charP):
+  Found 1 allocs.
+all_memories(root charP):
+  Found 0 memories.
+all_allocs(root intP):
+  Found 1 allocs.
+all_memories(root intP):
+  Found 0 memories.
+all_allocs(root intP):
+  Found 1 allocs.
+all_memories(root intP):
+  Found 0 memories.
+all_allocs(root unsigned_charP):
+  Found 1 allocs.
+all_memories(root unsigned_charP):
+  Found 0 memories.
+all_allocs(root unsigned_charP):
+  Found 1 allocs.
+all_memories(root unsigned_charP):
+  Found 0 memories.
+all_allocs(root voidP):
+  Found 1 allocs.
+all_memories(root voidP):
+  Found 0 memories.
+all_allocs(root voidP):
+  Found 1 allocs.
+all_memories(root voidP):
+  Found 0 memories.
+Translate variables
+Translate memories
+Translate allocation tables
+Translate tag tables
+Translate exceptions
+producing exception 'Goto_while_0_break'
+producing exception 'Goto_while_1_break'
+producing exception 'Loop_continue'
+producing exception 'Loop_exit'
+producing exception 'Return_label'
+Translate enumerated types
+Translate logic functions
+Logic function swapped
+Logic function dom
+Logic function bubble_sorted
+Logic function Permut_Is_Equiv
+Translate axiomatic declarations
+Axiomatic Padding
+Translate lemmas
+Translate functions
+Pre-treatement Function swap3
+Pre-treatement Function bubble
+Function swap3
+Jc_interp: function swap3
+Jc_interp: behavior 'default' has assigns clause with 2 elements
+Jc_interp: behavior 'default' has assigns clause with 2 elements
+Jc_interp: behavior 'safety' has no assigns
+Jc_interp: behavior 'safety' has no assigns
+Function bubble
+Jc_interp: function bubble
+Jc_interp: behavior 'default' has assigns clause with 1 elements
+Jc_interp: behavior 'default' has assigns clause with 1 elements
+Jc_interp: behavior 'safety' has no assigns
+Jc_interp: behavior 'safety' has no assigns
+Jc_interp: behavior 'bubble_sorted' has no assigns
+Jc_interp: behavior 'bubble_sorted' has no assigns
+Jc_interp: behavior 'permutation_is_equivalence' has no assigns
+Jc_interp: behavior 'permutation_is_equivalence' has no assigns
+Produce Why3ml file
+Produce makefile

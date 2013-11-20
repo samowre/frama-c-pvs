@@ -1,0 +1,32 @@
+(WP_parameter_bubble_safety
+ (wp_parameter_bubble_safety 0
+  (wp_parameter_bubble_safety-1 nil 3591900681
+   ("" (skosimp*)
+    (("" (assert)
+      (("" (prop)
+        (("1" (replace -1 1 lr)
+          (("1" (lemma "int32_range")
+            (("1" (inst?)
+              (("1" (replace -2 -1 lr) (("1" (assert) nil nil)) nil))
+              nil))
+            nil))
+          nil)
+         ("2" (use "int32_range") (("2" (assert) nil nil)) nil))
+        nil))
+      nil))
+    nil)
+   ((int32_range formula-decl nil WP_parameter_bubble_safety nil)
+    (int32 nonempty-type-decl nil WP_parameter_bubble_safety nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (minus_nzint_is_nzint application-judgement "nzint" integers nil)
+    (minus_even_is_even application-judgement "even_int" integers nil))
+   shostak)))
+

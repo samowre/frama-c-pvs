@@ -1,0 +1,12 @@
+(WP_parameter_bubble_ensures_default
+ (wp_parameter_bubble_ensures_default 0
+  (wp_parameter_bubble_ensures_default-1 nil 3591947392
+   ("" (skosimp*) (("" (replace -4 1 lr) (("" (assert) nil nil)) nil))
+    nil)
+   ((real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil))
+   shostak)))
+

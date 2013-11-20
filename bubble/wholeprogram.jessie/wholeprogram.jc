@@ -1,0 +1,327 @@
+# IntModel = bounded
+# InvariantPolicy = Arguments
+# SeparationPolicy = Regions
+# AnnotationPolicy = None
+# AbstractDomain = Pol
+
+axiomatic Padding {
+
+  logic type padding
+  
+}
+
+type uint8 = 0..255
+
+type int8 = -128..127
+
+type int32 = -2147483648..2147483647
+
+tag intP = {
+  int32 intM: 32;
+}
+
+type intP = [intP]
+
+tag unsigned_charP = {
+  uint8 unsigned_charM: 8;
+}
+
+type unsigned_charP = [unsigned_charP]
+
+tag charP = {
+  int8 charM: 8;
+}
+
+type charP = [charP]
+
+tag voidP = {
+}
+
+type voidP = [voidP]
+
+predicate swapped{L1, L2}(intP[..] a, integer i_1, integer j_0) =
+(((\at((a + i_1).intM,L1) == \at((a + j_0).intM,L2)) &&
+   (\at((a + j_0).intM,L1) == \at((a + i_1).intM,L2))) &&
+  (\forall integer k;
+    (((k != i_1) && (k != j_0)) ==>
+      (\at((a + k).intM,L1) == \at((a + k).intM,L2)))))
+
+predicate dom{L}(integer k_0, integer n) =
+((k_0 >= 0) && (k_0 <= (n - 1)))
+
+unit swap3(intP[..] a_0, int32 n_2, int32 i, int32 j)
+  requires (C_27 : ((C_28 : (n_2 >= 0)) &&
+                     ((C_30 : (\offset_min(a_0) <= 0)) &&
+                       (C_31 : (\offset_max(a_0) >= (n_2 - 1))))));
+  requires (C_24 : ((C_25 : dom{Here}(i, n_2)) && (C_26 : dom{Here}(j, n_2))));
+  requires (C_17 : (((C_19 : (\offset_min(a_0) <= i)) &&
+                      (C_20 : (\offset_max(a_0) >= i))) &&
+                     ((C_22 : (\offset_min(a_0) <= j)) &&
+                       (C_23 : (\offset_max(a_0) >= j)))));
+behavior default:
+  assigns (a_0 + i).intM,
+  (a_0 + j).intM;
+  ensures (C_12 : ((C_13 : (\forall integer i1;
+                             (dom{Here}(i1, \at(n_2,Old)) ==>
+                               (\exists integer i2;
+                                 (dom{Here}(i2, \at(n_2,Old)) &&
+                                   (\at((a_0 + i1).intM,Old) ==
+                                     (\at(a_0,Old) + i2).intM)))))) &&
+                    ((C_15 : swapped{Old,
+                     Here}(\at(a_0,Old), \at(i,Old), \at(j,Old))) &&
+                      (C_16 : (\forall integer k_1;
+                                (((((0 <= k_1) && (k_1 < \at(n_2,Old))) &&
+                                    (k_1 != \at(i,Old))) &&
+                                   (k_1 != \at(j,Old))) ==>
+                                  ((\at(a_0,Old) + k_1).intM ==
+                                    \at((a_0 + k_1).intM,Old))))))));
+{  
+   (var int32 d);
+   
+   {  (C_3 : (d = (C_2 : (C_1 : (a_0 + j)).intM)));
+      (C_8 : ((C_7 : (C_6 : (a_0 + j)).intM) = (C_5 : (C_4 : (a_0 + i)).intM)));
+      (C_11 : ((C_10 : (C_9 : (a_0 + i)).intM) = d));
+      
+      (return ())
+   }
+}
+
+predicate bubble_sorted{Here}(intP[..] a_0, integer start_i, integer end_i) =
+(\forall integer k1;
+  (((start_i <= k1) && (k1 < end_i)) ==>
+    ((a_0 + k1).intM <= (a_0 + (k1 + 1)).intM)))
+
+predicate Permut_Is_Equiv{L1, L2}(intP[..] a_1, integer index_from,
+                                  integer index_to) {
+case Permut_Refl_Is_Equiv{L}: \at((\forall intP[..] a_2;
+                                    (\forall integer index_from_0;
+                                      (\forall integer index_to_0;
+                                        Permut_Is_Equiv{L,
+                                        L}(a_2, index_from_0, index_to_0)))),L);
+  
+  case Permut_Sym_Is_Equiv{L1, L2}: (\forall intP[..] a_3;
+                                      (\forall integer index_from_1;
+                                        (\forall integer index_to_1;
+                                          (Permut_Is_Equiv{L1,
+                                            L2}(a_3, index_from_1, index_to_1) ==>
+                                            Permut_Is_Equiv{L2,
+                                            L1}(a_3, index_from_1, index_to_1)))));
+  
+  case Permut_Trans_Is_Equiv{L1, L2, L3}: (\forall intP[..] a_4;
+                                            (\forall integer index_from_2;
+                                              (\forall integer index_to_2;
+                                                ((Permut_Is_Equiv{L1,
+                                                   L2}(a_4, index_from_2,
+                                                       index_to_2) &&
+                                                   Permut_Is_Equiv{L2,
+                                                   L3}(a_4, index_from_2,
+                                                       index_to_2)) ==>
+                                                  Permut_Is_Equiv{L1,
+                                                  L3}(a_4, index_from_2,
+                                                      index_to_2)))));
+  
+  case Bubble_Sorted_Implies_Equiv{L1, L2}: (\forall intP[..] a_5;
+                                              (\forall integer index_from_3;
+                                                (\forall integer index_to_3;
+                                                  (\forall integer i_2;
+                                                    (\forall integer j_1;
+                                                      (((((index_from_3 <=
+                                                            i_2) &&
+                                                           (i_2 <=
+                                                             index_to_3)) &&
+                                                          ((index_from_3 <=
+                                                             j_1) &&
+                                                            (j_1 <=
+                                                              index_to_3))) &&
+                                                         bubble_sorted{L2}(
+                                                         a_5, i_2, j_1)) ==>
+                                                        Permut_Is_Equiv{L1,
+                                                        L2}(a_5,
+                                                            index_from_3,
+                                                            index_to_3)))))));
+  
+  case Swapped_Implies_Equiv{L1, L2}: (\forall intP[..] a_6;
+                                        (\forall integer index_from_4;
+                                          (\forall integer index_to_4;
+                                            (\forall integer i_3;
+                                              (\forall integer j_2;
+                                                (((((index_from_4 <= i_3) &&
+                                                     (i_3 <= index_to_4)) &&
+                                                    ((index_from_4 <= j_2) &&
+                                                      (j_2 <= index_to_4))) &&
+                                                   swapped{L1,
+                                                   L2}(a_6, i_3, j_2)) ==>
+                                                  Permut_Is_Equiv{L1,
+                                                  L2}(a_6, index_from_4,
+                                                      index_to_4)))))));
+  
+}
+
+unit bubble(intP[..] a, int32 n_1)
+  requires (C_84 : (0 <= n_1));
+  requires (C_81 : ((C_82 : (\offset_min(a) <= 0)) &&
+                     (C_83 : (\offset_max(a) >= (n_1 - 1)))));
+behavior default:
+  assigns (a + [0..(n_1 - 1)]).intM;
+  ensures (C_78 : true);
+behavior bubble_sorted:
+  ensures (C_79 : bubble_sorted{Here}(\at(a,Old), 0, (\at(n_1,Old) - 1)));
+behavior permutation_is_equivalence:
+  ensures (C_80 : Permut_Is_Equiv{Old,
+          Here}(\at(a,Old), 0, (\at(n_1,Old) - 1)));
+{  
+   (var int32 i_0);
+   
+   (var int32 k);
+   
+   {  (C_32 : (k = n_1));
+      
+      loop 
+      behavior default:
+        invariant (C_38 : ((C_39 : (k >= 0)) && (C_40 : (k <= n_1))));
+      behavior default:
+        invariant (C_37 : bubble_sorted{Here}(a, k, (n_1 - 1)));
+      behavior default:
+        invariant (C_36 : ((k == n_1) ||
+                            (\forall integer i1_1;
+                              (((i1_1 > k) && (i1_1 < n_1)) ==>
+                                ((a + k).intM <= (a + i1_1).intM)))));
+      behavior default:
+        invariant (C_35 : (\forall integer i2_1;
+                            (\forall integer i1_2;
+                              (((((i2_1 >= 0) && (i2_1 < k)) && (i1_2 >= k)) &&
+                                 (i1_2 < n_1)) ==>
+                                ((a + i1_2).intM >= (a + i2_1).intM)))));
+      behavior permutation_is_equivalence:
+        invariant (C_34 : Permut_Is_Equiv{Pre, Here}(a, 0, (n_1 - 1)));
+      variant (C_33 : (k - 1));
+      while (true)
+      {  
+         {  (if (k > 0) then () else 
+            (goto while_0_break));
+            
+            {  (C_41 : (i_0 = 0));
+               
+               loop 
+               behavior default:
+                 invariant (C_47 : (((C_49 : (i_0 >= 0)) &&
+                                      (C_50 : (i_0 < k))) &&
+                                     (C_51 : (i_0 <= n_1))));
+               behavior default:
+                 invariant (C_46 : (\forall integer j_3;
+                                     (((j_3 >= 0) && (j_3 < i_0)) ==>
+                                       ((a + j_3).intM <= (a + i_0).intM))));
+               behavior default:
+                 invariant (C_45 : bubble_sorted{Here}(a, k, (n_1 - 1)));
+               behavior default:
+                 invariant (C_44 : (\forall integer i1_0;
+                                     (\forall integer i2_0;
+                                       (((((i2_0 >= 0) && (i2_0 < k)) &&
+                                           (i1_0 >= k)) &&
+                                          (i1_0 <= (n_1 - 1))) ==>
+                                         ((a + i1_0).intM >= (a + i2_0).intM)))));
+               behavior permutation_is_equivalence:
+                 invariant (C_43 : Permut_Is_Equiv{Pre,
+                           Here}(a, 0, (n_1 - 1)));
+               variant (C_42 : ((k - i_0) - 1));
+               while (true)
+               {  
+                  {  (if (i_0 < (C_53 : ((C_52 : (k - 1)) :> int32))) then () else 
+                     (goto while_1_break));
+                     
+                     {  (if ((C_67 : (C_66 : (a + i_0)).intM) >
+                              (C_65 : (C_64 : ((C_63 : (a + i_0)) + 1)).intM)) then 
+                        {  
+                           {  
+                              (assert for default: (C_54 : (jessie : 
+                                                           (precondition_swap3_1 : 
+                                                           (n_1 >=
+                                                             0)))));
+                              ()
+                           };
+                           
+                           {  
+                              (assert for default: (C_55 : (jessie : 
+                                                           (precondition_swap3_2 : 
+                                                           ((i_0 >= 0) &&
+                                                             (i_0 <=
+                                                               (n_1 - 1)))))));
+                              ()
+                           };
+                           
+                           {  
+                              (assert for default: (C_56 : (jessie : 
+                                                           (precondition_swap3_3 : 
+                                                           (((i_0 + 1) >= 0) &&
+                                                             ((i_0 + 1) <=
+                                                               (n_1 - 1)))))));
+                              ()
+                           };
+                           
+                           {  
+                              (assert for default: (C_57 : (jessie : 
+                                                           (precondition_swap3_4 : 
+                                                           ((\offset_min(a) <=
+                                                              0) &&
+                                                             (\offset_max(a) >=
+                                                               (n_1 - 1)))))));
+                              ()
+                           };
+                           (C_60 : swap3(a, n_1, i_0,
+                                         (C_59 : ((C_58 : (i_0 + 1)) :> int32))));
+                           
+                           {  
+                              (assert for bubble_sorted: (C_61 : (jessie : bubble_sorted{Here}(
+                                                                 a, i_0,
+                                                                 (i_0 + 1)))));
+                              ()
+                           };
+                           
+                           {  
+                              (assert for permutation_is_equivalence: 
+                              (C_62 : (jessie : Permut_Is_Equiv{Pre,
+                                      Here}(a, i_0, (i_0 + 1)))));
+                              ()
+                           }
+                        } else ());
+                        (C_70 : (i_0 = (C_69 : ((C_68 : (i_0 + 1)) :> int32))))
+                     }
+                  }
+               };
+               (while_1_break : ());
+               
+               {  
+                  (assert for bubble_sorted: (C_71 : (jessie : bubble_sorted{Here}(
+                                                     a, i_0, (k - 1)))));
+                  ()
+               };
+               
+               {  
+                  (assert for permutation_is_equivalence: (C_72 : (jessie : Permut_Is_Equiv{Pre,
+                                                                  Here}(
+                                                                  a, i_0,
+                                                                  (k - 1)))));
+                  ()
+               };
+               (C_75 : (k = (C_74 : ((C_73 : (k - 1)) :> int32))));
+               
+               {  
+                  (assert for bubble_sorted: (C_76 : (jessie : bubble_sorted{Here}(
+                                                     a, i_0, k))));
+                  ()
+               };
+               
+               {  
+                  (assert for permutation_is_equivalence: (C_77 : (jessie : Permut_Is_Equiv{Pre,
+                                                                  Here}(
+                                                                  a, i_0, k))));
+                  ()
+               }
+            }
+         }
+      };
+      (while_0_break : ());
+      
+      (return ())
+   }
+}

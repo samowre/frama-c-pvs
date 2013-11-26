@@ -1,0 +1,27 @@
+(WP_parameter_swap3_safety
+ (wp_parameter_swap3_safety 0
+  (wp_parameter_swap3_safety-1 nil 3590734460
+   ("" (auto-rewrite-defs always? true)
+    (("" (assert)
+      (("" (skosimp*)
+        (("" (prop)
+          (("1" (assert) nil nil) ("2" (assert) nil nil)
+           ("3" (skosimp*)
+            (("3" (prop)
+              (("1" (assert) nil nil) ("2" (assert) nil nil)
+               ("3" (assert) nil nil) ("4" (assert) nil nil)
+               ("5" (skosimp*) (("5" (smash) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((dom const-decl "bool" WP_parameter_swap3_safety nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int_minus_int_is_int application-judgement "int" integers nil))
+   shostak)))
+

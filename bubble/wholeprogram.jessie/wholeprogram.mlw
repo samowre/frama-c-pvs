@@ -1,0 +1,2393 @@
+theory Jessie_model
+
+use import int.Int
+
+use bool.Bool
+
+use import jessie3theories.Jessie_memory_model
+
+type charP
+
+type int32
+
+type int8
+
+type intP
+
+type padding
+
+type uint8
+
+type unsigned_charP
+
+type voidP
+
+function integer_of_int32 int32 : int
+
+predicate bubble_sorted(a_0_0:(pointer intP)) (start_i:int) (end_i:int) (intP_intM_a_0_3:(memory intP int32)) =
+ (forall k1:int.
+  (((Int.(<=) start_i k1) /\ (Int.(<) k1 end_i)) ->
+   (Int.(<=) (integer_of_int32 (select intP_intM_a_0_3 (shift a_0_0 k1)))
+   (integer_of_int32 (select intP_intM_a_0_3 (shift a_0_0 (Int.(+) k1 (1))))))))
+
+predicate swapped(a:(pointer intP)) (i_1:int) (j_0:int) (intP_intM_a_1_at_L2:(memory intP int32)) (intP_intM_a_1_at_L1:(memory intP int32)) =
+ (((integer_of_int32 (select intP_intM_a_1_at_L1 (shift a i_1))) = (integer_of_int32
+                                                                   (select
+                                                                   intP_intM_a_1_at_L2
+                                                                   (shift a
+                                                                   j_0))))
+ /\ (((integer_of_int32 (select intP_intM_a_1_at_L1 (shift a j_0))) = 
+     (integer_of_int32 (select intP_intM_a_1_at_L2 (shift a i_1))))
+    /\ (forall k:int.
+        (((k <> i_1) /\ (k <> j_0)) ->
+         ((integer_of_int32 (select intP_intM_a_1_at_L1 (shift a k))) = 
+         (integer_of_int32 (select intP_intM_a_1_at_L2 (shift a k))))))))
+
+inductive _Permut_Is_Equiv (pointer intP) int int (memory intP int32) (memory intP int32) =
+ | Permut_Refl_Is_Equiv: (forall intP_intM_a_1_4_at_L:(memory intP int32).
+                          (forall a_2_0:(pointer intP).
+                           (forall index_from_0:int.
+                            (forall index_to_0:int.
+                             (_Permut_Is_Equiv a_2_0 index_from_0 index_to_0
+                             intP_intM_a_1_4_at_L intP_intM_a_1_4_at_L)))))
+ | Permut_Sym_Is_Equiv: (forall intP_intM_a_1_4_at_L2:(memory intP int32).
+                         (forall intP_intM_a_1_4_at_L1:(memory intP int32).
+                          (forall a_3:(pointer intP).
+                           (forall index_from_1:int.
+                            (forall index_to_1:int.
+                             ((_Permut_Is_Equiv a_3 index_from_1 index_to_1
+                              intP_intM_a_1_4_at_L2 intP_intM_a_1_4_at_L1) ->
+                              (_Permut_Is_Equiv a_3 index_from_1 index_to_1
+                              intP_intM_a_1_4_at_L1 intP_intM_a_1_4_at_L2)))))))
+ | Permut_Trans_Is_Equiv: (forall intP_intM_a_1_4_at_L3:(memory intP int32).
+                           (forall intP_intM_a_1_4_at_L2:(memory intP int32).
+                            (forall intP_intM_a_1_4_at_L1:(memory intP int32)
+                             .
+                             (forall a_4:(pointer intP).
+                              (forall index_from_2:int.
+                               (forall index_to_2:int.
+                                (((_Permut_Is_Equiv a_4 index_from_2
+                                  index_to_2 intP_intM_a_1_4_at_L2
+                                  intP_intM_a_1_4_at_L1)
+                                 /\ (_Permut_Is_Equiv a_4 index_from_2
+                                    index_to_2 intP_intM_a_1_4_at_L3
+                                    intP_intM_a_1_4_at_L2)) ->
+                                 (_Permut_Is_Equiv a_4 index_from_2
+                                 index_to_2 intP_intM_a_1_4_at_L3
+                                 intP_intM_a_1_4_at_L1))))))))
+ | Bubble_Sorted_Implies_Equiv: (forall intP_intM_a_1_4_at_L2:
+                                 (memory intP int32).
+                                 (forall intP_intM_a_1_4_at_L1:
+                                  (memory intP int32).
+                                  (forall a_5:(pointer intP).
+                                   (forall index_from_3:int.
+                                    (forall index_to_3:int.
+                                     (forall i_2:int.
+                                      (forall j_1:int.
+                                       (((Int.(<=) index_from_3 i_2)
+                                        /\ ((Int.(<=) i_2 index_to_3)
+                                           /\ ((Int.(<=) index_from_3 j_1)
+                                              /\ ((Int.(<=) j_1 index_to_3)
+                                                 /\ (bubble_sorted a_5 i_2
+                                                    j_1
+                                                    intP_intM_a_1_4_at_L2))))) ->
+                                        (_Permut_Is_Equiv a_5 index_from_3
+                                        index_to_3 intP_intM_a_1_4_at_L2
+                                        intP_intM_a_1_4_at_L1)))))))))
+ | Swapped_Implies_Equiv: (forall intP_intM_a_1_4_at_L2:(memory intP int32).
+                           (forall intP_intM_a_1_4_at_L1:(memory intP int32).
+                            (forall a_6:(pointer intP).
+                             (forall index_from_4:int.
+                              (forall index_to_4:int.
+                               (forall i_3:int.
+                                (forall j_2:int.
+                                 (((Int.(<=) index_from_4 i_3)
+                                  /\ ((Int.(<=) i_3 index_to_4)
+                                     /\ ((Int.(<=) index_from_4 j_2)
+                                        /\ ((Int.(<=) j_2 index_to_4)
+                                           /\ (swapped a_6 i_3 j_2
+                                              intP_intM_a_1_4_at_L2
+                                              intP_intM_a_1_4_at_L1))))) ->
+                                  (_Permut_Is_Equiv a_6 index_from_4
+                                  index_to_4 intP_intM_a_1_4_at_L2
+                                  intP_intM_a_1_4_at_L1)))))))))
+ 
+function charP_tag  : (tag_id charP)
+
+axiom charP_int "charP_int": ((int_of_tag charP_tag) = (1))
+
+function charP_of_pointer_address (pointer ()) : (pointer charP)
+
+axiom charP_of_pointer_address_of_pointer_addr "charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer charP).
+  (p = (charP_of_pointer_address (pointer_address p))))
+
+axiom charP_parenttag_bottom "charP_parenttag_bottom":
+ (parenttag charP_tag bottom_tag)
+
+axiom charP_tags "charP_tags":
+ (forall x:(pointer charP).
+  (forall charP_tag_table:(tag_table charP).
+   (instanceof charP_tag_table x charP_tag)))
+
+predicate dom(k_0:int) (n:int) =
+ ((Int.(>=) k_0 (0)) /\ (Int.(<=) k_0 (Int.(-) n (1))))
+
+predicate eq_int32(x:int32) (y:int32) =
+ ((integer_of_int32 x) = (integer_of_int32 y))
+
+function integer_of_int8 int8 : int
+
+predicate eq_int8(x:int8) (y:int8) =
+ ((integer_of_int8 x) = (integer_of_int8 y))
+
+function integer_of_uint8 uint8 : int
+
+predicate eq_uint8(x:uint8) (y:uint8) =
+ ((integer_of_uint8 x) = (integer_of_uint8 y))
+
+function int32_of_integer int : int32
+
+axiom int32_coerce "int32_coerce":
+ (forall x:int.
+  (((Int.(<=) (-2147483648) x) /\ (Int.(<=) x (2147483647))) ->
+   ((integer_of_int32 (int32_of_integer x)) = x)))
+
+axiom int32_extensionality "int32_extensionality":
+ (forall x:int32.
+  (forall y:int32[((integer_of_int32 x) = (integer_of_int32 y))].
+   (((integer_of_int32 x) = (integer_of_int32 y)) -> (x = y))))
+
+axiom int32_range "int32_range":
+ (forall x:int32.
+  ((Int.(<=) (-2147483648) (integer_of_int32 x))
+  /\ (Int.(<=) (integer_of_int32 x) (2147483647))))
+
+function int8_of_integer int : int8
+
+axiom int8_coerce "int8_coerce":
+ (forall x:int.
+  (((Int.(<=) (-128) x) /\ (Int.(<=) x (127))) ->
+   ((integer_of_int8 (int8_of_integer x)) = x)))
+
+axiom int8_extensionality "int8_extensionality":
+ (forall x:int8.
+  (forall y:int8[((integer_of_int8 x) = (integer_of_int8 y))].
+   (((integer_of_int8 x) = (integer_of_int8 y)) -> (x = y))))
+
+axiom int8_range "int8_range":
+ (forall x:int8.
+  ((Int.(<=) (-128) (integer_of_int8 x))
+  /\ (Int.(<=) (integer_of_int8 x) (127))))
+
+function intP_tag  : (tag_id intP)
+
+axiom intP_int "intP_int": ((int_of_tag intP_tag) = (1))
+
+function intP_of_pointer_address (pointer ()) : (pointer intP)
+
+axiom intP_of_pointer_address_of_pointer_addr "intP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer intP).
+  (p = (intP_of_pointer_address (pointer_address p))))
+
+axiom intP_parenttag_bottom "intP_parenttag_bottom":
+ (parenttag intP_tag bottom_tag)
+
+axiom intP_tags "intP_tags":
+ (forall x:(pointer intP).
+  (forall intP_tag_table:(tag_table intP).
+   (instanceof intP_tag_table x intP_tag)))
+
+predicate left_valid_struct_charP(p:(pointer charP)) (a:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_min charP_alloc_table p) <= a)
+
+predicate left_valid_struct_intP(p:(pointer intP)) (a:int) (intP_alloc_table:(alloc_table intP)) =
+ ((offset_min intP_alloc_table p) <= a)
+
+predicate left_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_min unsigned_charP_alloc_table p) <= a)
+
+predicate left_valid_struct_voidP(p:(pointer voidP)) (a:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_min voidP_alloc_table p) <= a)
+
+axiom pointer_addr_of_charP_of_pointer_address "pointer_addr_of_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (charP_of_pointer_address p))))
+
+axiom pointer_addr_of_intP_of_pointer_address "pointer_addr_of_intP_of_pointer_address":
+ (forall p:(pointer ()). (p = (pointer_address (intP_of_pointer_address p))))
+
+function unsigned_charP_of_pointer_address (pointer ()) : (pointer unsigned_charP)
+
+axiom pointer_addr_of_unsigned_charP_of_pointer_address "pointer_addr_of_unsigned_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (unsigned_charP_of_pointer_address p))))
+
+function voidP_of_pointer_address (pointer ()) : (pointer voidP)
+
+axiom pointer_addr_of_voidP_of_pointer_address "pointer_addr_of_voidP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (voidP_of_pointer_address p))))
+
+predicate right_valid_struct_charP(p:(pointer charP)) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_max charP_alloc_table p) >= b)
+
+predicate right_valid_struct_intP(p:(pointer intP)) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ ((offset_max intP_alloc_table p) >= b)
+
+predicate right_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_max unsigned_charP_alloc_table p) >= b)
+
+predicate right_valid_struct_voidP(p:(pointer voidP)) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_max voidP_alloc_table p) >= b)
+
+predicate strict_valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_root_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) = a)
+ /\ ((offset_max intP_alloc_table p) = b))
+
+predicate strict_valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+predicate strict_valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_struct_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) = a)
+ /\ ((offset_max intP_alloc_table p) = b))
+
+predicate strict_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+function uint8_of_integer int : uint8
+
+axiom uint8_coerce "uint8_coerce":
+ (forall x:int.
+  (((Int.(<=) (0) x) /\ (Int.(<=) x (255))) ->
+   ((integer_of_uint8 (uint8_of_integer x)) = x)))
+
+axiom uint8_extensionality "uint8_extensionality":
+ (forall x:uint8.
+  (forall y:uint8[((integer_of_uint8 x) = (integer_of_uint8 y))].
+   (((integer_of_uint8 x) = (integer_of_uint8 y)) -> (x = y))))
+
+axiom uint8_range "uint8_range":
+ (forall x:uint8.
+  ((Int.(<=) (0) (integer_of_uint8 x))
+  /\ (Int.(<=) (integer_of_uint8 x) (255))))
+
+function unsigned_charP_tag  : (tag_id unsigned_charP)
+
+axiom unsigned_charP_int "unsigned_charP_int":
+ ((int_of_tag unsigned_charP_tag) = (1))
+
+axiom unsigned_charP_of_pointer_address_of_pointer_addr "unsigned_charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer unsigned_charP).
+  (p = (unsigned_charP_of_pointer_address (pointer_address p))))
+
+axiom unsigned_charP_parenttag_bottom "unsigned_charP_parenttag_bottom":
+ (parenttag unsigned_charP_tag bottom_tag)
+
+axiom unsigned_charP_tags "unsigned_charP_tags":
+ (forall x:(pointer unsigned_charP).
+  (forall unsigned_charP_tag_table:(tag_table unsigned_charP).
+   (instanceof unsigned_charP_tag_table x unsigned_charP_tag)))
+
+predicate valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_root_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) <= a)
+ /\ ((offset_max intP_alloc_table p) >= b))
+
+predicate valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+predicate valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_struct_intP(p:(pointer intP)) (a:int) (b:int) (intP_alloc_table:(alloc_table intP)) =
+ (((offset_min intP_alloc_table p) <= a)
+ /\ ((offset_max intP_alloc_table p) >= b))
+
+predicate valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+function voidP_tag  : (tag_id voidP)
+
+axiom voidP_int "voidP_int": ((int_of_tag voidP_tag) = (1))
+
+axiom voidP_of_pointer_address_of_pointer_addr "voidP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer voidP).
+  (p = (voidP_of_pointer_address (pointer_address p))))
+
+axiom voidP_parenttag_bottom "voidP_parenttag_bottom":
+ (parenttag voidP_tag bottom_tag)
+
+axiom voidP_tags "voidP_tags":
+ (forall x:(pointer voidP).
+  (forall voidP_tag_table:(tag_table voidP).
+   (instanceof voidP_tag_table x voidP_tag)))
+
+end
+
+module Jessie_program
+
+use import int.Int
+
+use bool.Bool
+
+use import jessie3theories.Jessie_memory_model
+
+use import Jessie_model
+
+use import ref.Ref
+
+use import jessie3.JessieDivision
+
+use import jessie3.Jessie_memory_model_parameters
+
+use import jessie3_integer.Integer
+
+exception Goto_while_0_break_exc ()
+
+exception Goto_while_1_break_exc ()
+
+exception Loop_continue_exc ()
+
+exception Loop_exit_exc ()
+
+exception Return_label_exc ()
+
+val charP_alloc_table : ref (alloc_table charP)
+
+val charP_tag_table : ref (tag_table charP)
+
+val alloc_struct_charP
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { true } writes { charP_alloc_table, charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val alloc_struct_charP_requires
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { (Int.(>=) n (0)) } writes { charP_alloc_table,
+    charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val intP_alloc_table : ref (alloc_table intP)
+
+val intP_tag_table : ref (tag_table intP)
+
+val alloc_struct_intP
+ (n:int)
+  (intP_alloc_table:ref (alloc_table intP))
+   (intP_tag_table:ref (tag_table intP)) : (pointer intP)
+    requires { true } writes { intP_alloc_table, intP_tag_table }
+     ensures { ((strict_valid_struct_intP result (0) (Int.(-) n (1))
+                !intP_alloc_table)
+               /\ ((alloc_extends (old !intP_alloc_table) !intP_alloc_table)
+                  /\ ((alloc_fresh (old !intP_alloc_table) result n)
+                     /\ (instanceof !intP_tag_table result intP_tag)))) }
+
+val alloc_struct_intP_requires
+ (n:int)
+  (intP_alloc_table:ref (alloc_table intP))
+   (intP_tag_table:ref (tag_table intP)) : (pointer intP)
+    requires { (Int.(>=) n (0)) } writes { intP_alloc_table, intP_tag_table }
+     ensures { ((strict_valid_struct_intP result (0) (Int.(-) n (1))
+                !intP_alloc_table)
+               /\ ((alloc_extends (old !intP_alloc_table) !intP_alloc_table)
+                  /\ ((alloc_fresh (old !intP_alloc_table) result n)
+                     /\ (instanceof !intP_tag_table result intP_tag)))) }
+
+val unsigned_charP_alloc_table : ref (alloc_table unsigned_charP)
+
+val unsigned_charP_tag_table : ref (tag_table unsigned_charP)
+
+val alloc_struct_unsigned_charP
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { true } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val alloc_struct_unsigned_charP_requires
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { (Int.(>=) n (0)) } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val voidP_alloc_table : ref (alloc_table voidP)
+
+val voidP_tag_table : ref (tag_table voidP)
+
+val alloc_struct_voidP
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { true } writes { voidP_alloc_table, voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val alloc_struct_voidP_requires
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { (Int.(>=) n (0)) } writes { voidP_alloc_table,
+    voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val any_int32 (_anonymous:()) : int32 requires { true }  ensures { true }
+
+val any_int8 (_anonymous:()) : int8 requires { true }  ensures { true }
+
+val any_uint8 (_anonymous:()) : uint8 requires { true }  ensures { true }
+
+val bubble
+ (a_2:(pointer intP))
+  (n_1:int32)
+   (intP_intM_a_5:ref (memory intP int32))
+    (intP_a_5_alloc_table:(alloc_table intP)) : ()
+     requires { true } reads { intP_intM_a_5 }  writes { intP_intM_a_5 }
+      ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 45 14 50#
+                 (_Permut_Is_Equiv a_2 (0)
+                 (Int.(-) (integer_of_int32 n_1) (1)) !intP_intM_a_5
+                 (old !intP_intM_a_5)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 43 14 38#
+                    (bubble_sorted a_2 (0)
+                    (Int.(-) (integer_of_int32 n_1) (1)) !intP_intM_a_5))
+                   /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#
+                      (not_assigns intP_a_5_alloc_table (old !intP_intM_a_5)
+                      !intP_intM_a_5
+                      (pset_range (pset_singleton a_2) (0)
+                      (Int.(-) (integer_of_int32 n_1) (1))))))) }
+
+val bubble_requires
+ (a_2:(pointer intP))
+  (n_1:int32)
+   (intP_intM_a_5:ref (memory intP int32))
+    (intP_a_5_alloc_table:(alloc_table intP)) : ()
+     requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+                ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 39 12 18#
+                 (Int.(<=) (0) (integer_of_int32 n_1)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                    (Int.(<=) (offset_min intP_a_5_alloc_table a_2) (0)))
+                   /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                      (Int.(>=) (offset_max intP_a_5_alloc_table a_2)
+                      (Int.(-) (integer_of_int32 n_1) (1))))))) }
+     reads { intP_intM_a_5 }  writes { intP_intM_a_5 }
+      ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 45 14 50#
+                 (_Permut_Is_Equiv a_2 (0)
+                 (Int.(-) (integer_of_int32 n_1) (1)) !intP_intM_a_5
+                 (old !intP_intM_a_5)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 43 14 38#
+                    (bubble_sorted a_2 (0)
+                    (Int.(-) (integer_of_int32 n_1) (1)) !intP_intM_a_5))
+                   /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#
+                      (not_assigns intP_a_5_alloc_table (old !intP_intM_a_5)
+                      !intP_intM_a_5
+                      (pset_range (pset_singleton a_2) (0)
+                      (Int.(-) (integer_of_int32 n_1) (1))))))) }
+
+val int32_of_integer_
+ (x:int) : int32
+  requires { ((Int.(<=) (-2147483648) x) /\ (Int.(<=) x (2147483647))) }
+   ensures { ((integer_of_int32 result) = x) }
+
+val int8_of_integer_
+ (x:int) : int8
+  requires { ((Int.(<=) (-128) x) /\ (Int.(<=) x (127))) }
+   ensures { ((integer_of_int8 result) = x) }
+
+val safe_int32_of_integer_
+ (x:int) : int32
+  requires { true }  ensures { ((integer_of_int32 result) = x) }
+
+val safe_int8_of_integer_
+ (x:int) : int8 requires { true }  ensures { ((integer_of_int8 result) = x) }
+
+val safe_uint8_of_integer_
+ (x:int) : uint8
+  requires { true }  ensures { ((integer_of_uint8 result) = x) }
+
+val swap3
+ (a_0:(pointer intP))
+  (n_2:int32)
+   (i:int32)
+    (j:int32)
+     (intP_intM_a_0_2:ref (memory intP int32))
+      (intP_a_0_2_alloc_table:(alloc_table intP)) : ()
+       requires { true } reads { intP_intM_a_0_2 }  writes
+       { intP_intM_a_0_2 }
+        ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 61 9 16#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/" 0 0 0#
+                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 21 12 117#
+                    (forall i1:int.
+                     ((dom i1 (integer_of_int32 n_2)) ->
+                      (exists i2:int.
+                       ((dom i2 (integer_of_int32 n_2))
+                       /\ ((integer_of_int32
+                           (select (old !intP_intM_a_0_2) (shift a_0 i1))) = 
+                          (integer_of_int32
+                          (select !intP_intM_a_0_2 (shift a_0 i2)))))))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 23 12 36#
+                       (swapped a_0 (integer_of_int32 i) (integer_of_int32 j)
+                       !intP_intM_a_0_2 (old !intP_intM_a_0_2)))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 24 12 86#
+                         (forall k_1:int.
+                          (((Int.(<=) (0) k_1)
+                           /\ ((Int.(<) k_1 (integer_of_int32 n_2))
+                              /\ ((k_1 <> (integer_of_int32 i))
+                                 /\ (k_1 <> (integer_of_int32 j))))) ->
+                           ((integer_of_int32
+                            (select !intP_intM_a_0_2 (shift a_0 k_1))) = 
+                           (integer_of_int32
+                           (select (old !intP_intM_a_0_2) (shift a_0 k_1))))))))))
+                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 2 5 10#
+                     (not_assigns intP_a_0_2_alloc_table
+                     (old !intP_intM_a_0_2) !intP_intM_a_0_2
+                     (pset_union
+                     (pset_range (pset_singleton a_0) (integer_of_int32 j)
+                     (integer_of_int32 j))
+                     (pset_range (pset_singleton a_0) (integer_of_int32 i)
+                     (integer_of_int32 i))))))) }
+
+val swap3_requires
+ (a_0:(pointer intP))
+  (n_2:int32)
+   (i:int32)
+    (j:int32)
+     (intP_intM_a_0_2:ref (memory intP int32))
+      (intP_a_0_2_alloc_table:(alloc_table intP)) : ()
+       requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 16 22#
+                   (Int.(>=) (integer_of_int32 n_2) (0)))
+                  /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                      (Int.(<=) (offset_min intP_a_0_2_alloc_table a_0) (0)))
+                     /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                         (Int.(>=) (offset_max intP_a_0_2_alloc_table a_0)
+                         (Int.(-) (integer_of_int32 n_2) (1))))
+                        /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 16 33#
+                            (dom (integer_of_int32 i) (integer_of_int32 n_2)))
+                           /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 37 54#
+                               (dom (integer_of_int32 j)
+                               (integer_of_int32 n_2)))
+                              /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                                  (Int.(<=)
+                                  (offset_min intP_a_0_2_alloc_table a_0)
+                                  (integer_of_int32 i)))
+                                 /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                                     (Int.(>=)
+                                     (offset_max intP_a_0_2_alloc_table a_0)
+                                     (integer_of_int32 i)))
+                                    /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                        (Int.(<=)
+                                        (offset_min intP_a_0_2_alloc_table
+                                        a_0) (integer_of_int32 j)))
+                                       /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                          (Int.(>=)
+                                          (offset_max intP_a_0_2_alloc_table
+                                          a_0) (integer_of_int32 j)))))))))))) }
+       reads { intP_intM_a_0_2 }  writes { intP_intM_a_0_2 }
+        ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 61 9 16#
+                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/" 0 0 0#
+                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 21 12 117#
+                    (forall i1:int.
+                     ((dom i1 (integer_of_int32 n_2)) ->
+                      (exists i2:int.
+                       ((dom i2 (integer_of_int32 n_2))
+                       /\ ((integer_of_int32
+                           (select (old !intP_intM_a_0_2) (shift a_0 i1))) = 
+                          (integer_of_int32
+                          (select !intP_intM_a_0_2 (shift a_0 i2)))))))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 23 12 36#
+                       (swapped a_0 (integer_of_int32 i) (integer_of_int32 j)
+                       !intP_intM_a_0_2 (old !intP_intM_a_0_2)))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 24 12 86#
+                         (forall k_1:int.
+                          (((Int.(<=) (0) k_1)
+                           /\ ((Int.(<) k_1 (integer_of_int32 n_2))
+                              /\ ((k_1 <> (integer_of_int32 i))
+                                 /\ (k_1 <> (integer_of_int32 j))))) ->
+                           ((integer_of_int32
+                            (select !intP_intM_a_0_2 (shift a_0 k_1))) = 
+                           (integer_of_int32
+                           (select (old !intP_intM_a_0_2) (shift a_0 k_1))))))))))
+                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 2 5 10#
+                     (not_assigns intP_a_0_2_alloc_table
+                     (old !intP_intM_a_0_2) !intP_intM_a_0_2
+                     (pset_union
+                     (pset_range (pset_singleton a_0) (integer_of_int32 j)
+                     (integer_of_int32 j))
+                     (pset_range (pset_singleton a_0) (integer_of_int32 i)
+                     (integer_of_int32 i))))))) }
+
+val uint8_of_integer_
+ (x:int) : uint8
+  requires { ((Int.(<=) (0) x) /\ (Int.(<=) x (255))) }
+   ensures { ((integer_of_uint8 result) = x) }
+
+let bubble_ensures_bubble_sorted "expl:Function bubble, Behavior `bubble_sorted'"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#=
+ fun (a_2 : (pointer intP)) (n_1 : int32) (intP_intM_a_5 : ref (memory intP int32)) (intP_a_5_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 39 12 18#
+              (Int.(<=) (0) (integer_of_int32 n_1)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                 (Int.(<=) (offset_min intP_a_5_alloc_table a_2) (0)))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                   (Int.(>=) (offset_max intP_a_5_alloc_table a_2)
+                   (Int.(-) (integer_of_int32 n_1) (1)))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 43 14 38#
+            (bubble_sorted a_2 (0) (Int.(-) (integer_of_int32 n_1) (1))
+            !intP_intM_a_5)) }('Init: 
+                              try
+                               begin
+                                 (let i_0 = ref (any_int32 ()) in
+                                 (let k_2 = ref (any_int32 ()) in
+                                 try
+                                  ('C_32: 
+                                  ('Loop_5: 
+                                  begin
+                                    (let jessie_60 = (k_2 := n_1) in ());
+                                   loop
+                                   invariant
+                                     { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 179 6 6993#
+                                       true) } 
+                                    begin
+                                      any ()
+                                      requires { true } reads
+                                      { intP_intM_a_5, k_2 } 
+                                       ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 58 24 118#
+                                                  (forall i2_1:int.
+                                                   (forall i1_2:int.
+                                                    (((Int.(>=) i2_1 (0))
+                                                     /\ ((Int.(<) i2_1
+                                                         (integer_of_int32
+                                                         !k_2))
+                                                        /\ ((Int.(>=) i1_2
+                                                            (integer_of_int32
+                                                            !k_2))
+                                                           /\ (Int.(<) i1_2
+                                                              (integer_of_int32
+                                                              n_1))))) ->
+                                                     (Int.(>=)
+                                                     (integer_of_int32
+                                                     (select !intP_intM_a_5
+                                                     (shift a_2 i1_2)))
+                                                     (integer_of_int32
+                                                     (select !intP_intM_a_5
+                                                     (shift a_2 i2_1))))))))
+                                                 /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 57 24 99#
+                                                     (((integer_of_int32
+                                                       !k_2) = (integer_of_int32
+                                                               n_1))
+                                                     \/ (forall i1_1:int.
+                                                         (((Int.(>) i1_1
+                                                           (integer_of_int32
+                                                           !k_2))
+                                                          /\ (Int.(<) i1_1
+                                                             (integer_of_int32
+                                                             n_1))) ->
+                                                          (Int.(<=)
+                                                          (integer_of_int32
+                                                          (select
+                                                          !intP_intM_a_5
+                                                          (shift a_2
+                                                          (integer_of_int32
+                                                          !k_2))))
+                                                          (integer_of_int32
+                                                          (select
+                                                          !intP_intM_a_5
+                                                          (shift a_2 i1_1))))))))
+                                                    /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 56 24 51#
+                                                        (bubble_sorted a_2
+                                                        (integer_of_int32
+                                                        !k_2)
+                                                        (Int.(-)
+                                                        (integer_of_int32
+                                                        n_1) (1))
+                                                        !intP_intM_a_5))
+                                                       /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 40#
+                                                          ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 30#
+                                                           (Int.(>=)
+                                                           (integer_of_int32
+                                                           !k_2) (0)))
+                                                          /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 34 40#
+                                                             (Int.(<=)
+                                                             (integer_of_int32
+                                                             !k_2)
+                                                             (integer_of_int32
+                                                             n_1)))))))) } ;
+                                     try
+                                      begin
+                                        (if ((Int.(>) (integer_of_int32 !k_2)) (0))
+                                        then ()
+                                        else
+                                         (raise (Goto_while_0_break_exc ())));
+                                       try
+                                        ('C_41: 
+                                        ('Loop_6: 
+                                        begin
+                                          (let jessie_62 =
+                                          (i_0 := (safe_int32_of_integer_ (0))) in
+                                          ());
+                                         loop
+                                         invariant
+                                           { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 205 15 4586#
+                                             true) } 
+                                          begin
+                                            any ()
+                                            requires { true } reads { i_0,
+                                            intP_intM_a_5, k_2 } 
+                                             ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 72 27 124#
+                                                        (forall i1_0:int.
+                                                         (forall i2_0:int.
+                                                          (((Int.(>=) i2_0
+                                                            (0))
+                                                           /\ ((Int.(<) i2_0
+                                                               (integer_of_int32
+                                                               !k_2))
+                                                              /\ ((Int.(>=)
+                                                                  i1_0
+                                                                  (integer_of_int32
+                                                                  !k_2))
+                                                                 /\ (Int.(<=)
+                                                                    i1_0
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1)))))) ->
+                                                           (Int.(>=)
+                                                           (integer_of_int32
+                                                           (select
+                                                           !intP_intM_a_5
+                                                           (shift a_2 i1_0)))
+                                                           (integer_of_int32
+                                                           (select
+                                                           !intP_intM_a_5
+                                                           (shift a_2 i2_0))))))))
+                                                       /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 71 27 54#
+                                                           (bubble_sorted a_2
+                                                           (integer_of_int32
+                                                           !k_2)
+                                                           (Int.(-)
+                                                           (integer_of_int32
+                                                           n_1) (1))
+                                                           !intP_intM_a_5))
+                                                          /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 70 27 84#
+                                                              (forall j_3:int
+                                                               .
+                                                               (((Int.(>=)
+                                                                 j_3 (0))
+                                                                /\ (Int.(<)
+                                                                   j_3
+                                                                   (integer_of_int32
+                                                                   !i_0))) ->
+                                                                (Int.(<=)
+                                                                (integer_of_int32
+                                                                (select
+                                                                !intP_intM_a_5
+                                                                (shift a_2
+                                                                j_3)))
+                                                                (integer_of_int32
+                                                                (select
+                                                                !intP_intM_a_5
+                                                                (shift a_2
+                                                                (integer_of_int32
+                                                                !i_0))))))))
+                                                             /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 27 58#
+                                                                ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 28 34#
+                                                                 (Int.(>=)
+                                                                 (integer_of_int32
+                                                                 !i_0) (0)))
+                                                                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 40 45#
+                                                                    (Int.(<)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (integer_of_int32
+                                                                    !k_2)))
+                                                                   /\ 
+                                                                   (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 51 57#
+                                                                   (Int.(<=)
+                                                                   (integer_of_int32
+                                                                   !i_0)
+                                                                   (integer_of_int32
+                                                                   n_1))))))))) } ;
+                                           try
+                                            begin
+                                              (let jessie_68 =
+                                              ('C_70: 
+                                              begin
+                                                (if ((Int.(<) (integer_of_int32 !i_0)) 
+                                                     (integer_of_int32 
+                                                      ('C_53: 
+                                                      (safe_int32_of_integer_ 
+                                                       ('C_52: 
+                                                       ((Int.(-) (integer_of_int32 !k_2)) (1)))))))
+                                                then ()
+                                                else
+                                                 (raise
+                                                  (Goto_while_1_break_exc
+                                                  ())));
+                                               (if ((Int.(>) (integer_of_int32 
+                                                              ('C_67: 
+                                                              ((safe_acc_ !intP_intM_a_5) 
+                                                               ('C_66: 
+                                                               ((shift a_2) 
+                                                                (integer_of_int32 !i_0))))))) 
+                                                    (integer_of_int32 
+                                                     ('C_65: 
+                                                     ((safe_acc_ !intP_intM_a_5) 
+                                                      ('C_64: 
+                                                      ((shift ('C_63: 
+                                                              ((shift a_2) 
+                                                               (integer_of_int32 !i_0)))) (1)))))))
+                                               then
+                                                begin
+                                                  any ()
+                                                  requires { true }
+                                                   ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 82 50 56#
+                                                             (Int.(>=)
+                                                             (integer_of_int32
+                                                             n_1) (0))) } ;
+                                                 ();
+                                                 any ()
+                                                 requires { true } reads
+                                                 { i_0 } 
+                                                  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 83 50 70#
+                                                            ((Int.(>=)
+                                                             (integer_of_int32
+                                                             !i_0) (0))
+                                                            /\ (Int.(<=)
+                                                               (integer_of_int32
+                                                               !i_0)
+                                                               (Int.(-)
+                                                               (integer_of_int32
+                                                               n_1) (1))))) } ;
+                                                 ();
+                                                 any ()
+                                                 requires { true } reads
+                                                 { i_0 } 
+                                                  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 84 49 80#
+                                                            ((Int.(>=)
+                                                             (Int.(+)
+                                                             (integer_of_int32
+                                                             !i_0) (1)) (0))
+                                                            /\ (Int.(<=)
+                                                               (Int.(+)
+                                                               (integer_of_int32
+                                                               !i_0) (1))
+                                                               (Int.(-)
+                                                               (integer_of_int32
+                                                               n_1) (1))))) } ;
+                                                 ();
+                                                 any ()
+                                                 requires { true }
+                                                  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 85 50 71#
+                                                            ((Int.(<=)
+                                                             (offset_min
+                                                             intP_a_5_alloc_table
+                                                             a_2) (0))
+                                                            /\ (Int.(>=)
+                                                               (offset_max
+                                                               intP_a_5_alloc_table
+                                                               a_2)
+                                                               (Int.(-)
+                                                               (integer_of_int32
+                                                               n_1) (1))))) } ;
+                                                 ('C_60: 
+                                                 begin
+                                                   ();
+                                                  (let jessie_66 = a_2 in
+                                                  (let jessie_65 = n_1 in
+                                                  (let jessie_64 = !i_0 in
+                                                  (let jessie_63 =
+                                                  ('C_59: 
+                                                  (safe_int32_of_integer_ 
+                                                   ('C_58: 
+                                                   ((Int.(+) (integer_of_int32 !i_0)) (1))))) in
+                                                  ("expl:precondition for call"
+                                                  #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 270 35 134#
+                                                  ((((((swap3 jessie_66) jessie_65) jessie_64) jessie_63) intP_intM_a_5) intP_a_5_alloc_table))))));
+                                                  (assert
+                                                  { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 89 47 71#
+                                                    (bubble_sorted a_2
+                                                    (integer_of_int32 !i_0)
+                                                    (Int.(+)
+                                                    (integer_of_int32 !i_0)
+                                                    (1)) !intP_intM_a_5)) };
+                                                  ()); (); () end) end
+                                               else ());
+                                               (i_0 := ('C_69: 
+                                                       (safe_int32_of_integer_ 
+                                                        ('C_68: 
+                                                        ((Int.(+) (integer_of_int32 !i_0)) (1))))));
+                                               !i_0 end) in ());
+                                             (raise (Loop_continue_exc ()))
+                                            end with
+                                            Loop_continue_exc jessie_4 ->
+                                            () end end end;
+                                         (raise (Goto_while_1_break_exc ()))
+                                        end)) with
+                                        Goto_while_1_break_exc jessie_1 ->
+                                        ('While_1_break: 
+                                        begin
+                                          ();
+                                         (assert
+                                         { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 97 40 64#
+                                           (bubble_sorted a_2
+                                           (integer_of_int32 !i_0)
+                                           (Int.(-) (integer_of_int32 !k_2)
+                                           (1)) !intP_intM_a_5)) }; ());
+                                         ('C_75: 
+                                         begin
+                                           (); ();
+                                          (let jessie_70 =
+                                          (k_2 := ('C_74: 
+                                                  (safe_int32_of_integer_ 
+                                                   ('C_73: 
+                                                   ((Int.(-) (integer_of_int32 !k_2)) (1)))))) in
+                                          ());
+                                          (assert
+                                          { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 102 39 61#
+                                            (bubble_sorted a_2
+                                            (integer_of_int32 !i_0)
+                                            (integer_of_int32 !k_2)
+                                            !intP_intM_a_5)) }; ()); (); ()
+                                         end) end) end;
+                                       (raise (Loop_continue_exc ())) end
+                                      with Loop_continue_exc jessie_6 ->
+                                      () end end end;
+                                   (raise (Goto_while_0_break_exc ())) end))
+                                  with Goto_while_0_break_exc jessie_2 ->
+                                  ('While_0_break: 
+                                  begin   (); (raise Return) end) end));
+                                (raise Return) end with Return -> () end) 
+
+let bubble_ensures_default "expl:Function bubble, default behavior"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#=
+ fun (a_2 : (pointer intP)) (n_1 : int32) (intP_intM_a_5 : ref (memory intP int32)) (intP_a_5_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 39 12 18#
+              (Int.(<=) (0) (integer_of_int32 n_1)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                 (Int.(<=) (offset_min intP_a_5_alloc_table a_2) (0)))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                   (Int.(>=) (offset_max intP_a_5_alloc_table a_2)
+                   (Int.(-) (integer_of_int32 n_1) (1)))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#
+            (not_assigns intP_a_5_alloc_table (old !intP_intM_a_5)
+            !intP_intM_a_5
+            (pset_range (pset_singleton a_2) (0)
+            (Int.(-) (integer_of_int32 n_1) (1))))) }('Init: 
+                                                     try
+                                                      begin
+                                                        (let i_0 =
+                                                        ref (any_int32 ()) in
+                                                        (let k_2 =
+                                                        ref (any_int32 ()) in
+                                                        try
+                                                         ('C_32: 
+                                                         ('Loop_3: 
+                                                         begin
+                                                           (let jessie_48 =
+                                                           (k_2 := n_1) in
+                                                           ());
+                                                          loop
+                                                          invariant
+                                                            { (((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 58 24 118#
+                                                                (forall i2_1:
+                                                                 int.
+                                                                 (forall
+                                                                  i1_2:int.
+                                                                  (((Int.(>=)
+                                                                    i2_1 (0))
+                                                                   /\ 
+                                                                   ((Int.(<)
+                                                                    i2_1
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                   /\ 
+                                                                   ((Int.(>=)
+                                                                    i1_2
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                   /\ 
+                                                                   (Int.(<)
+                                                                   i1_2
+                                                                   (integer_of_int32
+                                                                   n_1))))) ->
+                                                                   (Int.(>=)
+                                                                   (integer_of_int32
+                                                                   (select
+                                                                   !intP_intM_a_5
+                                                                   (shift a_2
+                                                                   i1_2)))
+                                                                   (integer_of_int32
+                                                                   (select
+                                                                   !intP_intM_a_5
+                                                                   (shift a_2
+                                                                   i2_1))))))))
+                                                               /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 57 24 99#
+                                                                   ((
+                                                                    (integer_of_int32
+                                                                    !k_2) = 
+                                                                    (integer_of_int32
+                                                                    n_1))
+                                                                   \/ 
+                                                                   (forall
+                                                                    i1_1:int.
+                                                                    ((
+                                                                    (Int.(>)
+                                                                    i1_1
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (Int.(<)
+                                                                    i1_1
+                                                                    (integer_of_int32
+                                                                    n_1))) ->
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !k_2))))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i1_1))))))))
+                                                                  /\ 
+                                                                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 56 24 51#
+                                                                   (bubble_sorted
+                                                                   a_2
+                                                                   (integer_of_int32
+                                                                   !k_2)
+                                                                   (Int.(-)
+                                                                   (integer_of_int32
+                                                                   n_1) (1))
+                                                                   !intP_intM_a_5))
+                                                                  /\ 
+                                                                  (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 40#
+                                                                  ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 30#
+                                                                   (Int.(>=)
+                                                                   (integer_of_int32
+                                                                   !k_2) (0)))
+                                                                  /\ 
+                                                                  (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 34 40#
+                                                                  (Int.(<=)
+                                                                  (integer_of_int32
+                                                                  !k_2)
+                                                                  (integer_of_int32
+                                                                  n_1))))))))
+                                                              /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 179 6 6993#
+                                                                 (not_assigns
+                                                                 intP_a_5_alloc_table
+                                                                 (at !intP_intM_a_5 'Init)
+                                                                 !intP_intM_a_5
+                                                                 (pset_range
+                                                                 (pset_singleton
+                                                                 a_2) (0)
+                                                                 (Int.(-)
+                                                                 (integer_of_int32
+                                                                 n_1) (1)))))) }
+                                                            
+                                                           begin
+                                                             any ()
+                                                             requires { true }
+                                                              ensures { true } ;
+                                                            try
+                                                             begin
+                                                               (if ((Int.(>) 
+                                                                    (integer_of_int32 !k_2)) (0))
+                                                               then ()
+                                                               else
+                                                                (raise
+                                                                 (Goto_while_0_break_exc
+                                                                 ())));
+                                                              try
+                                                               ('C_41: 
+                                                               ('Loop_4: 
+                                                               begin
+                                                                 (let jessie_50 =
+                                                                 (i_0 := 
+                                                                  (safe_int32_of_integer_ (0))) in
+                                                                 ());
+                                                                loop
+                                                                invariant
+                                                                  { (
+                                                                    (
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 72 27 124#
+                                                                    (forall
+                                                                    i1_0:int.
+                                                                    (forall
+                                                                    i2_0:int.
+                                                                    ((
+                                                                    (Int.(>=)
+                                                                    i2_0 (0))
+                                                                    /\ 
+                                                                    (
+                                                                    (Int.(<)
+                                                                    i2_0
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    i1_0
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    i1_0
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1)))))) ->
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i1_0)))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i2_0))))))))
+                                                                    /\ 
+                                                                    (
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 71 27 54#
+                                                                    (bubble_sorted
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !k_2)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))
+                                                                    !intP_intM_a_5))
+                                                                    /\ 
+                                                                    (
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 70 27 84#
+                                                                    (forall
+                                                                    j_3:int.
+                                                                    ((
+                                                                    (Int.(>=)
+                                                                    j_3 (0))
+                                                                    /\ 
+                                                                    (Int.(<)
+                                                                    j_3
+                                                                    (integer_of_int32
+                                                                    !i_0))) ->
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 j_3)))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !i_0))))))))
+                                                                    /\ 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 27 58#
+                                                                    (
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 28 34#
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (0)))
+                                                                    /\ 
+                                                                    (
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 40 45#
+                                                                    (Int.(<)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (integer_of_int32
+                                                                    !k_2)))
+                                                                    /\ 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 51 57#
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (integer_of_int32
+                                                                    n_1)))))))))
+                                                                    /\ 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 205 15 4586#
+                                                                    (not_assigns
+                                                                    intP_a_5_alloc_table
+                                                                    (at !intP_intM_a_5 'Init)
+                                                                    !intP_intM_a_5
+                                                                    (pset_range
+                                                                    (pset_singleton
+                                                                    a_2) (0)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1)))))) }
+                                                                  
+                                                                 begin
+                                                                   any ()
+                                                                   requires { true }
+                                                                    ensures { true } ;
+                                                                  try
+                                                                   begin
+                                                                     
+                                                                    (let jessie_56 =
+                                                                    ('C_70: 
+                                                                    begin
+                                                                      
+                                                                    (if 
+                                                                    ((Int.(<) 
+                                                                    (integer_of_int32 !i_0)) 
+                                                                    (integer_of_int32 
+                                                                    ('C_53: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_52: 
+                                                                    ((Int.(-) 
+                                                                    (integer_of_int32 !k_2)) (1)))))))
+                                                                    then ()
+                                                                    else
+                                                                    (raise
+                                                                    (Goto_while_1_break_exc
+                                                                    ())));
+                                                                    (if 
+                                                                    ((Int.(>) 
+                                                                    (integer_of_int32 
+                                                                    ('C_67: 
+                                                                    ((safe_acc_ !intP_intM_a_5) 
+                                                                    ('C_66: 
+                                                                    ((shift a_2) 
+                                                                    (integer_of_int32 !i_0))))))) 
+                                                                    (integer_of_int32 
+                                                                    ('C_65: 
+                                                                    ((safe_acc_ !intP_intM_a_5) 
+                                                                    ('C_64: 
+                                                                    ((shift 
+                                                                    ('C_63: 
+                                                                    ((shift a_2) 
+                                                                    (integer_of_int32 !i_0)))) (1)))))))
+                                                                    then
+                                                                    begin
+                                                                      
+                                                                    (assert
+                                                                    { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 82 50 56#
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    n_1) (0))) };
+                                                                    ()); ();
+                                                                    (assert
+                                                                    { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 83 50 70#
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (0))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) };
+                                                                    ()); ();
+                                                                    (assert
+                                                                    { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 84 49 80#
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    (Int.(+)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (1)) (0))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    (Int.(+)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (1))
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) };
+                                                                    ()); ();
+                                                                    (assert
+                                                                    { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 85 50 71#
+                                                                    (
+                                                                    (Int.(<=)
+                                                                    (offset_min
+                                                                    intP_a_5_alloc_table
+                                                                    a_2) (0))
+                                                                    /\ 
+                                                                    (Int.(>=)
+                                                                    (offset_max
+                                                                    intP_a_5_alloc_table
+                                                                    a_2)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) };
+                                                                    ());
+                                                                    ('C_60: 
+                                                                    begin
+                                                                      ();
+                                                                    (let jessie_54 =
+                                                                    a_2 in
+                                                                    (let jessie_53 =
+                                                                    n_1 in
+                                                                    (let jessie_52 =
+                                                                    !i_0 in
+                                                                    (let jessie_51 =
+                                                                    ('C_59: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_58: 
+                                                                    ((Int.(+) 
+                                                                    (integer_of_int32 !i_0)) (1))))) in
+                                                                    ("expl:precondition for call"
+                                                                    #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 270 35 134#
+                                                                    ((((((swap3 jessie_54) jessie_53) jessie_52) jessie_51) intP_intM_a_5) intP_a_5_alloc_table))))));
+                                                                    (); ()
+                                                                    end) end
+                                                                    else ());
+                                                                    (i_0 := 
+                                                                    ('C_69: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_68: 
+                                                                    ((Int.(+) 
+                                                                    (integer_of_int32 !i_0)) (1))))));
+                                                                    !i_0 end) in
+                                                                    ());
+                                                                    (raise
+                                                                    (Loop_continue_exc
+                                                                    ())) end
+                                                                   with
+                                                                   Loop_continue_exc jessie_4 ->
+                                                                   () end end
+                                                                end;
+                                                                (raise
+                                                                 (Goto_while_1_break_exc
+                                                                 ())) end))
+                                                               with
+                                                               Goto_while_1_break_exc jessie_1 ->
+                                                               ('While_1_break: 
+                                                               ('C_75: 
+                                                               begin
+                                                                 (); (); ();
+                                                                (let jessie_58 =
+                                                                (k_2 := 
+                                                                 ('C_74: 
+                                                                 (safe_int32_of_integer_ 
+                                                                  ('C_73: 
+                                                                  ((Int.(-) 
+                                                                    (integer_of_int32 !k_2)) (1)))))) in
+                                                                ()); (); ()
+                                                               end)) end;
+                                                              (raise
+                                                               (Loop_continue_exc
+                                                               ())) end with
+                                                             Loop_continue_exc jessie_6 ->
+                                                             () end end end;
+                                                          (raise
+                                                           (Goto_while_0_break_exc
+                                                           ())) end)) with
+                                                         Goto_while_0_break_exc jessie_2 ->
+                                                         ('While_0_break: 
+                                                         begin
+                                                           (); (raise Return)
+                                                         end) end));
+                                                       (raise Return) end
+                                                      with Return -> () end) 
+
+let bubble_ensures_permutation_is_equivalence "expl:Function bubble, Behavior `permutation_is_equivalence'"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#=
+ fun (a_2 : (pointer intP)) (n_1 : int32) (intP_intM_a_5 : ref (memory intP int32)) (intP_a_5_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 39 12 18#
+              (Int.(<=) (0) (integer_of_int32 n_1)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                 (Int.(<=) (offset_min intP_a_5_alloc_table a_2) (0)))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                   (Int.(>=) (offset_max intP_a_5_alloc_table a_2)
+                   (Int.(-) (integer_of_int32 n_1) (1)))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 45 14 50#
+            (_Permut_Is_Equiv a_2 (0) (Int.(-) (integer_of_int32 n_1) (1))
+            !intP_intM_a_5 (old !intP_intM_a_5))) }('Init: 
+                                                   try
+                                                    begin
+                                                      (let i_0 =
+                                                      ref (any_int32 ()) in
+                                                      (let k_2 =
+                                                      ref (any_int32 ()) in
+                                                      try
+                                                       ('C_32: 
+                                                       ('Loop_7: 
+                                                       begin
+                                                         (let jessie_72 =
+                                                         (k_2 := n_1) in ());
+                                                        loop
+                                                        invariant
+                                                          { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 60 18 54#
+                                                            (_Permut_Is_Equiv
+                                                            a_2 (0)
+                                                            (Int.(-)
+                                                            (integer_of_int32
+                                                            n_1) (1))
+                                                            !intP_intM_a_5
+                                                            (at !intP_intM_a_5 'Init))) }
+                                                          
+                                                         begin
+                                                           any ()
+                                                           requires { true }
+                                                           reads
+                                                           { intP_intM_a_5,
+                                                           k_2 } 
+                                                            ensures { 
+                                                             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 58 24 118#
+                                                              (forall i2_1:
+                                                               int.
+                                                               (forall i1_2:
+                                                                int.
+                                                                (((Int.(>=)
+                                                                  i2_1 (0))
+                                                                 /\ (
+                                                                    (Int.(<)
+                                                                    i2_1
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    i1_2
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (Int.(<)
+                                                                    i1_2
+                                                                    (integer_of_int32
+                                                                    n_1))))) ->
+                                                                 (Int.(>=)
+                                                                 (integer_of_int32
+                                                                 (select
+                                                                 !intP_intM_a_5
+                                                                 (shift a_2
+                                                                 i1_2)))
+                                                                 (integer_of_int32
+                                                                 (select
+                                                                 !intP_intM_a_5
+                                                                 (shift a_2
+                                                                 i2_1))))))))
+                                                             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 57 24 99#
+                                                                 (((integer_of_int32
+                                                                   !k_2) = 
+                                                                  (integer_of_int32
+                                                                  n_1))
+                                                                 \/ (forall
+                                                                    i1_1:int.
+                                                                    ((
+                                                                    (Int.(>)
+                                                                    i1_1
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (Int.(<)
+                                                                    i1_1
+                                                                    (integer_of_int32
+                                                                    n_1))) ->
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !k_2))))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i1_1))))))))
+                                                                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 56 24 51#
+                                                                    (bubble_sorted
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !k_2)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))
+                                                                    !intP_intM_a_5))
+                                                                   /\ 
+                                                                   (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 40#
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 30#
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    !k_2)
+                                                                    (0)))
+                                                                   /\ 
+                                                                   (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 34 40#
+                                                                   (Int.(<=)
+                                                                   (integer_of_int32
+                                                                   !k_2)
+                                                                   (integer_of_int32
+                                                                   n_1)))))))) } ;
+                                                          try
+                                                           begin
+                                                             (if ((Int.(>) 
+                                                                   (integer_of_int32 !k_2)) (0))
+                                                             then ()
+                                                             else
+                                                              (raise
+                                                               (Goto_while_0_break_exc
+                                                               ())));
+                                                            try
+                                                             ('C_41: 
+                                                             ('Loop_8: 
+                                                             begin
+                                                               (let jessie_74 =
+                                                               (i_0 := 
+                                                                (safe_int32_of_integer_ (0))) in
+                                                               ());
+                                                              loop
+                                                              invariant
+                                                                { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 74 19 57#
+                                                                  (_Permut_Is_Equiv
+                                                                  a_2 (0)
+                                                                  (Int.(-)
+                                                                  (integer_of_int32
+                                                                  n_1) (1))
+                                                                  !intP_intM_a_5
+                                                                  (at !intP_intM_a_5 'Init))) }
+                                                                
+                                                               begin
+                                                                 any ()
+                                                                 requires { true }
+                                                                 reads { i_0,
+                                                                 intP_intM_a_5,
+                                                                 k_2 } 
+                                                                  ensures { 
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 72 27 124#
+                                                                    (forall
+                                                                    i1_0:int.
+                                                                    (forall
+                                                                    i2_0:int.
+                                                                    ((
+                                                                    (Int.(>=)
+                                                                    i2_0 (0))
+                                                                    /\ 
+                                                                    (
+                                                                    (Int.(<)
+                                                                    i2_0
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    i1_0
+                                                                    (integer_of_int32
+                                                                    !k_2))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    i1_0
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1)))))) ->
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i1_0)))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 i2_0))))))))
+                                                                   /\ 
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 71 27 54#
+                                                                    (bubble_sorted
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !k_2)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))
+                                                                    !intP_intM_a_5))
+                                                                   /\ 
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 70 27 84#
+                                                                    (forall
+                                                                    j_3:int.
+                                                                    ((
+                                                                    (Int.(>=)
+                                                                    j_3 (0))
+                                                                    /\ 
+                                                                    (Int.(<)
+                                                                    j_3
+                                                                    (integer_of_int32
+                                                                    !i_0))) ->
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2 j_3)))
+                                                                    (integer_of_int32
+                                                                    (select
+                                                                    !intP_intM_a_5
+                                                                    (shift
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !i_0))))))))
+                                                                   /\ 
+                                                                   (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 27 58#
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 28 34#
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (0)))
+                                                                   /\ 
+                                                                   ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 40 45#
+                                                                    (Int.(<)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (integer_of_int32
+                                                                    !k_2)))
+                                                                   /\ 
+                                                                   (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 51 57#
+                                                                   (Int.(<=)
+                                                                   (integer_of_int32
+                                                                   !i_0)
+                                                                   (integer_of_int32
+                                                                   n_1))))))))) } ;
+                                                                try
+                                                                 begin
+                                                                   (let jessie_80 =
+                                                                   ('C_70: 
+                                                                   begin
+                                                                     
+                                                                    (if 
+                                                                    ((Int.(<) 
+                                                                    (integer_of_int32 !i_0)) 
+                                                                    (integer_of_int32 
+                                                                    ('C_53: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_52: 
+                                                                    ((Int.(-) 
+                                                                    (integer_of_int32 !k_2)) (1)))))))
+                                                                    then ()
+                                                                    else
+                                                                    (raise
+                                                                    (Goto_while_1_break_exc
+                                                                    ())));
+                                                                    (if 
+                                                                    ((Int.(>) 
+                                                                    (integer_of_int32 
+                                                                    ('C_67: 
+                                                                    ((safe_acc_ !intP_intM_a_5) 
+                                                                    ('C_66: 
+                                                                    ((shift a_2) 
+                                                                    (integer_of_int32 !i_0))))))) 
+                                                                    (integer_of_int32 
+                                                                    ('C_65: 
+                                                                    ((safe_acc_ !intP_intM_a_5) 
+                                                                    ('C_64: 
+                                                                    ((shift 
+                                                                    ('C_63: 
+                                                                    ((shift a_2) 
+                                                                    (integer_of_int32 !i_0)))) (1)))))))
+                                                                    then
+                                                                    begin
+                                                                      
+                                                                    any ()
+                                                                    requires { true }
+                                                                     ensures { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 82 50 56#
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    n_1) (0))) } ;
+                                                                    ();
+                                                                    any ()
+                                                                    requires { true }
+                                                                    reads
+                                                                    { i_0 } 
+                                                                     ensures { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 83 50 70#
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (0))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) } ;
+                                                                    ();
+                                                                    any ()
+                                                                    requires { true }
+                                                                    reads
+                                                                    { i_0 } 
+                                                                     ensures { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 84 49 80#
+                                                                    (
+                                                                    (Int.(>=)
+                                                                    (Int.(+)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (1)) (0))
+                                                                    /\ 
+                                                                    (Int.(<=)
+                                                                    (Int.(+)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (1))
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) } ;
+                                                                    ();
+                                                                    any ()
+                                                                    requires { true }
+                                                                     ensures { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 85 50 71#
+                                                                    (
+                                                                    (Int.(<=)
+                                                                    (offset_min
+                                                                    intP_a_5_alloc_table
+                                                                    a_2) (0))
+                                                                    /\ 
+                                                                    (Int.(>=)
+                                                                    (offset_max
+                                                                    intP_a_5_alloc_table
+                                                                    a_2)
+                                                                    (Int.(-)
+                                                                    (integer_of_int32
+                                                                    n_1) (1))))) } ;
+                                                                    ('C_60: 
+                                                                    begin
+                                                                      ();
+                                                                    (let jessie_78 =
+                                                                    a_2 in
+                                                                    (let jessie_77 =
+                                                                    n_1 in
+                                                                    (let jessie_76 =
+                                                                    !i_0 in
+                                                                    (let jessie_75 =
+                                                                    ('C_59: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_58: 
+                                                                    ((Int.(+) 
+                                                                    (integer_of_int32 !i_0)) (1))))) in
+                                                                    ("expl:precondition for call"
+                                                                    #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 270 35 134#
+                                                                    ((((((swap3 jessie_78) jessie_77) jessie_76) jessie_75) intP_intM_a_5) intP_a_5_alloc_table))))));
+                                                                    ();
+                                                                    (assert
+                                                                    { 
+                                                                    (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 90 60 98#
+                                                                    (_Permut_Is_Equiv
+                                                                    a_2
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (Int.(+)
+                                                                    (integer_of_int32
+                                                                    !i_0)
+                                                                    (1))
+                                                                    !intP_intM_a_5
+                                                                    (at !intP_intM_a_5 'Init))) };
+                                                                    ()); ()
+                                                                    end) end
+                                                                    else ());
+                                                                    (i_0 := 
+                                                                    ('C_69: 
+                                                                    (safe_int32_of_integer_ 
+                                                                    ('C_68: 
+                                                                    ((Int.(+) 
+                                                                    (integer_of_int32 !i_0)) (1))))));
+                                                                    !i_0 end) in
+                                                                   ());
+                                                                  (raise
+                                                                   (Loop_continue_exc
+                                                                   ())) end
+                                                                 with
+                                                                 Loop_continue_exc jessie_4 ->
+                                                                 () end end
+                                                              end;
+                                                              (raise
+                                                               (Goto_while_1_break_exc
+                                                               ())) end))
+                                                             with
+                                                             Goto_while_1_break_exc jessie_1 ->
+                                                             ('While_1_break: 
+                                                             begin
+                                                               (); ();
+                                                              (assert
+                                                              { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 98 53 91#
+                                                                (_Permut_Is_Equiv
+                                                                a_2
+                                                                (integer_of_int32
+                                                                !i_0)
+                                                                (Int.(-)
+                                                                (integer_of_int32
+                                                                !k_2) (1))
+                                                                !intP_intM_a_5
+                                                                (at !intP_intM_a_5 'Init))) };
+                                                              ());
+                                                              ('C_75: 
+                                                              begin
+                                                                ();
+                                                               (let jessie_82 =
+                                                               (k_2 := 
+                                                                ('C_74: 
+                                                                (safe_int32_of_integer_ 
+                                                                 ('C_73: 
+                                                                 ((Int.(-) 
+                                                                   (integer_of_int32 !k_2)) (1)))))) in
+                                                               ()); ();
+                                                               (assert
+                                                               { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 103 52 86#
+                                                                 (_Permut_Is_Equiv
+                                                                 a_2
+                                                                 (integer_of_int32
+                                                                 !i_0)
+                                                                 (integer_of_int32
+                                                                 !k_2)
+                                                                 !intP_intM_a_5
+                                                                 (at !intP_intM_a_5 'Init))) };
+                                                               ()); () end)
+                                                             end) end;
+                                                            (raise
+                                                             (Loop_continue_exc
+                                                             ())) end with
+                                                           Loop_continue_exc jessie_6 ->
+                                                           () end end end;
+                                                        (raise
+                                                         (Goto_while_0_break_exc
+                                                         ())) end)) with
+                                                       Goto_while_0_break_exc jessie_2 ->
+                                                       ('While_0_break: 
+                                                       begin
+                                                         (); (raise Return)
+                                                       end) end));
+                                                     (raise Return) end with
+                                                    Return -> () end) 
+
+let bubble_safety "expl:Function bubble, Safety"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 47 5 11#=
+ fun (a_2 : (pointer intP)) (n_1 : int32) (intP_intM_a_5 : ref (memory intP int32)) (intP_a_5_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 39 12 18#
+              (Int.(<=) (0) (integer_of_int32 n_1)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                 (Int.(<=) (offset_min intP_a_5_alloc_table a_2) (0)))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 40 12 34#
+                   (Int.(>=) (offset_max intP_a_5_alloc_table a_2)
+                   (Int.(-) (integer_of_int32 n_1) (1)))))))  }
+  ensures { true }('Init: 
+                  try
+                   begin
+                     (let i_0 = ref (any_int32 ()) in
+                     (let k_2 = ref (any_int32 ()) in
+                     try
+                      ('C_32: 
+                      ('Loop_1: 
+                      begin
+                        (let jessie_36 = (k_2 := n_1) in ());
+                       loop
+                       invariant
+                         { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 179 6 6993#
+                           true) }
+                         variant { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 61 22 27# 
+                           (Int.(-) (integer_of_int32 !k_2) (1))) }
+                        begin
+                          any ()
+                          requires { true } reads { intP_intM_a_5, k_2 } 
+                           ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 58 24 118#
+                                      (forall i2_1:int.
+                                       (forall i1_2:int.
+                                        (((Int.(>=) i2_1 (0))
+                                         /\ ((Int.(<) i2_1
+                                             (integer_of_int32 !k_2))
+                                            /\ ((Int.(>=) i1_2
+                                                (integer_of_int32 !k_2))
+                                               /\ (Int.(<) i1_2
+                                                  (integer_of_int32 n_1))))) ->
+                                         (Int.(>=)
+                                         (integer_of_int32
+                                         (select !intP_intM_a_5
+                                         (shift a_2 i1_2)))
+                                         (integer_of_int32
+                                         (select !intP_intM_a_5
+                                         (shift a_2 i2_1))))))))
+                                     /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 57 24 99#
+                                         (((integer_of_int32 !k_2) = 
+                                          (integer_of_int32 n_1))
+                                         \/ (forall i1_1:int.
+                                             (((Int.(>) i1_1
+                                               (integer_of_int32 !k_2))
+                                              /\ (Int.(<) i1_1
+                                                 (integer_of_int32 n_1))) ->
+                                              (Int.(<=)
+                                              (integer_of_int32
+                                              (select !intP_intM_a_5
+                                              (shift a_2
+                                              (integer_of_int32 !k_2))))
+                                              (integer_of_int32
+                                              (select !intP_intM_a_5
+                                              (shift a_2 i1_1))))))))
+                                        /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 56 24 51#
+                                            (bubble_sorted a_2
+                                            (integer_of_int32 !k_2)
+                                            (Int.(-) (integer_of_int32 n_1)
+                                            (1)) !intP_intM_a_5))
+                                           /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 40#
+                                              ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 24 30#
+                                               (Int.(>=)
+                                               (integer_of_int32 !k_2) (0)))
+                                              /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 55 34 40#
+                                                 (Int.(<=)
+                                                 (integer_of_int32 !k_2)
+                                                 (integer_of_int32 n_1)))))))) } ;
+                         try
+                          begin
+                            (if ((Int.(>) (integer_of_int32 !k_2)) (0))
+                            then () else (raise (Goto_while_0_break_exc ())));
+                           try
+                            ('C_41: 
+                            ('Loop_2: 
+                            begin
+                              (let jessie_38 =
+                              (i_0 := (safe_int32_of_integer_ (0))) in ());
+                             loop
+                             invariant
+                               { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 205 15 4586#
+                                 true) }
+                               variant { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 75 25 34# 
+                                 (Int.(-)
+                                 (Int.(-) (integer_of_int32 !k_2)
+                                 (integer_of_int32 !i_0)) (1))) }
+                              begin
+                                any ()
+                                requires { true } reads { i_0, intP_intM_a_5,
+                                k_2 } 
+                                 ensures { ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 72 27 124#
+                                            (forall i1_0:int.
+                                             (forall i2_0:int.
+                                              (((Int.(>=) i2_0 (0))
+                                               /\ ((Int.(<) i2_0
+                                                   (integer_of_int32 !k_2))
+                                                  /\ ((Int.(>=) i1_0
+                                                      (integer_of_int32 !k_2))
+                                                     /\ (Int.(<=) i1_0
+                                                        (Int.(-)
+                                                        (integer_of_int32
+                                                        n_1) (1)))))) ->
+                                               (Int.(>=)
+                                               (integer_of_int32
+                                               (select !intP_intM_a_5
+                                               (shift a_2 i1_0)))
+                                               (integer_of_int32
+                                               (select !intP_intM_a_5
+                                               (shift a_2 i2_0))))))))
+                                           /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 71 27 54#
+                                               (bubble_sorted a_2
+                                               (integer_of_int32 !k_2)
+                                               (Int.(-)
+                                               (integer_of_int32 n_1) (1))
+                                               !intP_intM_a_5))
+                                              /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 70 27 84#
+                                                  (forall j_3:int.
+                                                   (((Int.(>=) j_3 (0))
+                                                    /\ (Int.(<) j_3
+                                                       (integer_of_int32
+                                                       !i_0))) ->
+                                                    (Int.(<=)
+                                                    (integer_of_int32
+                                                    (select !intP_intM_a_5
+                                                    (shift a_2 j_3)))
+                                                    (integer_of_int32
+                                                    (select !intP_intM_a_5
+                                                    (shift a_2
+                                                    (integer_of_int32 !i_0))))))))
+                                                 /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 27 58#
+                                                    ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 28 34#
+                                                     (Int.(>=)
+                                                     (integer_of_int32 !i_0)
+                                                     (0)))
+                                                    /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 40 45#
+                                                        (Int.(<)
+                                                        (integer_of_int32
+                                                        !i_0)
+                                                        (integer_of_int32
+                                                        !k_2)))
+                                                       /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 69 51 57#
+                                                          (Int.(<=)
+                                                          (integer_of_int32
+                                                          !i_0)
+                                                          (integer_of_int32
+                                                          n_1))))))))) } ;
+                               try
+                                begin
+                                  (let jessie_44 =
+                                  ('C_70: 
+                                  begin
+                                    (if ((Int.(<) (integer_of_int32 !i_0)) 
+                                         (integer_of_int32 ('C_53: 
+                                                           ("expl:arithmetic overflow"
+                                                           #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 77 21 26#
+                                                           (int32_of_integer_ 
+                                                            ('C_52: 
+                                                            ((Int.(-) 
+                                                              (integer_of_int32 !k_2)) (1))))))))
+                                    then ()
+                                    else (raise (Goto_while_1_break_exc ())));
+                                   (if ((Int.(>) (integer_of_int32 ('C_67: 
+                                                                   ("expl:pointer dereference"
+                                                                   #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 79 18 26#
+                                                                   ((((offset_acc_ intP_a_5_alloc_table) !intP_intM_a_5) a_2) 
+                                                                    (integer_of_int32 !i_0)))))) 
+                                        (integer_of_int32 ('C_65: 
+                                                          ("expl:pointer dereference"
+                                                          #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 79 29 41#
+                                                          ((((offset_acc_ intP_a_5_alloc_table) !intP_intM_a_5) 
+                                                            ('C_63: 
+                                                            ((shift a_2) 
+                                                             (integer_of_int32 !i_0)))) (1))))))
+                                   then
+                                    begin
+                                      any ()
+                                      requires { true }
+                                       ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 82 50 56#
+                                                 (Int.(>=)
+                                                 (integer_of_int32 n_1) (0))) } ;
+                                     ();
+                                     any ()
+                                     requires { true } reads { i_0 } 
+                                      ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 83 50 70#
+                                                ((Int.(>=)
+                                                 (integer_of_int32 !i_0) (0))
+                                                /\ (Int.(<=)
+                                                   (integer_of_int32 !i_0)
+                                                   (Int.(-)
+                                                   (integer_of_int32 n_1)
+                                                   (1))))) } ; ();
+                                     any ()
+                                     requires { true } reads { i_0 } 
+                                      ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 84 49 80#
+                                                ((Int.(>=)
+                                                 (Int.(+)
+                                                 (integer_of_int32 !i_0) (1))
+                                                 (0))
+                                                /\ (Int.(<=)
+                                                   (Int.(+)
+                                                   (integer_of_int32 !i_0)
+                                                   (1))
+                                                   (Int.(-)
+                                                   (integer_of_int32 n_1)
+                                                   (1))))) } ; ();
+                                     any ()
+                                     requires { true }
+                                      ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 85 50 71#
+                                                ((Int.(<=)
+                                                 (offset_min
+                                                 intP_a_5_alloc_table a_2)
+                                                 (0))
+                                                /\ (Int.(>=)
+                                                   (offset_max
+                                                   intP_a_5_alloc_table a_2)
+                                                   (Int.(-)
+                                                   (integer_of_int32 n_1)
+                                                   (1))))) } ;
+                                     ('C_60: 
+                                     begin
+                                       ();
+                                      (let jessie_42 = a_2 in
+                                      (let jessie_41 = n_1 in
+                                      (let jessie_40 = !i_0 in
+                                      (let jessie_39 =
+                                      ('C_59: 
+                                      ("expl:arithmetic overflow"
+                                      #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 87 32 37#
+                                      (int32_of_integer_ ('C_58: 
+                                                         ((Int.(+) (integer_of_int32 !i_0)) (1)))))) in
+                                      ("expl:precondition for call"
+                                      #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 270 35 134#
+                                      ((((((swap3_requires jessie_42) jessie_41) jessie_40) jessie_39) intP_intM_a_5) intP_a_5_alloc_table))))));
+                                      (); () end) end else ());
+                                   (i_0 := ('C_69: 
+                                           ("expl:arithmetic overflow"
+                                           #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 94 17 22#
+                                           (int32_of_integer_ ('C_68: 
+                                                              ((Int.(+) 
+                                                                (integer_of_int32 !i_0)) (1)))))));
+                                   !i_0 end) in ());
+                                 (raise (Loop_continue_exc ())) end with
+                                Loop_continue_exc jessie_4 -> () end end end;
+                             (raise (Goto_while_1_break_exc ())) end)) with
+                            Goto_while_1_break_exc jessie_1 ->
+                            ('While_1_break: 
+                            ('C_75: 
+                            begin
+                              (); (); ();
+                             (let jessie_46 =
+                             (k_2 := ('C_74: 
+                                     ("expl:arithmetic overflow"
+                                     #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/bubble.c" 100 12 17#
+                                     (int32_of_integer_ ('C_73: 
+                                                        ((Int.(-) (integer_of_int32 !k_2)) (1))))))) in
+                             ()); (); () end)) end;
+                           (raise (Loop_continue_exc ())) end with
+                          Loop_continue_exc jessie_6 -> () end end end;
+                       (raise (Goto_while_0_break_exc ())) end)) with
+                      Goto_while_0_break_exc jessie_2 ->
+                      ('While_0_break:  begin   (); (raise Return) end) end));
+                    (raise Return) end with Return -> () end) 
+
+let swap3_ensures_default "expl:Function swap3, default behavior"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 2 5 10#=
+ fun (a_0 : (pointer intP)) (n_2 : int32) (i : int32) (j : int32) (intP_intM_a_0_2 : ref (memory intP int32)) (intP_a_0_2_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 16 22#
+              (Int.(>=) (integer_of_int32 n_2) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                 (Int.(<=) (offset_min intP_a_0_2_alloc_table a_0) (0)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                    (Int.(>=) (offset_max intP_a_0_2_alloc_table a_0)
+                    (Int.(-) (integer_of_int32 n_2) (1))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 16 33#
+                       (dom (integer_of_int32 i) (integer_of_int32 n_2)))
+                      /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 37 54#
+                          (dom (integer_of_int32 j) (integer_of_int32 n_2)))
+                         /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                             (Int.(<=)
+                             (offset_min intP_a_0_2_alloc_table a_0)
+                             (integer_of_int32 i)))
+                            /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                                (Int.(>=)
+                                (offset_max intP_a_0_2_alloc_table a_0)
+                                (integer_of_int32 i)))
+                               /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                   (Int.(<=)
+                                   (offset_min intP_a_0_2_alloc_table a_0)
+                                   (integer_of_int32 j)))
+                                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                     (Int.(>=)
+                                     (offset_max intP_a_0_2_alloc_table a_0)
+                                     (integer_of_int32 j))))))))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 61 9 16#
+            ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 21 12 117#
+              (forall i1:int.
+               ((dom i1 (integer_of_int32 n_2)) ->
+                (exists i2:int.
+                 ((dom i2 (integer_of_int32 n_2))
+                 /\ ((integer_of_int32
+                     (select (old !intP_intM_a_0_2) (shift a_0 i1))) = 
+                    (integer_of_int32
+                    (select !intP_intM_a_0_2 (shift a_0 i2)))))))))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 23 12 36#
+                 (swapped a_0 (integer_of_int32 i) (integer_of_int32 j)
+                 !intP_intM_a_0_2 (old !intP_intM_a_0_2)))
+                /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 24 12 86#
+                   (forall k_1:int.
+                    (((Int.(<=) (0) k_1)
+                     /\ ((Int.(<) k_1 (integer_of_int32 n_2))
+                        /\ ((k_1 <> (integer_of_int32 i))
+                           /\ (k_1 <> (integer_of_int32 j))))) ->
+                     ((integer_of_int32
+                      (select !intP_intM_a_0_2 (shift a_0 k_1))) = (integer_of_int32
+                                                                   (select
+                                                                   (old !intP_intM_a_0_2)
+                                                                   (shift a_0
+                                                                   k_1))))))))))
+            /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 2 5 10#
+               (not_assigns intP_a_0_2_alloc_table (old !intP_intM_a_0_2)
+               !intP_intM_a_0_2
+               (pset_union
+               (pset_range (pset_singleton a_0) (integer_of_int32 j)
+               (integer_of_int32 j))
+               (pset_range (pset_singleton a_0) (integer_of_int32 i)
+               (integer_of_int32 i))))))) }('Init: 
+                                           try
+                                            begin
+                                              (let d = ref (any_int32 ()) in
+                                              ('C_3: 
+                                              ('C_8: 
+                                              ('C_11: 
+                                              begin
+                                                (let jessie_22 =
+                                                (d := ('C_2: 
+                                                      ((safe_acc_ !intP_intM_a_0_2) 
+                                                       ('C_1: 
+                                                       ((shift a_0) (integer_of_int32 j)))))) in
+                                                ());
+                                               (let jessie_28 =
+                                               (let jessie_24 =
+                                               ('C_5: 
+                                               ((safe_acc_ !intP_intM_a_0_2) 
+                                                ('C_4: 
+                                                ((shift a_0) (integer_of_int32 i))))) in
+                                               (let jessie_25 = a_0 in
+                                               (let jessie_26 =
+                                               (integer_of_int32 j) in
+                                               (let jessie_27 =
+                                               ((shift jessie_25) jessie_26) in
+                                               (((safe_upd_ intP_intM_a_0_2) jessie_27) jessie_24))))) in
+                                               ());
+                                               (let jessie_34 =
+                                               (let jessie_30 = !d in
+                                               (let jessie_31 = a_0 in
+                                               (let jessie_32 =
+                                               (integer_of_int32 i) in
+                                               (let jessie_33 =
+                                               ((shift jessie_31) jessie_32) in
+                                               (((safe_upd_ intP_intM_a_0_2) jessie_33) jessie_30))))) in
+                                               ()); (raise Return) end))));
+                                             (raise Return) end with
+                                            Return -> () end) 
+
+let swap3_safety "expl:Function swap3, Safety"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 2 5 10#=
+ fun (a_0 : (pointer intP)) (n_2 : int32) (i : int32) (j : int32) (intP_intM_a_0_2 : ref (memory intP int32)) (intP_a_0_2_alloc_table : (alloc_table intP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 16 22#
+              (Int.(>=) (integer_of_int32 n_2) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                 (Int.(<=) (offset_min intP_a_0_2_alloc_table a_0) (0)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 17 26 47#
+                    (Int.(>=) (offset_max intP_a_0_2_alloc_table a_0)
+                    (Int.(-) (integer_of_int32 n_2) (1))))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 16 33#
+                       (dom (integer_of_int32 i) (integer_of_int32 n_2)))
+                      /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 18 37 54#
+                          (dom (integer_of_int32 j) (integer_of_int32 n_2)))
+                         /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                             (Int.(<=)
+                             (offset_min intP_a_0_2_alloc_table a_0)
+                             (integer_of_int32 i)))
+                            /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 13 24#
+                                (Int.(>=)
+                                (offset_max intP_a_0_2_alloc_table a_0)
+                                (integer_of_int32 i)))
+                               /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                   (Int.(<=)
+                                   (offset_min intP_a_0_2_alloc_table a_0)
+                                   (integer_of_int32 j)))
+                                  /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.h" 19 28 39#
+                                     (Int.(>=)
+                                     (offset_max intP_a_0_2_alloc_table a_0)
+                                     (integer_of_int32 j))))))))))))  }
+  ensures { true }('Init: 
+                  try
+                   begin
+                     (let d = ref (any_int32 ()) in
+                     ('C_3: 
+                     ('C_8: 
+                     ('C_11: 
+                     begin
+                       (let jessie_8 =
+                       (d := ('C_2: 
+                             ("expl:pointer dereference"
+                             #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 5 7 15#
+                             ((((offset_acc_ intP_a_0_2_alloc_table) !intP_intM_a_0_2) a_0) 
+                              (integer_of_int32 j))))) in ());
+                      (let jessie_14 =
+                      (let jessie_10 =
+                      ('C_5: 
+                      ("expl:pointer dereference"
+                      #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/swap3.c" 6 10 18#
+                      ((((offset_acc_ intP_a_0_2_alloc_table) !intP_intM_a_0_2) a_0) 
+                       (integer_of_int32 i)))) in
+                      (let jessie_11 = a_0 in
+                      (let jessie_12 = (integer_of_int32 j) in
+                      (let jessie_13 = ((shift jessie_11) jessie_12) in
+                      ("expl:pointer dereference"
+                      #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 82 14 77#
+                      (((((offset_upd_ intP_a_0_2_alloc_table) intP_intM_a_0_2) jessie_11) jessie_12) jessie_10)))))) in
+                      ());
+                      (let jessie_20 =
+                      (let jessie_16 = !d in
+                      (let jessie_17 = a_0 in
+                      (let jessie_18 = (integer_of_int32 i) in
+                      (let jessie_19 = ((shift jessie_17) jessie_18) in
+                      ("expl:pointer dereference"
+                      #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/bubble/wholeprogram.jessie/wholeprogram.jc" 83 15 50#
+                      (((((offset_upd_ intP_a_0_2_alloc_table) intP_intM_a_0_2) jessie_17) jessie_18) jessie_16)))))) in
+                      ()); (raise Return) end)))); (raise Return) end with
+                   Return -> () end) 
+
+end
+
+

@@ -1,0 +1,9 @@
+(WP_parameter_bubble_ensures_default
+ (wp_parameter_bubble_ensures_default 0
+  (wp_parameter_bubble_ensures_default-1 nil 3591947524
+   ("" (skosimp*)
+    (("" (expand "not_assigns") (("" (propax) nil nil)) nil)) nil)
+   ((not_assigns const-decl "bool" WP_parameter_bubble_ensures_default
+     nil))
+   shostak)))
+

@@ -1,0 +1,8 @@
+(WP_parameter_swap3_safety
+ (wp_parameter_swap3_safety 0
+  (wp_parameter_swap3_safety-1 nil 3591243080
+   ("" (auto-rewrite-defs always? true)
+    (("" (assert) (("" (skosimp*) (("" (prop) nil nil)) nil)) nil))
+    nil)
+   ((dom const-decl "bool" WP_parameter_swap3_safety nil)) shostak)))
+

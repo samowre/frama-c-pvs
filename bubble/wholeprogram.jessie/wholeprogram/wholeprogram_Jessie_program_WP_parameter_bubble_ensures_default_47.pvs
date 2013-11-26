@@ -1,0 +1,1182 @@
+WP_parameter_bubble_ensures_default: THEORY
+ BEGIN
+  IMPORTING int@Int
+  IMPORTING int@Abs
+  IMPORTING int@ComputerDivision
+  IMPORTING real@Real
+  % do not edit above this line
+  
+  % Why3 unit
+  unit: TYPE+ = []
+  
+  % Why3 zwf_zero
+  zwf_zero(a:int, b:int): bool = (0 <= b) AND (a <  b)
+  
+  % Why3 alloc_table
+  alloc_table[t:TYPE+]: TYPE+
+  
+  % Why3 pointer
+  pointer[t:TYPE+]: TYPE+
+  
+  % Why3 block
+  block[t:TYPE+]: TYPE+
+  
+  % Why3 base_block
+  base_block[t:TYPE+](x:pointer[t]): block[t]
+  
+  % Why3 offset_max
+  offset_max[t:TYPE+](x:alloc_table[t], x1:pointer[t]): int
+  
+  % Why3 offset_min
+  offset_min[t:TYPE+](x:alloc_table[t], x1:pointer[t]): int
+  
+  % Why3 valid
+  valid[t:TYPE+](a:alloc_table[t], p:pointer[t]): bool = (offset_min(a,
+    p) <= 0) AND (offset_max(a, p) >= 0)
+  
+  % Why3 same_block
+  same_block[t:TYPE+](p:pointer[t], q:pointer[t]): bool =
+    (base_block(p) = base_block(q))
+  
+  % Why3 sub_pointer
+  sub_pointer[t:TYPE+](x:pointer[t], x1:pointer[t]): int
+  
+  % Why3 shift
+  shift[t:TYPE+](x:pointer[t], x1:int): pointer[t]
+  
+  % Why3 null
+  null[t:TYPE+]: pointer[t]
+  
+  % Why3 pointer_address
+  pointer_address[t:TYPE+](x:pointer[t]): pointer[[]]
+  
+  % Why3 absolute_address
+  absolute_address(x:int): pointer[[]]
+  
+  % Why3 address
+  address[t:TYPE+](x:pointer[t]): int
+  
+  % Why3 address_injective
+  address_injective[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pointer[t]): (p = q) <=> (address(p) = address(q))
+  
+  % Why3 address_shift_lt
+  address_shift_lt[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (i:int):
+    FORALL (j:int): (address(shift(p, i)) <  address(shift(p, j))) <=>
+    (i <  j)
+  
+  % Why3 address_shift_le
+  address_shift_le[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (i:int):
+    FORALL (j:int): (address(shift(p, i)) <= address(shift(p, j))) <=>
+    (i <= j)
+  
+  % Why3 shift_zero
+  shift_zero[t:TYPE+]: AXIOM FORALL (p:pointer[t]): (shift(p, 0) = p)
+  
+  % Why3 shift_shift
+  shift_shift[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (i:int):
+    FORALL (j:int): (shift(shift(p, i), j) = shift(p, (i + j)))
+  
+  % Why3 offset_max_shift
+  offset_max_shift[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (p:pointer[t]): FORALL (i:int): (offset_max(a, shift(p,
+    i)) = (offset_max(a, p) - i))
+  
+  % Why3 offset_min_shift
+  offset_min_shift[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (p:pointer[t]): FORALL (i:int): (offset_min(a, shift(p,
+    i)) = (offset_min(a, p) - i))
+  
+  % Why3 neq_shift
+  neq_shift[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (i:int):
+    FORALL (j:int): (NOT (i = j)) => NOT (shift(p, i) = shift(p, j))
+  
+  % Why3 null_not_valid
+  null_not_valid[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]): NOT valid(a,
+    (null :: pointer[t]))
+  
+  % Why3 null_pointer
+  null_pointer[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]): (offset_min(a,
+    (null :: pointer[t])) >= 0) AND (offset_max(a,
+    (null :: pointer[t])) <= (-2))
+  
+  % Why3 eq_pointer_bool
+  eq_pointer_bool[t:TYPE+](x:pointer[t], x1:pointer[t]): bool
+  
+  % Why3 neq_pointer_bool
+  neq_pointer_bool[t:TYPE+](x:pointer[t], x1:pointer[t]): bool
+  
+  % Why3 eq_pointer_bool_def
+  eq_pointer_bool_def[t:TYPE+]: AXIOM FORALL (p1:pointer[t]):
+    FORALL (p2:pointer[t]): (eq_pointer_bool(p1, p2) = TRUE) <=> (p1 = p2)
+  
+  % Why3 neq_pointer_bool_def
+  neq_pointer_bool_def[t:TYPE+]: AXIOM FORALL (p1:pointer[t]):
+    FORALL (p2:pointer[t]): (neq_pointer_bool(p1, p2) = TRUE) <=>
+    NOT (p1 = p2)
+  
+  % Why3 same_block_shift_right
+  same_block_shift_right[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pointer[t]): FORALL (i:int): same_block(p, q) => same_block(p,
+    shift(q, i))
+  
+  % Why3 same_block_shift_left
+  same_block_shift_left[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pointer[t]): FORALL (i:int): same_block(q, p) =>
+    same_block(shift(q, i), p)
+  
+  % Why3 sub_pointer_shift
+  sub_pointer_shift[t:TYPE+]: AXIOM FORALL (p:pointer[t], q:pointer[t]):
+    same_block(p, q) => (p = shift(q, sub_pointer(p, q)))
+  
+  % Why3 sub_pointer_self
+  sub_pointer_self[t:TYPE+]: AXIOM FORALL (p:pointer[t]): (sub_pointer(p,
+    p) = 0)
+  
+  % Why3 sub_pointer_zero
+  sub_pointer_zero[t:TYPE+]: AXIOM FORALL (p:pointer[t], q:pointer[t]):
+    same_block(p, q) => ((sub_pointer(p, q) = 0) => (p = q))
+  
+  % Why3 sub_pointer_shift_left
+  sub_pointer_shift_left[t:TYPE+]: AXIOM FORALL (p:pointer[t], q:pointer[t],
+    i:int): (sub_pointer(shift(p, i), q) = (sub_pointer(p, q) + i))
+  
+  % Why3 sub_pointer_shift_right
+  sub_pointer_shift_right[t:TYPE+]: AXIOM FORALL (p:pointer[t], q:pointer[t],
+    i:int): (sub_pointer(p, shift(q, i)) = (sub_pointer(p, q) - i))
+  
+  % Why3 sub_pointer_neg
+  sub_pointer_neg[t:TYPE+]: AXIOM FORALL (p:pointer[t], q:pointer[t]):
+    (sub_pointer(p, q) = (-sub_pointer(q, p)))
+  
+  % Why3 memory
+  memory[t:TYPE+, v:TYPE+]: TYPE+
+  
+  % Why3 select
+  select[t:TYPE+, v:TYPE+](x:memory[t, v], x1:pointer[t]): v
+  
+  % Why3 store
+  store[t:TYPE+, v:TYPE+](x:memory[t, v], x1:pointer[t], x2:v): memory[t, v]
+  
+  % Why3 select_store_eq
+  select_store_eq[t:TYPE+, v:TYPE+]: AXIOM FORALL (m:memory[t, v]):
+    FORALL (p1:pointer[t]): FORALL (p2:pointer[t]): FORALL (a:v):
+    (p1 = p2) => (select(store(m, p1, a), p2) = a)
+  
+  % Why3 select_store_neq
+  select_store_neq[t:TYPE+, v:TYPE+]: AXIOM FORALL (m:memory[t, v]):
+    FORALL (p1:pointer[t]): FORALL (p2:pointer[t]): FORALL (a:v):
+    (NOT (p1 = p2)) => (select(store(m, p1, a), p2) = select(m, p2))
+  
+  % Why3 pset
+  pset[t:TYPE+]: TYPE+
+  
+  % Why3 pset_empty
+  pset_empty[t:TYPE+]: pset[t]
+  
+  % Why3 pset_singleton
+  pset_singleton[t:TYPE+](x:pointer[t]): pset[t]
+  
+  % Why3 pset_deref
+  pset_deref[t:TYPE+, v:TYPE+](x:memory[t, pointer[v]], x1:pset[t]): pset[v]
+  
+  % Why3 pset_union
+  pset_union[t:TYPE+](x:pset[t], x1:pset[t]): pset[t]
+  
+  % Why3 pset_all
+  pset_all[z:TYPE+](x:pset[z]): pset[z]
+  
+  % Why3 pset_range
+  pset_range[t:TYPE+](x:pset[t], x1:int, x2:int): pset[t]
+  
+  % Why3 pset_range_left
+  pset_range_left[z:TYPE+](x:pset[z], x1:int): pset[z]
+  
+  % Why3 pset_range_right
+  pset_range_right[z:TYPE+](x:pset[z], x1:int): pset[z]
+  
+  % Why3 in_pset
+  in_pset[t:TYPE+](x:pointer[t], x1:pset[t]): bool
+  
+  % Why3 valid_pset
+  valid_pset[t:TYPE+](x:alloc_table[t], x1:pset[t]): bool
+  
+  % Why3 pset_disjoint
+  pset_disjoint[t:TYPE+](ps1:pset[t], ps2:pset[t]): bool =
+    FORALL (p:pointer[t]): NOT (in_pset(p, ps1) AND in_pset(p, ps2))
+  
+  % Why3 pset_included
+  pset_included[t:TYPE+](ps1:pset[t], ps2:pset[t]): bool =
+    FORALL (p:pointer[t]): in_pset(p, ps1) => in_pset(p, ps2)
+  
+  % Why3 pset_included_self
+  pset_included_self[t:TYPE+]: AXIOM FORALL (ps:pset[t]): pset_included(ps,
+    ps)
+  
+  % Why3 pset_included_range
+  pset_included_range[t:TYPE+]: AXIOM FORALL (ps:pset[t]): FORALL (a:int,
+    b:int, c:int, d:int): ((c <= a) AND (b <= d)) =>
+    pset_included(pset_range(ps, a, b), pset_range(ps, c, d))
+  
+  % Why3 pset_included_range_all
+  pset_included_range_all[t:TYPE+]: AXIOM FORALL (ps:pset[t], a:int, b:int):
+    pset_included(pset_range(ps, a, b), pset_all(ps))
+  
+  % Why3 in_pset_empty
+  in_pset_empty[t:TYPE+]: AXIOM FORALL (p:pointer[t]): NOT in_pset(p,
+    (pset_empty :: pset[t]))
+  
+  % Why3 in_pset_singleton
+  in_pset_singleton[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pointer[t]): in_pset(p, pset_singleton(q)) <=> (p = q)
+  
+  % Why3 in_pset_deref
+  in_pset_deref[t:TYPE+, v:TYPE+]: AXIOM FORALL (p:pointer[v]):
+    FORALL (m:memory[t, pointer[v]]): FORALL (q:pset[t]): in_pset(p,
+    pset_deref(m, q)) <=> EXISTS (r:pointer[t]): in_pset(r, q) AND
+    (p = select(m, r))
+  
+  % Why3 in_pset_all
+  in_pset_all[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (q:pset[t]):
+    in_pset(p, pset_all(q)) <=> EXISTS (i:int): EXISTS (r:pointer[t]):
+    in_pset(r, q) AND (p = shift(r, i))
+  
+  % Why3 in_pset_range
+  in_pset_range[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (q:pset[t]):
+    FORALL (a:int): FORALL (b:int): in_pset(p, pset_range(q, a, b)) <=>
+    EXISTS (i:int): EXISTS (r:pointer[t]): (a <= i) AND ((i <= b) AND
+    (in_pset(r, q) AND (p = shift(r, i))))
+  
+  % Why3 in_pset_range_left
+  in_pset_range_left[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pset[t]): FORALL (b:int): in_pset(p, pset_range_left(q, b)) <=>
+    EXISTS (i:int): EXISTS (r:pointer[t]): (i <= b) AND (in_pset(r, q) AND
+    (p = shift(r, i)))
+  
+  % Why3 in_pset_range_right
+  in_pset_range_right[t:TYPE+]: AXIOM FORALL (p:pointer[t]):
+    FORALL (q:pset[t]): FORALL (a:int): in_pset(p, pset_range_right(q,
+    a)) <=> EXISTS (i:int): EXISTS (r:pointer[t]): (a <= i) AND (in_pset(r,
+    q) AND (p = shift(r, i)))
+  
+  % Why3 in_pset_union
+  in_pset_union[t:TYPE+]: AXIOM FORALL (p:pointer[t]): FORALL (s1:pset[t]):
+    FORALL (s2:pset[t]): in_pset(p, pset_union(s1, s2)) <=> (in_pset(p,
+    s1) OR in_pset(p, s2))
+  
+  % Why3 valid_pset_empty
+  valid_pset_empty[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]): valid_pset(a,
+    (pset_empty :: pset[t]))
+  
+  % Why3 valid_pset_singleton
+  valid_pset_singleton[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (p:pointer[t]): valid_pset(a, pset_singleton(p)) <=> valid(a, p)
+  
+  % Why3 valid_pset_deref
+  valid_pset_deref[t:TYPE+, v:TYPE+]: AXIOM FORALL (a:alloc_table[v]):
+    FORALL (m:memory[t, pointer[v]]): FORALL (q:pset[t]): valid_pset(a,
+    pset_deref(m, q)) <=> FORALL (r:pointer[t]): FORALL (p:pointer[v]):
+    (in_pset(r, q) AND (p = select(m, r))) => valid(a, p)
+  
+  % Why3 valid_pset_range
+  valid_pset_range[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (q:pset[t]): FORALL (c:int): FORALL (d:int): valid_pset(a,
+    pset_range(q, c, d)) <=> FORALL (i:int): FORALL (r:pointer[t]):
+    (in_pset(r, q) AND ((c <= i) AND (i <= d))) => valid(a, shift(r, i))
+  
+  % Why3 valid_pset_union
+  valid_pset_union[t:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (s1:pset[t]): FORALL (s2:pset[t]): valid_pset(a, pset_union(s1,
+    s2)) <=> (valid_pset(a, s1) AND valid_pset(a, s2))
+  
+  % Why3 not_assigns
+  not_assigns[t:TYPE+, v:TYPE+](a:alloc_table[t], m1:memory[t, v],
+    m2:memory[t, v], l:pset[t]): bool = FORALL (p:pointer[t]): (valid(a,
+    p) AND NOT in_pset(p, l)) => (select(m2, p) = select(m1, p))
+  
+  % Why3 not_assigns_refl
+  not_assigns_refl[t:TYPE+, v:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (m:memory[t, v]): FORALL (l:pset[t]): not_assigns(a, m, m, l)
+  
+  % Why3 not_assigns_trans
+  not_assigns_trans[t:TYPE+, v:TYPE+]: AXIOM FORALL (a:alloc_table[t]):
+    FORALL (m1:memory[t, v]): FORALL (m2:memory[t, v]): FORALL (m3:memory[t,
+    v]): FORALL (l:pset[t]): not_assigns(a, m1, m2, l) => (not_assigns(a, m2,
+    m3, l) => not_assigns(a, m1, m3, l))
+  
+  % Why3 full_separated
+  full_separated[t1:TYPE+, t2:TYPE+](x:pointer[t1], x1:pointer[t2]): bool
+  
+  % Why3 full_separated_shift1
+  full_separated_shift1[z:TYPE+]: AXIOM FORALL (p:pointer[z]):
+    FORALL (q:pointer[z]): FORALL (i:int): full_separated(p, q) =>
+    full_separated(p, shift(q, i))
+  
+  % Why3 full_separated_shift2
+  full_separated_shift2[z:TYPE+]: AXIOM FORALL (p:pointer[z]):
+    FORALL (q:pointer[z]): FORALL (i:int): full_separated(p, q) =>
+    full_separated(shift(q, i), p)
+  
+  % Why3 full_separated_shift3
+  full_separated_shift3[z:TYPE+]: AXIOM FORALL (p:pointer[z]):
+    FORALL (q:pointer[z]): FORALL (i:int): full_separated(q, p) =>
+    full_separated(shift(q, i), p)
+  
+  % Why3 full_separated_shift4
+  full_separated_shift4[z:TYPE+]: AXIOM FORALL (p:pointer[z]):
+    FORALL (q:pointer[z]): FORALL (i:int): full_separated(q, p) =>
+    full_separated(p, shift(q, i))
+  
+  % Why3 tag_table
+  tag_table[t:TYPE+]: TYPE+
+  
+  % Why3 tag_id
+  tag_id[t:TYPE+]: TYPE+
+  
+  % Why3 int_of_tag
+  int_of_tag[t:TYPE+](x:tag_id[t]): int
+  
+  % Why3 typeof
+  typeof[t:TYPE+](x:tag_table[t], x1:pointer[t]): tag_id[t]
+  
+  % Why3 parenttag
+  parenttag[t:TYPE+](x:tag_id[t], x1:tag_id[t]): bool
+  
+  % Why3 subtag
+  subtag[t:TYPE+](x:tag_id[t], x1:tag_id[t]): bool
+  
+  % Why3 subtag_bool
+  subtag_bool[t:TYPE+](x:tag_id[t], x1:tag_id[t]): bool
+  
+  % Why3 subtag_bool_def
+  subtag_bool_def[t:TYPE+]: AXIOM FORALL (t1:tag_id[t]):
+    FORALL (t2:tag_id[t]): (subtag_bool(t1, t2) = TRUE) <=> subtag(t1, t2)
+  
+  % Why3 subtag_refl
+  subtag_refl[t:TYPE+]: AXIOM FORALL (t1:tag_id[t]): subtag(t1, t1)
+  
+  % Why3 subtag_parent
+  subtag_parent[t:TYPE+]: AXIOM FORALL (t1:tag_id[t]): FORALL (t2:tag_id[t]):
+    FORALL (t3:tag_id[t]): subtag(t1, t2) => (parenttag(t2, t3) => subtag(t1,
+    t3))
+  
+  % Why3 instanceof
+  instanceof[t:TYPE+](a:tag_table[t], p:pointer[t], t1:tag_id[t]): bool =
+    subtag(typeof(a, p), t1)
+  
+  % Why3 downcast
+  downcast[t:TYPE+](x:tag_table[t], x1:pointer[t], x2:tag_id[t]): pointer[t]
+  
+  % Why3 downcast_instanceof
+  downcast_instanceof[t:TYPE+]: AXIOM FORALL (a:tag_table[t]):
+    FORALL (p:pointer[t]): FORALL (s:tag_id[t]): instanceof(a, p, s) =>
+    (downcast(a, p, s) = p)
+  
+  % Why3 bottom_tag
+  bottom_tag[a:TYPE+]: tag_id[a]
+  
+  % Why3 bottom_tag_axiom
+  bottom_tag_axiom[t:TYPE+]: AXIOM FORALL (t1:tag_id[t]): subtag(t1,
+    (bottom_tag :: tag_id[t]))
+  
+  % Why3 root_tag
+  root_tag[t:TYPE+](t1:tag_id[t]): bool = parenttag(t1,
+    (bottom_tag :: tag_id[t]))
+  
+  % Why3 root_subtag
+  root_subtag[t:TYPE+]: AXIOM FORALL (a:tag_id[t]): FORALL (b:tag_id[t]):
+    FORALL (c:tag_id[t]): root_tag(a) => (root_tag(b) => ((NOT (a = b)) =>
+    (subtag(c, a) => NOT subtag(c, b))))
+  
+  % Why3 fully_packed
+  fully_packed[a:TYPE+](tag_table1:tag_table[a], usmutable:memory[a,
+    tag_id[a]], this:pointer[a]): bool = (select(usmutable,
+    this) = typeof(tag_table1, this))
+  
+  % Why3 bw_compl
+  bw_compl(x:int): int
+  
+  % Why3 bw_and
+  bw_and(x:int, x1:int): int
+  
+  % Why3 bw_and_not_null
+  bw_and_not_null: AXIOM FORALL (a:int): FORALL (b:int): (NOT (bw_and(a,
+    b) = 0)) => ((NOT (a = 0)) AND NOT (b = 0))
+  
+  % Why3 bw_xor
+  bw_xor(x:int, x1:int): int
+  
+  % Why3 bw_or
+  bw_or(x:int, x1:int): int
+  
+  % Why3 lsl
+  lsl(x:int, x1:int): int
+  
+  % Why3 lsl_left_positive_returns_positive
+  lsl_left_positive_returns_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (0 <= lsl(a, b))
+  
+  % Why3 lsl_left_positive_monotone
+  lsl_left_positive_monotone: AXIOM FORALL (a1:int): FORALL (a2:int):
+    FORALL (b:int): ((0 <= a1) AND ((a1 <= a2) AND (0 <= b))) => (lsl(a1,
+    b) <= lsl(a2, b))
+  
+  % Why3 lsr
+  lsr(x:int, x1:int): int
+  
+  % Why3 lsr_left_positive_returns_positive
+  lsr_left_positive_returns_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (0 <= lsr(a, b))
+  
+  % Why3 lsr_left_positive_decreases
+  lsr_left_positive_decreases: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (lsr(a, b) <= a)
+  
+  % Why3 asr
+  asr(x:int, x1:int): int
+  
+  % Why3 asr_positive_on_positive
+  asr_positive_on_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (0 <= asr(a, b))
+  
+  % Why3 asr_decreases_on_positive
+  asr_decreases_on_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (asr(a, b) <= a)
+  
+  % Why3 asr_lsr_same_on_positive
+  asr_lsr_same_on_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (asr(a, b) = lsr(a, b))
+  
+  % Why3 lsl_of_lsr_decreases_on_positive
+  lsl_of_lsr_decreases_on_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (lsl(lsr(a, b), b) <= a)
+  
+  % Why3 lsr_of_lsl_identity_on_positive
+  lsr_of_lsl_identity_on_positive: AXIOM FORALL (a:int): FORALL (b:int):
+    ((0 <= a) AND (0 <= b)) => (lsr(lsl(a, b), b) = a)
+  
+  % Why3 alloc_extends
+  alloc_extends[t:TYPE+](x:alloc_table[t], x1:alloc_table[t]): bool
+  
+  % Why3 alloc_fresh
+  alloc_fresh[t:TYPE+](a:alloc_table[t], p:pointer[t], n:int): bool =
+    FORALL (i:int): ((0 <= i) AND (i <  n)) => NOT valid(a, shift(p, i))
+  
+  % Why3 alloc_extends_offset_min
+  alloc_extends_offset_min[t:TYPE+]: AXIOM FORALL (a1:alloc_table[t]):
+    FORALL (a2:alloc_table[t]): alloc_extends(a1, a2) =>
+    FORALL (p:pointer[t]): valid(a1, p) => (offset_min(a1,
+    p) = offset_min(a2, p))
+  
+  % Why3 alloc_extends_offset_max
+  alloc_extends_offset_max[t:TYPE+]: AXIOM FORALL (a1:alloc_table[t]):
+    FORALL (a2:alloc_table[t]): alloc_extends(a1, a2) =>
+    FORALL (p:pointer[t]): valid(a1, p) => (offset_max(a1,
+    p) = offset_max(a2, p))
+  
+  % Why3 alloc_extends_not_assigns_empty
+  alloc_extends_not_assigns_empty[t:TYPE+,
+    v:TYPE+]: AXIOM FORALL (a1:alloc_table[t]): FORALL (a2:alloc_table[t]):
+    FORALL (m1:memory[t, v]): FORALL (m2:memory[t, v]): FORALL (l:pset[t]):
+    FORALL (p:pointer[t]): FORALL (n:int): (alloc_extends(a1, a2) AND
+    (alloc_fresh(a1, p, n) AND (not_assigns(a2, m1, m2, l) AND
+    pset_included(l, pset_all(pset_singleton(p)))))) => not_assigns(a1, m1,
+    m2, (pset_empty :: pset[t]))
+  
+  % Why3 alloc_extends_except
+  alloc_extends_except[t:TYPE+](x:alloc_table[t], x1:alloc_table[t],
+    x2:pset[t]): bool
+  
+  % Why3 alloc_extends_except_offset_min
+  alloc_extends_except_offset_min[t:TYPE+]: AXIOM FORALL (a1:alloc_table[t]):
+    FORALL (a2:alloc_table[t]): FORALL (l:pset[t]): alloc_extends_except(a1,
+    a2, l) => FORALL (p:pointer[t]): (valid(a1, p) AND NOT in_pset(p, l)) =>
+    (offset_min(a1, p) = offset_min(a2, p))
+  
+  % Why3 alloc_extends_except_offset_max
+  alloc_extends_except_offset_max[t:TYPE+]: AXIOM FORALL (a1:alloc_table[t]):
+    FORALL (a2:alloc_table[t]): FORALL (l:pset[t]): alloc_extends_except(a1,
+    a2, l) => FORALL (p:pointer[t]): (valid(a1, p) AND NOT in_pset(p, l)) =>
+    (offset_max(a1, p) = offset_max(a2, p))
+  
+  % Why3 mybag
+  mybag[a:TYPE+]: TYPE+
+  
+  % Why3 in_mybag
+  in_mybag[a:TYPE+](x:a, x1:mybag[a]): bool
+  
+  % Why3 disj_mybag
+  disj_mybag[a:TYPE+](x:mybag[a], x1:mybag[a]): bool
+  
+  % Why3 disj_sym
+  disj_sym[a:TYPE+]: AXIOM FORALL (s1:mybag[a], s2:mybag[a]): disj_mybag(s1,
+    s2) => disj_mybag(s2, s1)
+  
+  % Why3 sub_mybag
+  sub_mybag[a:TYPE+](x:mybag[a], x1:mybag[a]): bool
+  
+  % Why3 sub_refl
+  sub_refl[a:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]): sub_mybag(sa, sa)
+  
+  % Why3 sub_disj
+  sub_disj[a:TYPE+]: AXIOM FORALL (s1:mybag[a], s2:mybag[a], s3:mybag[a]):
+    disj_mybag(s1, s3) => (sub_mybag(s2, s3) => disj_mybag(s1, s2))
+  
+  % Why3 sub_in
+  sub_in[a:TYPE+]: AXIOM FORALL (s1:mybag[a], s2:mybag[a]): FORALL (p:a):
+    (NOT in_mybag(p, s2)) => (sub_mybag(s1, s2) => NOT in_mybag(p, s1))
+  
+  % Why3 sub_sub
+  sub_sub[a:TYPE+]: AXIOM FORALL (s1:mybag[a], s2:mybag[a], s3:mybag[a]):
+    sub_mybag(s1, s2) => (sub_mybag(s2, s3) => sub_mybag(s1, s3))
+  
+  % Why3 frame_between
+  frame_between[a:TYPE+, b:TYPE+](x:mybag[pointer[a]], x1:memory[a, b],
+    x2:memory[a, b]): bool
+  
+  % Why3 frame_between_refl
+  frame_between_refl[a:TYPE+, b:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]):
+    FORALL (m:memory[a, b]): frame_between(sa, m, m)
+  
+  % Why3 frame_between_gen
+  frame_between_gen[a:TYPE+, b:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]):
+    FORALL (m1:memory[a, b], m2:memory[a, b]): FORALL (p:pointer[a]):
+    FORALL (v:b): frame_between(sa, m1, m2) => (in_mybag(p, sa) =>
+    frame_between(sa, store(m1, p, v), m2))
+  
+  % Why3 frame_between_gen2
+  frame_between_gen2[a:TYPE+, b:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]):
+    FORALL (m1:memory[a, b], m2:memory[a, b], m3:memory[a, b]):
+    frame_between(sa, m1, m2) => (frame_between(sa, m2, m3) =>
+    frame_between(sa, m1, m3))
+  
+  % Why3 frame_between_gen_sub1
+  frame_between_gen_sub1[a:TYPE+,
+    b:TYPE+]: AXIOM FORALL (s12:mybag[pointer[a]], s23:mybag[pointer[a]],
+    s13:mybag[pointer[a]]): FORALL (m1:memory[a, b], m2:memory[a, b],
+    m3:memory[a, b]): sub_mybag(s12, s13) => (frame_between(s12, m1, m2) =>
+    (frame_between(s23, m2, m3) => frame_between(s13, m1, m3)))
+  
+  % Why3 frame_between_gen_sub2
+  frame_between_gen_sub2[a:TYPE+,
+    b:TYPE+]: AXIOM FORALL (s12:mybag[pointer[a]], s23:mybag[pointer[a]],
+    s13:mybag[pointer[a]]): FORALL (m1:memory[a, b], m2:memory[a, b],
+    m3:memory[a, b]): frame_between(s12, m1, m2) => (sub_mybag(s23, s13) =>
+    (frame_between(s23, m2, m3) => frame_between(s13, m1, m3)))
+  
+  % Why3 frame_between_pointer
+  frame_between_pointer[a:TYPE+,
+    b:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]): FORALL (m1:memory[a, b],
+    m2:memory[a, b]): FORALL (p:pointer[a]): frame_between(sa, m1, m2) =>
+    ((NOT in_mybag(p, sa)) => (select(m1, p) = select(m2, p)))
+  
+  % Why3 frame_between_sub
+  frame_between_sub[a:TYPE+, b:TYPE+]: AXIOM FORALL (sa:mybag[pointer[a]]):
+    FORALL (sb:mybag[pointer[a]]): FORALL (m1:memory[a, b], m2:memory[a, b]):
+    frame_between(sa, m1, m2) => (sub_mybag(sa, sb) => frame_between(sb, m1,
+    m2))
+  
+  % Why3 charp
+  charp: TYPE+
+  
+  % Why3 int32
+  int32: TYPE+
+  
+  % Why3 int8
+  int8: TYPE+
+  
+  % Why3 intp
+  intp: TYPE+
+  
+  % Why3 padding
+  padding: TYPE+
+  
+  % Why3 uint8
+  uint8: TYPE+
+  
+  % Why3 unsigned_charp
+  unsigned_charp: TYPE+
+  
+  % Why3 voidp
+  voidp: TYPE+
+  
+  % Why3 integer_of_int32
+  integer_of_int32(x:int32): int
+  
+  % Why3 bubble_sorted
+  bubble_sorted(a_0_0:pointer[intp], start_i:int, end_i:int,
+    intp_intm_a_0_3:memory[intp, int32]): bool = FORALL (k1:int):
+    ((start_i <= k1) AND (k1 <  end_i)) =>
+    (integer_of_int32(select(intp_intm_a_0_3, shift(a_0_0,
+    k1))) <= integer_of_int32(select(intp_intm_a_0_3, shift(a_0_0,
+    (k1 + 1)))))
+  
+  % Why3 swapped
+  swapped(a:pointer[intp], i_1:int, j_0:int, intp_intm_a_1_at_l2:memory[intp,
+    int32], intp_intm_a_1_at_l1:memory[intp, int32]): bool =
+    (integer_of_int32(select(intp_intm_a_1_at_l1, shift(a,
+    i_1))) = integer_of_int32(select(intp_intm_a_1_at_l2, shift(a,
+    j_0)))) AND ((integer_of_int32(select(intp_intm_a_1_at_l1, shift(a,
+    j_0))) = integer_of_int32(select(intp_intm_a_1_at_l2, shift(a,
+    i_1)))) AND FORALL (k:int): ((NOT (k = i_1)) AND NOT (k = j_0)) =>
+    (integer_of_int32(select(intp_intm_a_1_at_l1, shift(a,
+    k))) = integer_of_int32(select(intp_intm_a_1_at_l2, shift(a, k)))))
+  
+  % Why3 uspermut_is_equiv
+  uspermut_is_equiv(z:pointer[intp], z1:int, z2:int, z3:memory[intp, int32],
+    z4:memory[intp, int32]): INDUCTIVE bool =
+    ((((EXISTS (intp_intm_a_1_4_at_l:memory[intp, int32]):
+    EXISTS (a_2_0:pointer[intp]): EXISTS (index_from_0:int):
+    EXISTS (index_to_0:int): ((((z = a_2_0) AND (z1 = index_from_0)) AND
+    (z2 = index_to_0)) AND (z3 = intp_intm_a_1_4_at_l)) AND
+    (z4 = intp_intm_a_1_4_at_l)) OR
+    EXISTS (intp_intm_a_1_4_at_l2:memory[intp, int32]):
+    EXISTS (intp_intm_a_1_4_at_l1:memory[intp, int32]):
+    EXISTS (a_3:pointer[intp]): EXISTS (index_from_1:int):
+    EXISTS (index_to_1:int): uspermut_is_equiv(a_3, index_from_1, index_to_1,
+    intp_intm_a_1_4_at_l2, intp_intm_a_1_4_at_l1) AND (((((z = a_3) AND
+    (z1 = index_from_1)) AND (z2 = index_to_1)) AND
+    (z3 = intp_intm_a_1_4_at_l1)) AND (z4 = intp_intm_a_1_4_at_l2))) OR
+    EXISTS (intp_intm_a_1_4_at_l3:memory[intp, int32]):
+    EXISTS (intp_intm_a_1_4_at_l2:memory[intp, int32]):
+    EXISTS (intp_intm_a_1_4_at_l1:memory[intp, int32]):
+    EXISTS (a_4:pointer[intp]): EXISTS (index_from_2:int):
+    EXISTS (index_to_2:int): (uspermut_is_equiv(a_4, index_from_2,
+    index_to_2, intp_intm_a_1_4_at_l2, intp_intm_a_1_4_at_l1) AND
+    uspermut_is_equiv(a_4, index_from_2, index_to_2, intp_intm_a_1_4_at_l3,
+    intp_intm_a_1_4_at_l2)) AND (((((z = a_4) AND (z1 = index_from_2)) AND
+    (z2 = index_to_2)) AND (z3 = intp_intm_a_1_4_at_l3)) AND
+    (z4 = intp_intm_a_1_4_at_l1))) OR
+    EXISTS (intp_intm_a_1_4_at_l2:memory[intp, int32]):
+    EXISTS (intp_intm_a_1_4_at_l1:memory[intp, int32]):
+    EXISTS (a_5:pointer[intp]): EXISTS (index_from_3:int):
+    EXISTS (index_to_3:int): EXISTS (i_2:int): EXISTS (j_1:int):
+    ((index_from_3 <= i_2) AND ((i_2 <= index_to_3) AND
+    ((index_from_3 <= j_1) AND ((j_1 <= index_to_3) AND bubble_sorted(a_5,
+    i_2, j_1, intp_intm_a_1_4_at_l2))))) AND (((((z = a_5) AND
+    (z1 = index_from_3)) AND (z2 = index_to_3)) AND
+    (z3 = intp_intm_a_1_4_at_l2)) AND (z4 = intp_intm_a_1_4_at_l1))) OR
+    EXISTS (intp_intm_a_1_4_at_l2:memory[intp, int32]):
+    EXISTS (intp_intm_a_1_4_at_l1:memory[intp, int32]):
+    EXISTS (a_6:pointer[intp]): EXISTS (index_from_4:int):
+    EXISTS (index_to_4:int): EXISTS (i_3:int): EXISTS (j_2:int):
+    ((index_from_4 <= i_3) AND ((i_3 <= index_to_4) AND
+    ((index_from_4 <= j_2) AND ((j_2 <= index_to_4) AND swapped(a_6, i_3,
+    j_2, intp_intm_a_1_4_at_l2, intp_intm_a_1_4_at_l1))))) AND
+    (((((z = a_6) AND (z1 = index_from_4)) AND (z2 = index_to_4)) AND
+    (z3 = intp_intm_a_1_4_at_l2)) AND (z4 = intp_intm_a_1_4_at_l1))
+  
+  % Why3 charp_tag
+  charp_tag: tag_id[charp]
+  
+  % Why3 charp_int
+  charp_int: AXIOM (int_of_tag(charp_tag) = 1)
+  
+  % Why3 charp_of_pointer_address
+  charp_of_pointer_address(x:pointer[[]]): pointer[charp]
+  
+  % Why3 charp_of_pointer_address_of_pointer_addr
+  charp_of_pointer_address_of_pointer_addr: AXIOM FORALL (p:pointer[charp]):
+    (p = charp_of_pointer_address(pointer_address(p)))
+  
+  % Why3 charp_parenttag_bottom
+  charp_parenttag_bottom: AXIOM parenttag(charp_tag,
+    (bottom_tag :: tag_id[charp]))
+  
+  % Why3 charp_tags
+  charp_tags: AXIOM FORALL (x:pointer[charp]):
+    FORALL (charp_tag_table:tag_table[charp]): instanceof(charp_tag_table, x,
+    charp_tag)
+  
+  % Why3 dom
+  dom(k_0:int, n:int): bool = (k_0 >= 0) AND (k_0 <= (n - 1))
+  
+  % Why3 eq_int32
+  eq_int32(x:int32, y:int32): bool =
+    (integer_of_int32(x) = integer_of_int32(y))
+  
+  % Why3 integer_of_int8
+  integer_of_int8(x:int8): int
+  
+  % Why3 eq_int8
+  eq_int8(x:int8, y:int8): bool = (integer_of_int8(x) = integer_of_int8(y))
+  
+  % Why3 integer_of_uint8
+  integer_of_uint8(x:uint8): int
+  
+  % Why3 eq_uint8
+  eq_uint8(x:uint8, y:uint8): bool =
+    (integer_of_uint8(x) = integer_of_uint8(y))
+  
+  % Why3 int32_of_integer
+  int32_of_integer(x:int): int32
+  
+  % Why3 int32_coerce
+  int32_coerce: AXIOM FORALL (x:int): (((-2147483648) <= x) AND
+    (x <= 2147483647)) => (integer_of_int32(int32_of_integer(x)) = x)
+  
+  % Why3 int32_extensionality
+  int32_extensionality: AXIOM FORALL (x:int32): FORALL (y:int32):
+    (integer_of_int32(x) = integer_of_int32(y)) => (x = y)
+  
+  % Why3 int32_range
+  int32_range: AXIOM FORALL (x:int32):
+    ((-2147483648) <= integer_of_int32(x)) AND
+    (integer_of_int32(x) <= 2147483647)
+  
+  % Why3 int8_of_integer
+  int8_of_integer(x:int): int8
+  
+  % Why3 int8_coerce
+  int8_coerce: AXIOM FORALL (x:int): (((-128) <= x) AND (x <= 127)) =>
+    (integer_of_int8(int8_of_integer(x)) = x)
+  
+  % Why3 int8_extensionality
+  int8_extensionality: AXIOM FORALL (x:int8): FORALL (y:int8):
+    (integer_of_int8(x) = integer_of_int8(y)) => (x = y)
+  
+  % Why3 int8_range
+  int8_range: AXIOM FORALL (x:int8): ((-128) <= integer_of_int8(x)) AND
+    (integer_of_int8(x) <= 127)
+  
+  % Why3 intp_tag
+  intp_tag: tag_id[intp]
+  
+  % Why3 intp_int
+  intp_int: AXIOM (int_of_tag(intp_tag) = 1)
+  
+  % Why3 intp_of_pointer_address
+  intp_of_pointer_address(x:pointer[[]]): pointer[intp]
+  
+  % Why3 intp_of_pointer_address_of_pointer_addr
+  intp_of_pointer_address_of_pointer_addr: AXIOM FORALL (p:pointer[intp]):
+    (p = intp_of_pointer_address(pointer_address(p)))
+  
+  % Why3 intp_parenttag_bottom
+  intp_parenttag_bottom: AXIOM parenttag(intp_tag,
+    (bottom_tag :: tag_id[intp]))
+  
+  % Why3 intp_tags
+  intp_tags: AXIOM FORALL (x:pointer[intp]):
+    FORALL (intp_tag_table:tag_table[intp]): instanceof(intp_tag_table, x,
+    intp_tag)
+  
+  % Why3 left_valid_struct_charp
+  left_valid_struct_charp(p:pointer[charp], a:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_min(charp_alloc_table, p) <= a)
+  
+  % Why3 left_valid_struct_intp
+  left_valid_struct_intp(p:pointer[intp], a:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_min(intp_alloc_table,
+    p) <= a)
+  
+  % Why3 left_valid_struct_unsigned_charp
+  left_valid_struct_unsigned_charp(p:pointer[unsigned_charp], a:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_min(unsigned_charp_alloc_table, p) <= a)
+  
+  % Why3 left_valid_struct_voidp
+  left_valid_struct_voidp(p:pointer[voidp], a:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_min(voidp_alloc_table, p) <= a)
+  
+  % Why3 pointer_addr_of_charp_of_pointer_address
+  pointer_addr_of_charp_of_pointer_address: AXIOM FORALL (p:pointer[[]]):
+    (p = pointer_address(charp_of_pointer_address(p)))
+  
+  % Why3 pointer_addr_of_intp_of_pointer_address
+  pointer_addr_of_intp_of_pointer_address: AXIOM FORALL (p:pointer[[]]):
+    (p = pointer_address(intp_of_pointer_address(p)))
+  
+  % Why3 unsigned_charp_of_pointer_address
+  unsigned_charp_of_pointer_address(x:pointer[[]]): pointer[unsigned_charp]
+  
+  % Why3 pointer_addr_of_unsigned_charp_of_pointer_address
+  pointer_addr_of_unsigned_charp_of_pointer_address: AXIOM FORALL (p:pointer[[]]):
+    (p = pointer_address(unsigned_charp_of_pointer_address(p)))
+  
+  % Why3 voidp_of_pointer_address
+  voidp_of_pointer_address(x:pointer[[]]): pointer[voidp]
+  
+  % Why3 pointer_addr_of_voidp_of_pointer_address
+  pointer_addr_of_voidp_of_pointer_address: AXIOM FORALL (p:pointer[[]]):
+    (p = pointer_address(voidp_of_pointer_address(p)))
+  
+  % Why3 right_valid_struct_charp
+  right_valid_struct_charp(p:pointer[charp], b:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_max(charp_alloc_table, p) >= b)
+  
+  % Why3 right_valid_struct_intp
+  right_valid_struct_intp(p:pointer[intp], b:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_max(intp_alloc_table,
+    p) >= b)
+  
+  % Why3 right_valid_struct_unsigned_charp
+  right_valid_struct_unsigned_charp(p:pointer[unsigned_charp], b:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_max(unsigned_charp_alloc_table, p) >= b)
+  
+  % Why3 right_valid_struct_voidp
+  right_valid_struct_voidp(p:pointer[voidp], b:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_max(voidp_alloc_table, p) >= b)
+  
+  % Why3 strict_valid_root_charp
+  strict_valid_root_charp(p:pointer[charp], a:int, b:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_min(charp_alloc_table, p) = a) AND (offset_max(charp_alloc_table,
+    p) = b)
+  
+  % Why3 strict_valid_root_intp
+  strict_valid_root_intp(p:pointer[intp], a:int, b:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_min(intp_alloc_table,
+    p) = a) AND (offset_max(intp_alloc_table, p) = b)
+  
+  % Why3 strict_valid_root_unsigned_charp
+  strict_valid_root_unsigned_charp(p:pointer[unsigned_charp], a:int, b:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_min(unsigned_charp_alloc_table, p) = a) AND
+    (offset_max(unsigned_charp_alloc_table, p) = b)
+  
+  % Why3 strict_valid_root_voidp
+  strict_valid_root_voidp(p:pointer[voidp], a:int, b:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_min(voidp_alloc_table, p) = a) AND (offset_max(voidp_alloc_table,
+    p) = b)
+  
+  % Why3 strict_valid_struct_charp
+  strict_valid_struct_charp(p:pointer[charp], a:int, b:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_min(charp_alloc_table, p) = a) AND (offset_max(charp_alloc_table,
+    p) = b)
+  
+  % Why3 strict_valid_struct_intp
+  strict_valid_struct_intp(p:pointer[intp], a:int, b:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_min(intp_alloc_table,
+    p) = a) AND (offset_max(intp_alloc_table, p) = b)
+  
+  % Why3 strict_valid_struct_unsigned_charp
+  strict_valid_struct_unsigned_charp(p:pointer[unsigned_charp], a:int, b:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_min(unsigned_charp_alloc_table, p) = a) AND
+    (offset_max(unsigned_charp_alloc_table, p) = b)
+  
+  % Why3 strict_valid_struct_voidp
+  strict_valid_struct_voidp(p:pointer[voidp], a:int, b:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_min(voidp_alloc_table, p) = a) AND (offset_max(voidp_alloc_table,
+    p) = b)
+  
+  % Why3 uint8_of_integer
+  uint8_of_integer(x:int): uint8
+  
+  % Why3 uint8_coerce
+  uint8_coerce: AXIOM FORALL (x:int): ((0 <= x) AND (x <= 255)) =>
+    (integer_of_uint8(uint8_of_integer(x)) = x)
+  
+  % Why3 uint8_extensionality
+  uint8_extensionality: AXIOM FORALL (x:uint8): FORALL (y:uint8):
+    (integer_of_uint8(x) = integer_of_uint8(y)) => (x = y)
+  
+  % Why3 uint8_range
+  uint8_range: AXIOM FORALL (x:uint8): (0 <= integer_of_uint8(x)) AND
+    (integer_of_uint8(x) <= 255)
+  
+  % Why3 unsigned_charp_tag
+  unsigned_charp_tag: tag_id[unsigned_charp]
+  
+  % Why3 unsigned_charp_int
+  unsigned_charp_int: AXIOM (int_of_tag(unsigned_charp_tag) = 1)
+  
+  % Why3 unsigned_charp_of_pointer_address_of_pointer_addr
+  unsigned_charp_of_pointer_address_of_pointer_addr: AXIOM FORALL (p:pointer[unsigned_charp]):
+    (p = unsigned_charp_of_pointer_address(pointer_address(p)))
+  
+  % Why3 unsigned_charp_parenttag_bottom
+  unsigned_charp_parenttag_bottom: AXIOM parenttag(unsigned_charp_tag,
+    (bottom_tag :: tag_id[unsigned_charp]))
+  
+  % Why3 unsigned_charp_tags
+  unsigned_charp_tags: AXIOM FORALL (x:pointer[unsigned_charp]):
+    FORALL (unsigned_charp_tag_table:tag_table[unsigned_charp]):
+    instanceof(unsigned_charp_tag_table, x, unsigned_charp_tag)
+  
+  % Why3 valid_root_charp
+  valid_root_charp(p:pointer[charp], a:int, b:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_min(charp_alloc_table, p) <= a) AND
+    (offset_max(charp_alloc_table, p) >= b)
+  
+  % Why3 valid_root_intp
+  valid_root_intp(p:pointer[intp], a:int, b:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_min(intp_alloc_table,
+    p) <= a) AND (offset_max(intp_alloc_table, p) >= b)
+  
+  % Why3 valid_root_unsigned_charp
+  valid_root_unsigned_charp(p:pointer[unsigned_charp], a:int, b:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_min(unsigned_charp_alloc_table, p) <= a) AND
+    (offset_max(unsigned_charp_alloc_table, p) >= b)
+  
+  % Why3 valid_root_voidp
+  valid_root_voidp(p:pointer[voidp], a:int, b:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_min(voidp_alloc_table, p) <= a) AND
+    (offset_max(voidp_alloc_table, p) >= b)
+  
+  % Why3 valid_struct_charp
+  valid_struct_charp(p:pointer[charp], a:int, b:int,
+    charp_alloc_table:alloc_table[charp]): bool =
+    (offset_min(charp_alloc_table, p) <= a) AND
+    (offset_max(charp_alloc_table, p) >= b)
+  
+  % Why3 valid_struct_intp
+  valid_struct_intp(p:pointer[intp], a:int, b:int,
+    intp_alloc_table:alloc_table[intp]): bool = (offset_min(intp_alloc_table,
+    p) <= a) AND (offset_max(intp_alloc_table, p) >= b)
+  
+  % Why3 valid_struct_unsigned_charp
+  valid_struct_unsigned_charp(p:pointer[unsigned_charp], a:int, b:int,
+    unsigned_charp_alloc_table:alloc_table[unsigned_charp]): bool =
+    (offset_min(unsigned_charp_alloc_table, p) <= a) AND
+    (offset_max(unsigned_charp_alloc_table, p) >= b)
+  
+  % Why3 valid_struct_voidp
+  valid_struct_voidp(p:pointer[voidp], a:int, b:int,
+    voidp_alloc_table:alloc_table[voidp]): bool =
+    (offset_min(voidp_alloc_table, p) <= a) AND
+    (offset_max(voidp_alloc_table, p) >= b)
+  
+  % Why3 voidp_tag
+  voidp_tag: tag_id[voidp]
+  
+  % Why3 voidp_int
+  voidp_int: AXIOM (int_of_tag(voidp_tag) = 1)
+  
+  % Why3 voidp_of_pointer_address_of_pointer_addr
+  voidp_of_pointer_address_of_pointer_addr: AXIOM FORALL (p:pointer[voidp]):
+    (p = voidp_of_pointer_address(pointer_address(p)))
+  
+  % Why3 voidp_parenttag_bottom
+  voidp_parenttag_bottom: AXIOM parenttag(voidp_tag,
+    (bottom_tag :: tag_id[voidp]))
+  
+  % Why3 voidp_tags
+  voidp_tags: AXIOM FORALL (x:pointer[voidp]):
+    FORALL (voidp_tag_table:tag_table[voidp]): instanceof(voidp_tag_table, x,
+    voidp_tag)
+  
+  % Why3 ref
+  ref[a:TYPE+]: DATATYPE
+   BEGIN
+    mk_ref(x:a): mk_ref?
+   END ref
+  
+  % Why3 contents
+  contents[a:TYPE+](v:ref[a]): a = CASES v OF
+     mk_ref(x): x
+    ENDCASES
+  
+  % Why3 prefix_ex
+  prefix_ex[a:TYPE+](x:ref[a]): a = contents(x)
+  
+  % Why3 eq_unit
+  eq_unit(x:[], x1:[]): bool
+  
+  % Why3 neq_unit
+  neq_unit(x:[], x1:[]): bool
+  
+  % Why3 eq_bool
+  eq_bool(x:bool, x1:bool): bool
+  
+  % Why3 neq_bool
+  neq_bool(x:bool, x1:bool): bool
+  
+  % Why3 lt_int
+  lt_int(x:int, x1:int): bool
+  
+  % Why3 le_int
+  le_int(x:int, x1:int): bool
+  
+  % Why3 gt_int
+  gt_int(x:int, x1:int): bool
+  
+  % Why3 ge_int
+  ge_int(x:int, x1:int): bool
+  
+  % Why3 eq_int
+  eq_int(x:int, x1:int): bool
+  
+  % Why3 neq_int
+  neq_int(x:int, x1:int): bool
+  
+  % Why3 add_int
+  add_int(x:int, x1:int): int
+  
+  % Why3 sub_int
+  sub_int(x:int, x1:int): int
+  
+  % Why3 mul_int
+  mul_int(x:int, x1:int): int
+  
+  % Why3 neg_int
+  neg_int(x:int): int
+  
+  % Why3 zwf_zero1
+  zwf_zero1(a:int, b:int): bool = (0 <= b) AND (a <  b)
+  
+  % Why3 lt_int_bool
+  lt_int_bool(x:int, x1:int): bool
+  
+  % Why3 le_int_bool
+  le_int_bool(x:int, x1:int): bool
+  
+  % Why3 gt_int_bool
+  gt_int_bool(x:int, x1:int): bool
+  
+  % Why3 ge_int_bool
+  ge_int_bool(x:int, x1:int): bool
+  
+  % Why3 eq_int_bool
+  eq_int_bool(x:int, x1:int): bool
+  
+  % Why3 neq_int_bool
+  neq_int_bool(x:int, x1:int): bool
+  
+  % Why3 lt_int_bool_axiom
+  lt_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (lt_int_bool(x,
+    y) = TRUE) <=> (x <  y)
+  
+  % Why3 le_int_bool_axiom
+  le_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (le_int_bool(x,
+    y) = TRUE) <=> (x <= y)
+  
+  % Why3 gt_int_bool_axiom
+  gt_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (gt_int_bool(x,
+    y) = TRUE) <=> (x >  y)
+  
+  % Why3 ge_int_bool_axiom
+  ge_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (ge_int_bool(x,
+    y) = TRUE) <=> (x >= y)
+  
+  % Why3 eq_int_bool_axiom
+  eq_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (eq_int_bool(x,
+    y) = TRUE) <=> (x = y)
+  
+  % Why3 neq_int_bool_axiom
+  neq_int_bool_axiom: AXIOM FORALL (x:int): FORALL (y:int): (neq_int_bool(x,
+    y) = TRUE) <=> NOT (x = y)
+  
+  % Why3 abs_int
+  abs_int(x:int): int
+  
+  % Why3 abs_int_pos
+  abs_int_pos: AXIOM FORALL (x:int): (x >= 0) => (abs(x) = x)
+  
+  % Why3 abs_int_neg
+  abs_int_neg: AXIOM FORALL (x:int): (x <= 0) => (abs(x) = (-x))
+  
+  % Why3 int_max
+  int_max(x:int, x1:int): int
+  
+  % Why3 int_min
+  int_min(x:int, x1:int): int
+  
+  % Why3 int_max_is_ge
+  int_max_is_ge: AXIOM FORALL (x:int): FORALL (y:int): (int_max(x,
+    y) >= x) AND (int_max(x, y) >= y)
+  
+  % Why3 int_max_is_some
+  int_max_is_some: AXIOM FORALL (x:int): FORALL (y:int): (int_max(x,
+    y) = x) OR (int_max(x, y) = y)
+  
+  % Why3 int_min_is_le
+  int_min_is_le: AXIOM FORALL (x:int): FORALL (y:int): (int_min(x,
+    y) <= x) AND (int_min(x, y) <= y)
+  
+  % Why3 int_min_is_some
+  int_min_is_some: AXIOM FORALL (x:int): FORALL (y:int): (int_min(x,
+    y) = x) OR (int_min(x, y) = y)
+  
+  % Why3 wp_parameter_bubble_ensures_default
+  wp_parameter_bubble_ensures_default: THEOREM FORALL (a_2:pointer[intp],
+    n_1:int32, intp_a_5_alloc_table:alloc_table[intp]):
+    FORALL (intp_intm_a_5:memory[intp, int32]):
+    ((0 <= integer_of_int32(n_1)) AND ((offset_min(intp_a_5_alloc_table,
+    a_2) <= 0) AND (offset_max(intp_a_5_alloc_table,
+    a_2) >= (integer_of_int32(n_1) - 1)))) => FORALL (k_2:int32):
+    (k_2 = n_1) => FORALL (k_21:int32, intp_intm_a_51:memory[intp, int32]):
+    (((FORALL (i2_1:int): FORALL (i1_2:int): ((i2_1 >= 0) AND
+    ((i2_1 <  integer_of_int32(k_21)) AND
+    ((i1_2 >= integer_of_int32(k_21)) AND
+    (i1_2 <  integer_of_int32(n_1))))) =>
+    (integer_of_int32(select(intp_intm_a_51, shift(a_2,
+    i1_2))) >= integer_of_int32(select(intp_intm_a_51, shift(a_2,
+    i2_1))))) AND (((integer_of_int32(k_21) = integer_of_int32(n_1)) OR
+    FORALL (i1_1:int): ((i1_1 >  integer_of_int32(k_21)) AND
+    (i1_1 <  integer_of_int32(n_1))) =>
+    (integer_of_int32(select(intp_intm_a_51, shift(a_2,
+    integer_of_int32(k_21)))) <= integer_of_int32(select(intp_intm_a_51,
+    shift(a_2, i1_1))))) AND (bubble_sorted(a_2, integer_of_int32(k_21),
+    (integer_of_int32(n_1) - 1), intp_intm_a_51) AND
+    ((integer_of_int32(k_21) >= 0) AND
+    (integer_of_int32(k_21) <= integer_of_int32(n_1)))))) AND
+    not_assigns(intp_a_5_alloc_table, intp_intm_a_5, intp_intm_a_51,
+    pset_range(pset_singleton(a_2), 0, (integer_of_int32(n_1) - 1)))) =>
+    ((integer_of_int32(k_21) >  0) => FORALL (o1:int32):
+    (integer_of_int32(o1) = 0) => FORALL (i_0:int32): (i_0 = o1) =>
+    FORALL (i_01:int32, intp_intm_a_52:memory[intp, int32]):
+    (((FORALL (i1_0:int): FORALL (i2_0:int): ((i2_0 >= 0) AND
+    ((i2_0 <  integer_of_int32(k_21)) AND
+    ((i1_0 >= integer_of_int32(k_21)) AND
+    (i1_0 <= (integer_of_int32(n_1) - 1))))) =>
+    (integer_of_int32(select(intp_intm_a_52, shift(a_2,
+    i1_0))) >= integer_of_int32(select(intp_intm_a_52, shift(a_2,
+    i2_0))))) AND (bubble_sorted(a_2, integer_of_int32(k_21),
+    (integer_of_int32(n_1) - 1), intp_intm_a_52) AND ((FORALL (j_3:int):
+    ((j_3 >= 0) AND (j_3 <  integer_of_int32(i_01))) =>
+    (integer_of_int32(select(intp_intm_a_52, shift(a_2,
+    j_3))) <= integer_of_int32(select(intp_intm_a_52, shift(a_2,
+    integer_of_int32(i_01)))))) AND ((integer_of_int32(i_01) >= 0) AND
+    ((integer_of_int32(i_01) <  integer_of_int32(k_21)) AND
+    (integer_of_int32(i_01) <= integer_of_int32(n_1))))))) AND
+    not_assigns(intp_a_5_alloc_table, intp_intm_a_5, intp_intm_a_52,
+    pset_range(pset_singleton(a_2), 0, (integer_of_int32(n_1) - 1)))) =>
+    FORALL (o2:int32):
+    (integer_of_int32(o2) = (integer_of_int32(k_21) - 1)) =>
+    ((integer_of_int32(i_01) <  integer_of_int32(o2)) =>
+    ((integer_of_int32(select(intp_intm_a_52, shift(a_2,
+    integer_of_int32(i_01)))) >  integer_of_int32(select(intp_intm_a_52,
+    shift(shift(a_2, integer_of_int32(i_01)), 1)))) =>
+    ((integer_of_int32(n_1) >= 0) => (((integer_of_int32(i_01) >= 0) AND
+    (integer_of_int32(i_01) <= (integer_of_int32(n_1) - 1))) =>
+    ((((integer_of_int32(i_01) + 1) >= 0) AND
+    ((integer_of_int32(i_01) + 1) <= (integer_of_int32(n_1) - 1))) =>
+    (((offset_min(intp_a_5_alloc_table, a_2) <= 0) AND
+    (offset_max(intp_a_5_alloc_table,
+    a_2) >= (integer_of_int32(n_1) - 1))) => FORALL (jessie_51:int32):
+    (integer_of_int32(jessie_51) = (integer_of_int32(i_01) + 1)) =>
+    FORALL (intp_intm_a_53:memory[intp, int32]): (((FORALL (i1:int): dom(i1,
+    integer_of_int32(n_1)) => EXISTS (i2:int): dom(i2,
+    integer_of_int32(n_1)) AND (integer_of_int32(select(intp_intm_a_52,
+    shift(a_2, i1))) = integer_of_int32(select(intp_intm_a_53, shift(a_2,
+    i2))))) AND (swapped(a_2, integer_of_int32(i_01),
+    integer_of_int32(jessie_51), intp_intm_a_53, intp_intm_a_52) AND
+    FORALL (k_1:int): ((0 <= k_1) AND ((k_1 <  integer_of_int32(n_1)) AND
+    ((NOT (k_1 = integer_of_int32(i_01))) AND
+    NOT (k_1 = integer_of_int32(jessie_51))))) =>
+    (integer_of_int32(select(intp_intm_a_53, shift(a_2,
+    k_1))) = integer_of_int32(select(intp_intm_a_52, shift(a_2, k_1)))))) AND
+    not_assigns(intp_a_5_alloc_table, intp_intm_a_52, intp_intm_a_53,
+    pset_union(pset_range(pset_singleton(a_2), integer_of_int32(jessie_51),
+    integer_of_int32(jessie_51)), pset_range(pset_singleton(a_2),
+    integer_of_int32(i_01), integer_of_int32(i_01))))) => FORALL (o3:int32):
+    (integer_of_int32(o3) = (integer_of_int32(i_01) + 1)) =>
+    FORALL (i_02:int32): (i_02 = o3) =>
+    (integer_of_int32(i_02) <  integer_of_int32(k_21)))))))))
+  
+  
+ END WP_parameter_bubble_ensures_default
+ 

@@ -1,0 +1,284 @@
+WHYLIB is not set, using /usr/local/lib/why as default
+Parsing
+Normalization
+Typing logic labels
+Typing code
+Typing axiomatic Padding
+Typing logic type declaration padding
+Typing axiomatic Padding
+Typing tag intP
+Typing tag unsigned_charP
+Typing tag charP
+Typing tag voidP
+Computation of call graph
+***********************************
+Logic call graph: has 1 components
+***********************************
+Component 0:
+ dom calls: 
+
+******************************
+Call graph: has 1 components
+******************************
+Component 0:
+ swap3 calls: 
+
+Adding invariants
+Computation of regions
+Separation: treating function swap3
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+Separation: treating function swap3
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+param:dummy_region,
+dummy_region
+arg:dummy_region,
+dummy_region
+Computation of effects
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects for logic function dom:
+ alloc_table: 
+ tag_table: 
+ memories: 
+ raw memories: 
+ precise memories: 
+ globals: 
+ locals: 
+
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: doing one iteration...
+Effects: fixpoint reached
+Effects: removing global reads w/o writes
+Effects for function swap3:
+ reads:  alloc_table: (alloc-root(intP),a_1) (Here, Old)
+         tag_table: 
+         memories: (mem-field(intM),a_1) (Here, Old)
+         raw memories: (mem-field(intM),a_1) (Here, Old)
+         precise memories: 
+         globals: 
+         locals: d (Here)
+
+ writes:  alloc_table: 
+          tag_table: 
+          memories: (mem-field(intM),a_1) (Here, Old)
+          raw memories: (mem-field(intM),a_1) (Here, Old)
+          precise memories: 
+          globals: 
+          locals: d (Here)
+
+ raises: 
+Translate logic types
+Translate structures
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag charP):
+  Found 1 allocs.
+all_memories(tag charP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag intP):
+  Found 1 allocs.
+all_memories(tag intP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag unsigned_charP):
+  Found 1 allocs.
+all_memories(tag unsigned_charP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+all_allocs(tag voidP):
+  Found 1 allocs.
+all_memories(tag voidP):
+  Found 0 memories.
+Translate variants
+all_allocs(root charP):
+  Found 1 allocs.
+all_memories(root charP):
+  Found 0 memories.
+all_allocs(root charP):
+  Found 1 allocs.
+all_memories(root charP):
+  Found 0 memories.
+all_allocs(root intP):
+  Found 1 allocs.
+all_memories(root intP):
+  Found 0 memories.
+all_allocs(root intP):
+  Found 1 allocs.
+all_memories(root intP):
+  Found 0 memories.
+all_allocs(root unsigned_charP):
+  Found 1 allocs.
+all_memories(root unsigned_charP):
+  Found 0 memories.
+all_allocs(root unsigned_charP):
+  Found 1 allocs.
+all_memories(root unsigned_charP):
+  Found 0 memories.
+all_allocs(root voidP):
+  Found 1 allocs.
+all_memories(root voidP):
+  Found 0 memories.
+all_allocs(root voidP):
+  Found 1 allocs.
+all_memories(root voidP):
+  Found 0 memories.
+Translate variables
+Translate memories
+Translate allocation tables
+Translate tag tables
+Translate exceptions
+producing exception 'Loop_continue'
+producing exception 'Loop_exit'
+producing exception 'Return_label'
+Translate enumerated types
+Translate logic functions
+Logic function dom
+Translate axiomatic declarations
+Axiomatic Padding
+Translate lemmas
+Translate functions
+Pre-treatement Function swap3
+Function swap3
+Jc_interp: function swap3
+Jc_interp: behavior 'default' has assigns clause with 2 elements
+Jc_interp: behavior 'default' has assigns clause with 2 elements
+Jc_interp: behavior 'safety' has no assigns
+Jc_interp: behavior 'safety' has no assigns
+Produce Why3ml file
+Produce makefile

@@ -1,0 +1,85 @@
+(WP_parameter_bubble_ensures_default
+ (wp_parameter_bubble_ensures_default 0
+  (wp_parameter_bubble_ensures_default-1 nil 3592982004
+   ("" (skosimp*)
+    (("" (expand "not_assigns")
+      (("" (skolem!)
+        (("" (smash)
+          (("1" (inst -32 "p!1")
+            (("1" (prop)
+              (("1" (assert)
+                (("1" (replace -1 2 lr)
+                  (("1" (inst -21 "p!1") (("1" (smash) nil nil)) nil))
+                  nil))
+                nil)
+               ("2" (replace -29 -32 lr)
+                (("2" (inst? -32)
+                  (("2" (inst? -11)
+                    (("2" (inst? -30)
+                      (("2" (use "in_pset_range[intp]")
+                        (("2" (smash)
+                          (("1" (use "in_pset_singleton[intp]")
+                            (("1" (smash)
+                              (("1"
+                                (inst 2 "0")
+                                (("1"
+                                  (inst 2 "p!1")
+                                  (("1"
+                                    (assert)
+                                    (("1"
+                                      (use "shift_shift[intp]")
+                                      (("1"
+                                        (use "shift_zero[intp]")
+                                        (("1"
+                                          (replace -1 2 lr)
+                                          (("1" (propax) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil)
+                               ("2"
+                                (inst 4 "0")
+                                (("2"
+                                  (inst 4 "p!1")
+                                  (("2"
+                                    (smash)
+                                    (("2" (postpone) nil nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil)
+                           ("2" (inst? 2)
+                            (("2" (smash)
+                              (("1"
+                                (inst
+                                 -23
+                                 "shift(a!1, integer_of_int32(i!2))")
+                                (("1"
+                                  (expand "dom")
+                                  (("1" (propax) nil nil))
+                                  nil))
+                                nil)
+                               ("2"
+                                (expand "dom")
+                                (("2" (propax) nil nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (replace -28 -32 lr) (("2" (postpone) nil nil)) nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak)))
+

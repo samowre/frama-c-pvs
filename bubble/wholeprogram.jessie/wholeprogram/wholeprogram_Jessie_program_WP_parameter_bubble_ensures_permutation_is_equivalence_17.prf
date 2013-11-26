@@ -1,0 +1,45 @@
+(WP_parameter_bubble_ensures_permutation_is_equivalence
+ (wp_parameter_bubble_ensures_permutation_is_equivalence 0
+  (wp_parameter_bubble_ensures_permutation_is_equivalence-1 nil
+   3592226706
+   ("" (skosimp*)
+    (("" (expand "uspermut_is_equiv")
+      (("" (prop)
+        (("" (hide 2 3 4 5)
+          (("" (inst?)
+            (("" (inst?)
+              (("" (inst 1 "0")
+                (("" (inst 1 "integer_of_int32(n!1) - 1") nil nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((memory nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_of_int32 const-decl "int"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (int32 nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (int_minus_int_is_int application-judgement "int" integers nil)
+    (pointer nonempty-type-decl nil
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil)
+    (uspermut_is_equiv inductive-decl "bool"
+     WP_parameter_bubble_ensures_permutation_is_equivalence nil))
+   shostak)))
+

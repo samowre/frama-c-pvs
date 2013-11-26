@@ -1,0 +1,258 @@
+(WP_parameter_swap3_ensures_default
+ (wp_parameter_swap3_ensures_default 0
+  (wp_parameter_swap3_ensures_default-1 nil 3590734661
+   ("" (auto-rewrite-defs always? true)
+    (("" (assert)
+      (("" (skosimp*)
+        (("" (prop)
+          (("1"
+            (case "select(intp_intm_a!1,
+                                                 shift(a!1, integer_of_int32(i!1)))=select(intp_intm_a!3,
+                                                  shift(a!1, integer_of_int32(j!1)))")
+            (("1" (replace -1 1) (("1" (propax) nil nil)) nil)
+             ("2" (hide 2)
+              (("2" (lemma "select_store_neq[intp,int32]")
+                (("2" (replace -11 1 lr)
+                  (("2"
+                    (inst -1 "intp_intm_a!2"
+                     "shift(a!1, integer_of_int32(i!1))"
+                     "shift(a!1, integer_of_int32(j!1))" "d!1")
+                    (("2" (prop)
+                      (("1" (replace -1 1 lr)
+                        (("1" (replace -10 1 lr)
+                          (("1" (replace -10 1 rl)
+                            (("1" (replace -1 1 rl)
+                              (("1"
+                                (replace -11 1 rl)
+                                (("1"
+                                  (case
+                                   "select(intp_intm_a!1, shift(a!1, integer_of_int32(i!1))) =
+                           select(store(intp_intm_a!1, shift(a!1, integer_of_int32(j!1)),
+                                         select(intp_intm_a!1, shift(a!1, integer_of_int32(i!1)))),shift(a!1, integer_of_int32(j!1)))")
+                                  (("1" (grind) nil nil)
+                                   ("2"
+                                    (hide 2)
+                                    (("2"
+                                      (replace -10 1 rl)
+                                      (("2"
+                                        (replace -10 1 lr)
+                                        (("2"
+                                          (use
+                                           "select_store_eq[intp,int32]")
+                                          (("2"
+                                            (replace -1 1 lr)
+                                            (("2" (propax) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil)
+                       ("2" (replace -1 1 lr)
+                        (("2" (replace -9 1 rl)
+                          (("2" (use "select_store_eq[intp,int32]")
+                            (("2" (assert) nil nil)) nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("2" (replace -8 1 rl)
+            (("2"
+              (case "select(intp_intm_a!3,
+                                                  shift(a!1, integer_of_int32(i!1)))=d!1")
+              (("1" (replace -1 1) (("1" (propax) nil nil)) nil)
+               ("2" (hide 2)
+                (("2" (replace -10 1 lr)
+                  (("2" (use "select_store_eq[intp,int32]") nil nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("3" (skolem!)
+            (("3" (flatten)
+              (("3"
+                (case "integer_of_int32(i!1) = integer_of_int32(i1!1)")
+                (("1" (replace -1 1 rl)
+                  (("1" (inst 1 "j!1")
+                    (("1" (smash)
+                      (("1"
+                        (case "select(intp_intm_a!1,
+                                          shift(a!1, integer_of_int32(i!1))) = select(intp_intm_a!3,
+                                          shift(a!1, integer_of_int32(j!1)))")
+                        (("1" (replace -1 1) (("1" (propax) nil nil))
+                          nil)
+                         ("2" (hide 2)
+                          (("2" (lemma "select_store_neq[intp,int32]")
+                            (("2" (replace -14 1 lr)
+                              (("2"
+                                (inst?)
+                                (("2"
+                                  (prop)
+                                  (("1"
+                                    (replace -1 1 lr)
+                                    (("1"
+                                      (replace -13 1 lr)
+                                      (("1"
+                                        (replace -13 1 rl)
+                                        (("1"
+                                          (replace -1 1 rl)
+                                          (("1"
+                                            (replace -14 1 rl)
+                                            (("1"
+                                              (case
+                                               "select(intp_intm_a!1, shift(a!1, integer_of_int32(i!1))) =
+                select(store(intp_intm_a!1, shift(a!1, integer_of_int32(j!1)),
+                              select(intp_intm_a!1, shift(a!1, integer_of_int32(i!1)))),shift(a!1, integer_of_int32(j!1)))")
+                                              (("1" (grind) nil nil)
+                                               ("2"
+                                                (hide 2)
+                                                (("2"
+                                                  (use
+                                                   "select_store_eq[intp,int32]")
+                                                  (("2"
+                                                    (replace -1 1 lr)
+                                                    (("2"
+                                                      (propax)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil)
+                                   ("2"
+                                    (replace -1 1 lr)
+                                    (("2"
+                                      (replace -12 1 rl)
+                                      (("2"
+                                        (use
+                                         "select_store_eq[intp,int32]")
+                                        (("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2"
+                  (case "integer_of_int32(i1!1) = integer_of_int32(j!1)")
+                  (("1" (replace -1 1 lr)
+                    (("1" (replace -1 2 lr)
+                      (("1" (inst 2 "i!1")
+                        (("1" (smash)
+                          (("1" (replace -11 2 rl)
+                            (("1"
+                              (case "d!1=select(intp_intm_a!3,
+                                             shift(a!1, integer_of_int32(i!1)))")
+                              (("1"
+                                (replace -1 2)
+                                (("1" (propax) nil nil))
+                                nil)
+                               ("2"
+                                (hide 3)
+                                (("2"
+                                  (lemma "select_store_eq[intp,int32]")
+                                  (("2"
+                                    (replace -14 1 lr)
+                                    (("2"
+                                      (hide 2)
+                                      (("2"
+                                        (inst?)
+                                        (("2" (assert) nil nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil)
+                   ("2" (inst?)
+                    (("2" (smash)
+                      (("2"
+                        (case "select(intp_intm_a!1,
+                                            shift(a!1, integer_of_int32(i1!1))) = select(intp_intm_a!3,
+                                            shift(a!1, integer_of_int32(i1!1)))")
+                        (("1" (replace -1 3) (("1" (propax) nil nil))
+                          nil)
+                         ("2" (hide 4)
+                          (("2" (lemma "select_store_neq[intp,int32]")
+                            (("2"
+                              (inst-cp -1 "intp_intm_a!1"
+                               "shift(a!1, integer_of_int32(j!1))"
+                               "shift(a!1, integer_of_int32(i1!1))"
+                               "select(intp_intm_a!1, shift(a!1, integer_of_int32(i!1)))")
+                              (("2"
+                                (prop)
+                                (("1"
+                                  (replace -13 -1 rl)
+                                  (("1"
+                                    (replace -1 1 rl)
+                                    (("1"
+                                      (inst
+                                       -2
+                                       "intp_intm_a!2"
+                                       "shift(a!1, integer_of_int32(i!1))"
+                                       "shift(a!1, integer_of_int32(i1!1))"
+                                       "d!1")
+                                      (("1"
+                                        (smash)
+                                        (("1"
+                                          (use "neq_shift[intp]")
+                                          (("1" (prop) nil nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil)
+                                 ("2"
+                                  (use "neq_shift[intp]")
+                                  (("2"
+                                    (prop)
+                                    (("2"
+                                      (replace -1 2)
+                                      (("2" (propax) nil nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil)
+           ("4" (skolem!) (("4" (prop) (("4" (postpone) nil nil)) nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   nil shostak)))
+

@@ -1,0 +1,10 @@
+(WP_parameter_bubble_ensures_permutation_is_equivalence
+ (wp_parameter_bubble_ensures_permutation_is_equivalence 0
+  (wp_parameter_bubble_ensures_permutation_is_equivalence-1 nil
+   3592471404
+   ("" (skosimp*)
+    (("" (replace -24 2 lr)
+      (("" (replace -23 2 lr) (("" (propax) nil nil)) nil)) nil))
+    nil)
+   nil shostak)))
+

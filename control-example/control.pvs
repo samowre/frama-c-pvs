@@ -1,5 +1,4 @@
 
-
 control: THEORY
 BEGIN
   %IMPORTING linear_algebra@ellipsoid,
@@ -33,6 +32,7 @@ BEGIN
 				     ELSE M 
 				     ENDIF,
 			  transpose := transpose,
+			  is_invertible := LAMBDA (M:Matrix): IF square?(M) THEN invertible?(M) ELSE FALSE ENDIF,
 			  in_ellipsoid:= in_ellipsoid?
                         }}
 

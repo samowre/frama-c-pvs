@@ -5,7 +5,6 @@ if test -z "$PVS_LIBRARY_PATH"; then
 else
     export PVS_LIBRARY_PATH=$1/pvs:$PVS_LIBRARY_PATH
 fi
-customPVS=$(locate  why3-modify-pvs | grep /usr)
-sh $customPVS $3
+sh $(locate  why3-modify-pvs | grep /usr) $3
 shift
 exec "$@"

@@ -64,10 +64,12 @@ numEND=$((numEND-1))
 numDefault=$((numDefault + 2))
 
 touch temp
+echo "" >> temp
 echo $begin_section >> temp
 echo "% $(echo $pvs_file | cut -d "/" -f3)" >> temp
 awk -v n=$numImp -v p=$numEND 'NR>=n&&NR<=p' $pvs_file >> temp
 echo $end_section >> temp
+echo "" >> temp
 
 echo "$NOW Add block from ${numBegSection} to ${numEndSection} in the $pvs_file_default file."  >> $pvs_log_file;
 sed -i "${numDefault}r temp" $pvs_file_default

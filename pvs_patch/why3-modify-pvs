@@ -23,7 +23,6 @@ while read -r line || [[ -n $line ]]; do
 done < tt
 rm -rf tt
 rm -rf $patch/temp_refine_pvs
-echo "$NOW The $pvs_file_default has been updated successfully."  >> $pvs_log_file; 
 }
 
 removeExPVS(){
@@ -61,6 +60,7 @@ numDefault=$(cat -n $pvs_file_default | grep "IMPORTING" | tail -1 |  cut -f 1)
      echo "$NOW The last IMPORTING of the $pvs_file_default file has been placed at line number: $numDefault"  >> $pvs_log_file;
 numImp=$((numImp+1))
 numEND=$((numEND-1))
+## added two because of the comments provided by default
 numDefault=$((numDefault + 2))
 
 touch temp
@@ -74,6 +74,7 @@ echo "" >> temp
 echo "$NOW Add block from ${numBegSection} to ${numEndSection} in the $pvs_file_default file."  >> $pvs_log_file;
 sed -i "${numDefault}r temp" $pvs_file_default
 rm -rf temp
+echo "$NOW The $pvs_file_default has been updated successfully."  >> $pvs_log_file; 
 }
 
 findPVS(){
@@ -124,6 +125,7 @@ while read -r line || [[ -n $line ]]; do
 done < tt1
 rm -rf tt1
 rm -rf tt
+echo "$NOW The new libraries have been added successfully."  >> $pvs_log_file; 
 }
 
 NOW="[$(date +"%m-%d-%Y")-$(date +"%T")]:"

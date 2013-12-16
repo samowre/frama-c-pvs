@@ -1,0 +1,41 @@
+control: THEORY
+BEGIN
+     IMPORTING linear_algebra@ellipsoid; % importing from NASA
+     IMPORTING control@ellipsoid; %importing from NASA
+
+  matrix: TYPE+ = Matrix
+
+  vector: TYPE+ = Vector_no_param
+
+  mat_row(x:Matrix): int = x`rows
+  
+  mat_col(x:Matrix): int = x`cols
+
+  mat_select(x:Matrix, x1:int, x2:int): real = IF 0<=x1 AND x1<x`rows AND 0<=x2 AND x2<x`cols
+				               THEN x`matrix(x1,x2)
+				               ELSE 0
+				               ENDIF
+
+
+  vect_select(x:Vector_no_param, x1:int): real = IF 0<=x1 AND x1< x`length
+				                THEN x`vect(x1)
+				                ELSE 0
+				                ENDIF
+
+  mat_mult(x:Matrix, x1:Matrix): matrix = IF x`cols=x1`rows THEN x*x1 ELSE Zero_mat(x`rows,x1`cols) ENDIF
+
+  mat_inv(x:Matrix): matrix = IF square?(x) 
+			      THEN 
+				IF bijective?(x`rows)(T(x`rows,x`rows)(x))
+				THEN inv(x`rows)(x) 
+				ELSE x 
+				ENDIF 
+			      ELSE x 
+			     ENDIF
+			     
+  transpose1(x:Matrix): matrix = transpose(x)
+
+  in_ellipsoid(x:Matrix, x1:Vector_no_param): bool = in_ellipsoid?(x,x1)
+   
+END control 
+ 

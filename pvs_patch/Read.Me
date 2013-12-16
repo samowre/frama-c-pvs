@@ -1,0 +1,22 @@
+1) find folder of the why3-call-pvs ( usualy /usr/local/bin )
+2) cd on that folder ( cd /usr/local/bin )
+3) sudo rm why3-call-pvs
+4) copy the why3-call-pvs into the folder /usr/local/bin
+   sudo cp /home/<machine-name>/test/why3-call-pvs /usr/local/bin/why3-call-pvs
+   sudo chmod 775 /usr/local/bin/why3-call-pvs
+
+5) copy the why3-modify-pvs into the folder /usr/local/bin
+   sudo cp /home/<machine-name>/test/why3-modify-pvs /usr/local/bin/why3-modify-pvs
+   sudo chmod 775 /usr/local/bin/why3-modify-pvs
+
+6) cd on your "project-folder" and find directory where c files (header files) are placed.
+   For instance cd /home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example
+7) do the following: mkdir pvs_patch
+8) In the  pvs_patch folder create  pvs file that corresponds to axiomatisation-block provided 
+   in  either c file or header file.
+   For instance: cd pvs_patch; touch control_example.pvs
+
+9) In the control_example.pvs:
+       define all types or definitions related to the axiomatisation-block and do type-checking.
+    Extended pvs features are ready for use by frama-c framework.
+

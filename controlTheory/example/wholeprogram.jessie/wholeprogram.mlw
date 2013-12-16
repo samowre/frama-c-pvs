@@ -1,0 +1,886 @@
+theory Jessie_model
+
+use import int.Int
+
+use bool.Bool
+
+use import real.RealInfix
+
+use import jessie3theories.Jessie_memory_model
+
+type charP
+
+type floatP
+
+type matrix
+
+type padding
+
+type unsigned_charP
+
+type vector
+
+type voidP
+
+function mat_of_2x2_scalar real real real real : matrix
+
+function _Ac : matrix = (mat_of_2x2_scalar 2.0 3.0 3.0 5.0)
+
+function _P_0 : matrix = (mat_of_2x2_scalar 4.0 2.0 5.0 3.0)
+
+function mat_mult matrix matrix : matrix
+
+function mat_inv matrix : matrix
+
+function transpose matrix : matrix
+
+function _Q : matrix =
+ (mat_mult (mat_inv (transpose _Ac)) (mat_mult _P_0 (mat_inv _Ac)))
+
+function _Vconcat vector vector : vector
+
+function charP_tag  : (tag_id charP)
+
+axiom charP_int "charP_int": ((int_of_tag charP_tag) = (1))
+
+function charP_of_pointer_address (pointer ()) : (pointer charP)
+
+axiom charP_of_pointer_address_of_pointer_addr "charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer charP).
+  (p = (charP_of_pointer_address (pointer_address p))))
+
+axiom charP_parenttag_bottom "charP_parenttag_bottom":
+ (parenttag charP_tag bottom_tag)
+
+axiom charP_tags "charP_tags":
+ (forall x:(pointer charP).
+  (forall charP_tag_table:(tag_table charP).
+   (instanceof charP_tag_table x charP_tag)))
+
+function eye int : matrix
+
+function floatP_tag  : (tag_id floatP)
+
+axiom floatP_int "floatP_int": ((int_of_tag floatP_tag) = (1))
+
+function floatP_of_pointer_address (pointer ()) : (pointer floatP)
+
+axiom floatP_of_pointer_address_of_pointer_addr "floatP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer floatP).
+  (p = (floatP_of_pointer_address (pointer_address p))))
+
+axiom floatP_parenttag_bottom "floatP_parenttag_bottom":
+ (parenttag floatP_tag bottom_tag)
+
+axiom floatP_tags "floatP_tags":
+ (forall x:(pointer floatP).
+  (forall floatP_tag_table:(tag_table floatP).
+   (instanceof floatP_tag_table x floatP_tag)))
+
+function horiz_concat matrix matrix : matrix
+
+predicate in_ellipsoid matrix vector 
+
+predicate is_invertible matrix 
+
+predicate left_valid_struct_charP(p:(pointer charP)) (a:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_min charP_alloc_table p) <= a)
+
+predicate left_valid_struct_floatP(p:(pointer floatP)) (a:int) (floatP_alloc_table:(alloc_table floatP)) =
+ ((offset_min floatP_alloc_table p) <= a)
+
+predicate left_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_min unsigned_charP_alloc_table p) <= a)
+
+predicate left_valid_struct_voidP(p:(pointer voidP)) (a:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_min voidP_alloc_table p) <= a)
+
+function mat_col matrix : int
+
+function mat_of_1x1_scalar real : matrix
+
+function mat_of_1x2_scalar real real : matrix
+
+function mat_of_2x1_scalar real real : matrix
+
+function mat_of_4x3_scalar real real real real real real real real real real real real : matrix
+
+function mat_of_4x4_scalar real real real real real real real real real real real real real real real real : matrix
+
+function mat_of_array (pointer floatP) int int (memory floatP real) : matrix
+
+function mat_row matrix : int
+
+function mat_scalar_mult real matrix : matrix
+
+function mat_select matrix int int : real
+
+axiom pointer_addr_of_charP_of_pointer_address "pointer_addr_of_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (charP_of_pointer_address p))))
+
+axiom pointer_addr_of_floatP_of_pointer_address "pointer_addr_of_floatP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (floatP_of_pointer_address p))))
+
+function unsigned_charP_of_pointer_address (pointer ()) : (pointer unsigned_charP)
+
+axiom pointer_addr_of_unsigned_charP_of_pointer_address "pointer_addr_of_unsigned_charP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (unsigned_charP_of_pointer_address p))))
+
+function voidP_of_pointer_address (pointer ()) : (pointer voidP)
+
+axiom pointer_addr_of_voidP_of_pointer_address "pointer_addr_of_voidP_of_pointer_address":
+ (forall p:(pointer ()).
+  (p = (pointer_address (voidP_of_pointer_address p))))
+
+predicate right_valid_struct_charP(p:(pointer charP)) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ ((offset_max charP_alloc_table p) >= b)
+
+predicate right_valid_struct_floatP(p:(pointer floatP)) (b:int) (floatP_alloc_table:(alloc_table floatP)) =
+ ((offset_max floatP_alloc_table p) >= b)
+
+predicate right_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ ((offset_max unsigned_charP_alloc_table p) >= b)
+
+predicate right_valid_struct_voidP(p:(pointer voidP)) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ ((offset_max voidP_alloc_table p) >= b)
+
+predicate strict_valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_root_floatP(p:(pointer floatP)) (a:int) (b:int) (floatP_alloc_table:(alloc_table floatP)) =
+ (((offset_min floatP_alloc_table p) = a)
+ /\ ((offset_max floatP_alloc_table p) = b))
+
+predicate strict_valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+predicate strict_valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) = a)
+ /\ ((offset_max charP_alloc_table p) = b))
+
+predicate strict_valid_struct_floatP(p:(pointer floatP)) (a:int) (b:int) (floatP_alloc_table:(alloc_table floatP)) =
+ (((offset_min floatP_alloc_table p) = a)
+ /\ ((offset_max floatP_alloc_table p) = b))
+
+predicate strict_valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) = a)
+ /\ ((offset_max unsigned_charP_alloc_table p) = b))
+
+predicate strict_valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) = a)
+ /\ ((offset_max voidP_alloc_table p) = b))
+
+function unsigned_charP_tag  : (tag_id unsigned_charP)
+
+axiom unsigned_charP_int "unsigned_charP_int":
+ ((int_of_tag unsigned_charP_tag) = (1))
+
+axiom unsigned_charP_of_pointer_address_of_pointer_addr "unsigned_charP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer unsigned_charP).
+  (p = (unsigned_charP_of_pointer_address (pointer_address p))))
+
+axiom unsigned_charP_parenttag_bottom "unsigned_charP_parenttag_bottom":
+ (parenttag unsigned_charP_tag bottom_tag)
+
+axiom unsigned_charP_tags "unsigned_charP_tags":
+ (forall x:(pointer unsigned_charP).
+  (forall unsigned_charP_tag_table:(tag_table unsigned_charP).
+   (instanceof unsigned_charP_tag_table x unsigned_charP_tag)))
+
+predicate valid_root_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_root_floatP(p:(pointer floatP)) (a:int) (b:int) (floatP_alloc_table:(alloc_table floatP)) =
+ (((offset_min floatP_alloc_table p) <= a)
+ /\ ((offset_max floatP_alloc_table p) >= b))
+
+predicate valid_root_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_root_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+predicate valid_struct_charP(p:(pointer charP)) (a:int) (b:int) (charP_alloc_table:(alloc_table charP)) =
+ (((offset_min charP_alloc_table p) <= a)
+ /\ ((offset_max charP_alloc_table p) >= b))
+
+predicate valid_struct_floatP(p:(pointer floatP)) (a:int) (b:int) (floatP_alloc_table:(alloc_table floatP)) =
+ (((offset_min floatP_alloc_table p) <= a)
+ /\ ((offset_max floatP_alloc_table p) >= b))
+
+predicate valid_struct_unsigned_charP(p:(pointer unsigned_charP)) (a:int) (b:int) (unsigned_charP_alloc_table:(alloc_table unsigned_charP)) =
+ (((offset_min unsigned_charP_alloc_table p) <= a)
+ /\ ((offset_max unsigned_charP_alloc_table p) >= b))
+
+predicate valid_struct_voidP(p:(pointer voidP)) (a:int) (b:int) (voidP_alloc_table:(alloc_table voidP)) =
+ (((offset_min voidP_alloc_table p) <= a)
+ /\ ((offset_max voidP_alloc_table p) >= b))
+
+function vect_length vector : int
+
+function vect_mult matrix vector : vector
+
+function vect_of_1_scalar real : vector
+
+function vect_of_array (pointer floatP) int (memory floatP real) : vector
+
+function vect_select vector int : real
+
+function vert_concat matrix matrix : matrix
+
+function voidP_tag  : (tag_id voidP)
+
+axiom voidP_int "voidP_int": ((int_of_tag voidP_tag) = (1))
+
+axiom voidP_of_pointer_address_of_pointer_addr "voidP_of_pointer_address_of_pointer_addr":
+ (forall p:(pointer voidP).
+  (p = (voidP_of_pointer_address (pointer_address p))))
+
+axiom voidP_parenttag_bottom "voidP_parenttag_bottom":
+ (parenttag voidP_tag bottom_tag)
+
+axiom voidP_tags "voidP_tags":
+ (forall x:(pointer voidP).
+  (forall voidP_tag_table:(tag_table voidP).
+   (instanceof voidP_tag_table x voidP_tag)))
+
+function zeros int int : matrix
+
+axiom mat_of_array_select "expl:Lemma mat_of_array_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 22 6 147#:
+ (forall floatP_floatM_at_L:(memory floatP real).
+  (forall _A_12:(pointer floatP).
+   (forall i_4:int.
+    (forall j_1:int.
+     (forall k:int.
+      (forall l:int.
+       ((mat_select (mat_of_array _A_12 k l floatP_floatM_at_L) i_4 j_1) = 
+       (select floatP_floatM_at_L
+       (shift _A_12 (Int.(+) (Int.(*) l i_4) j_1))))))))))
+
+axiom mat_of_array_size "expl:Lemma mat_of_array_size, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 25 6 161#:
+ (forall floatP_floatM_at_L:(memory floatP real).
+  (forall _A_13:(pointer floatP).
+   (forall i_5:int.
+    (forall j_2:int.
+     (((mat_row (mat_of_array _A_13 i_5 j_2 floatP_floatM_at_L)) = i_5)
+     /\ ((mat_col (mat_of_array _A_13 i_5 j_2 floatP_floatM_at_L)) = j_2))))))
+
+axiom vect_of_array_select "expl:Lemma vect_of_array_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 31 6 131#:
+ (forall floatP_floatM_at_L:(memory floatP real).
+  (forall x_4:(pointer floatP).
+   (forall n:int.
+    (forall i_6:int.
+     ((vect_select (vect_of_array x_4 n floatP_floatM_at_L) i_6) = (select
+                                                                   floatP_floatM_at_L
+                                                                   (shift x_4
+                                                                   i_6)))))))
+
+axiom vect_of_array_length "expl:Lemma vect_of_array_length, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 34 6 122#:
+ (forall floatP_floatM_at_L:(memory floatP real).
+  (forall x_5:(pointer floatP).
+   (forall i_7:int.
+    ((vect_length (vect_of_array x_5 i_7 floatP_floatM_at_L)) = i_7))))
+
+axiom mat_of_2x2_scalar_select "expl:Lemma mat_of_2x2_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 39 4 274#:
+ (forall _A_14:matrix.
+  (forall x11_0:real.
+   (forall x12_0:real.
+    (forall x21_0:real.
+     (forall x22_0:real.
+      ((_A_14 = (mat_of_2x2_scalar x11_0 x12_0 x21_0 x22_0)) ->
+       (((mat_select _A_14 (1) (1)) = x11_0)
+       /\ (((mat_select _A_14 (1) (2)) = x12_0)
+          /\ (((mat_select _A_14 (2) (1)) = x21_0)
+             /\ ((mat_select _A_14 (2) (2)) = x22_0))))))))))
+
+axiom mat_of_2x2_scalar_row "expl:Lemma mat_of_2x2_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 48 4 153#:
+ (forall _A_15:matrix.
+  (forall x11_1:real.
+   (forall x12_1:real.
+    (forall x21_1:real.
+     (forall x22_1:real.
+      ((_A_15 = (mat_of_2x2_scalar x11_1 x12_1 x21_1 x22_1)) ->
+       ((mat_row _A_15) = (2))))))))
+
+axiom mat_of_2x2_scalar_col "expl:Lemma mat_of_2x2_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 53 4 153#:
+ (forall _A_16:matrix.
+  (forall x11_2:real.
+   (forall x12_2:real.
+    (forall x21_2:real.
+     (forall x22_2:real.
+      ((_A_16 = (mat_of_2x2_scalar x11_2 x12_2 x21_2 x22_2)) ->
+       ((mat_col _A_16) = (2))))))))
+
+axiom mat_of_1x2_scalar_select "expl:Lemma mat_of_1x2_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 60 4 184#:
+ (forall _A_17:matrix.
+  (forall x11_4:real.
+   (forall x12_4:real.
+    ((_A_17 = (mat_of_1x2_scalar x11_4 x12_4)) ->
+     (((mat_select _A_17 (1) (1)) = x11_4)
+     /\ ((mat_select _A_17 (1) (2)) = x12_4))))))
+
+axiom mat_of_1x2_scalar_row "expl:Lemma mat_of_1x2_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 67 4 133#:
+ (forall _A_18:matrix.
+  (forall x11_5:real.
+   (forall x12_5:real.
+    ((_A_18 = (mat_of_1x2_scalar x11_5 x12_5)) -> ((mat_row _A_18) = (1))))))
+
+axiom mat_of_1x2_scalar_col "expl:Lemma mat_of_1x2_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 72 4 133#:
+ (forall _A_19:matrix.
+  (forall x11_6:real.
+   (forall x12_6:real.
+    ((_A_19 = (mat_of_1x2_scalar x11_6 x12_6)) -> ((mat_col _A_19) = (2))))))
+
+axiom mat_of_2x1_scalar_select "expl:Lemma mat_of_2x1_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 79 4 184#:
+ (forall _A_20:matrix.
+  (forall x11_8:real.
+   (forall x21_4:real.
+    ((_A_20 = (mat_of_2x1_scalar x11_8 x21_4)) ->
+     (((mat_select _A_20 (1) (1)) = x11_8)
+     /\ ((mat_select _A_20 (2) (1)) = x21_4))))))
+
+axiom mat_of_2x1_scalar_row "expl:Lemma mat_of_2x1_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 86 4 133#:
+ (forall _A_21:matrix.
+  (forall x11_9:real.
+   (forall x21_5:real.
+    ((_A_21 = (mat_of_2x1_scalar x11_9 x21_5)) -> ((mat_row _A_21) = (2))))))
+
+axiom mat_of_2x1_scalar_col "expl:Lemma mat_of_2x1_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 91 4 133#:
+ (forall _A_22:matrix.
+  (forall x11_10:real.
+   (forall x21_6:real.
+    ((_A_22 = (mat_of_2x1_scalar x11_10 x21_6)) -> ((mat_col _A_22) = (1))))))
+
+axiom vect_of_1_scalar_select "expl:Lemma vect_of_1_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 99 4 132#:
+ (forall x_6:vector.
+  (forall x1_0:real.
+   ((x_6 = (vect_of_1_scalar x1_0)) -> ((vect_select x_6 (1)) = x1_0))))
+
+axiom vect_of_1_scalar_length "expl:Lemma vect_of_1_scalar_length, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 105 4 126#:
+ (forall x_7:vector.
+  (forall x1_1:real.
+   ((x_7 = (vect_of_1_scalar x1_1)) -> ((vect_length x_7) = (1)))))
+
+axiom mat_of_1x1_scalar_select "expl:Lemma mat_of_1x1_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 111 4 139#:
+ (forall _A_23:matrix.
+  (forall x11_12:real.
+   ((_A_23 = (mat_of_1x1_scalar x11_12)) ->
+    ((mat_select _A_23 (1) (1)) = x11_12))))
+
+axiom mat_of_1x1_scalar_row "expl:Lemma mat_of_1x1_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 116 4 123#:
+ (forall _A_24:matrix.
+  (forall x11_13:real.
+   ((_A_24 = (mat_of_1x1_scalar x11_13)) -> ((mat_row _A_24) = (1)))))
+
+axiom mat_of_1x1_scalar_col "expl:Lemma mat_of_1x1_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 121 4 123#:
+ (forall _A_25:matrix.
+  (forall x11_14:real.
+   ((_A_25 = (mat_of_1x1_scalar x11_14)) -> ((mat_col _A_25) = (1)))))
+
+axiom mat_of_4x3_scalar_select "expl:Lemma mat_of_4x3_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 127 4 634#:
+ (forall _A_26:matrix.
+  (forall x11_16:real.
+   (forall x12_8:real.
+    (forall x13_0:real.
+     (forall x21_8:real.
+      (forall x22_4:real.
+       (forall x23_0:real.
+        (forall x31_0:real.
+         (forall x32_0:real.
+          (forall x33_0:real.
+           (forall x41_0:real.
+            (forall x42_0:real.
+             (forall x43_0:real.
+              ((_A_26 = (mat_of_4x3_scalar x11_16 x12_8 x13_0 x21_8 x22_4
+                        x23_0 x31_0 x32_0 x33_0 x41_0 x42_0 x43_0)) ->
+               (((mat_select _A_26 (1) (1)) = x11_16)
+               /\ (((mat_select _A_26 (1) (2)) = x12_8)
+                  /\ (((mat_select _A_26 (1) (3)) = x13_0)
+                     /\ (((mat_select _A_26 (2) (1)) = x21_8)
+                        /\ (((mat_select _A_26 (2) (2)) = x22_4)
+                           /\ (((mat_select _A_26 (2) (3)) = x23_0)
+                              /\ (((mat_select _A_26 (3) (1)) = x31_0)
+                                 /\ (((mat_select _A_26 (3) (2)) = x32_0)
+                                    /\ (((mat_select _A_26 (3) (3)) = x33_0)
+                                       /\ (((mat_select _A_26 (4) (1)) = x41_0)
+                                          /\ (((mat_select _A_26 (4) (2)) = x42_0)
+                                             /\ ((mat_select _A_26 (4) (3)) = x43_0))))))))))))))))))))))))))
+
+axiom mat_of_4x3_scalar_row "expl:Lemma mat_of_4x3_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 144 4 233#:
+ (forall _A_27:matrix.
+  (forall x11_17:real.
+   (forall x12_9:real.
+    (forall x13_1:real.
+     (forall x21_9:real.
+      (forall x22_5:real.
+       (forall x23_1:real.
+        (forall x31_1:real.
+         (forall x32_1:real.
+          (forall x33_1:real.
+           (forall x41_1:real.
+            (forall x42_1:real.
+             (forall x43_1:real.
+              ((_A_27 = (mat_of_4x3_scalar x11_17 x12_9 x13_1 x21_9 x22_5
+                        x23_1 x31_1 x32_1 x33_1 x41_1 x42_1 x43_1)) ->
+               ((mat_row _A_27) = (4))))))))))))))))
+
+axiom mat_of_4x3_scalar_col "expl:Lemma mat_of_4x3_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 149 4 233#:
+ (forall _A_28:matrix.
+  (forall x11_18:real.
+   (forall x12_10:real.
+    (forall x13_2:real.
+     (forall x21_10:real.
+      (forall x22_6:real.
+       (forall x23_2:real.
+        (forall x31_2:real.
+         (forall x32_2:real.
+          (forall x33_2:real.
+           (forall x41_2:real.
+            (forall x42_2:real.
+             (forall x43_2:real.
+              ((_A_28 = (mat_of_4x3_scalar x11_18 x12_10 x13_2 x21_10 x22_6
+                        x23_2 x31_2 x32_2 x33_2 x41_2 x42_2 x43_2)) ->
+               ((mat_col _A_28) = (3))))))))))))))))
+
+axiom mat_of_4x4_scalar_select "expl:Lemma mat_of_4x4_scalar_select, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 155 4 814#:
+ (forall _A_29:matrix.
+  (forall x11_20:real.
+   (forall x12_12:real.
+    (forall x13_4:real.
+     (forall x14_0:real.
+      (forall x21_12:real.
+       (forall x22_8:real.
+        (forall x23_4:real.
+         (forall x24_0:real.
+          (forall x31_4:real.
+           (forall x32_4:real.
+            (forall x33_4:real.
+             (forall x34_0:real.
+              (forall x41_4:real.
+               (forall x42_4:real.
+                (forall x43_4:real.
+                 (forall x44_0:real.
+                  ((_A_29 = (mat_of_4x4_scalar x11_20 x12_12 x13_4 x14_0
+                            x21_12 x22_8 x23_4 x24_0 x31_4 x32_4 x33_4 x34_0
+                            x41_4 x42_4 x43_4 x44_0)) ->
+                   (((mat_select _A_29 (1) (1)) = x11_20)
+                   /\ (((mat_select _A_29 (1) (2)) = x12_12)
+                      /\ (((mat_select _A_29 (1) (3)) = x13_4)
+                         /\ (((mat_select _A_29 (1) (4)) = x14_0)
+                            /\ (((mat_select _A_29 (2) (1)) = x21_12)
+                               /\ (((mat_select _A_29 (2) (2)) = x22_8)
+                                  /\ (((mat_select _A_29 (2) (3)) = x23_4)
+                                     /\ (((mat_select _A_29 (2) (4)) = x24_0)
+                                        /\ (((mat_select _A_29 (3) (1)) = x31_4)
+                                           /\ (((mat_select _A_29 (3) (2)) = x32_4)
+                                              /\ (((mat_select _A_29 (3) (3)) = x33_4)
+                                                 /\ (((mat_select _A_29 (3)
+                                                      (4)) = x34_0)
+                                                    /\ (((mat_select _A_29
+                                                         (4) (1)) = x41_4)
+                                                       /\ (((mat_select _A_29
+                                                            (4) (2)) = x42_4)
+                                                          /\ (((mat_select
+                                                               _A_29 (4) (3)) = x43_4)
+                                                             /\ ((mat_select
+                                                                 _A_29 (4)
+                                                                 (4)) = x44_0))))))))))))))))))))))))))))))))))
+
+axiom mat_of_4x4_scalar_row "expl:Lemma mat_of_4x4_scalar_row, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 176 4 273#:
+ (forall _A_30:matrix.
+  (forall x11_21:real.
+   (forall x12_13:real.
+    (forall x13_5:real.
+     (forall x14_1:real.
+      (forall x21_13:real.
+       (forall x22_9:real.
+        (forall x23_5:real.
+         (forall x24_1:real.
+          (forall x31_5:real.
+           (forall x32_5:real.
+            (forall x33_5:real.
+             (forall x34_1:real.
+              (forall x41_5:real.
+               (forall x42_5:real.
+                (forall x43_5:real.
+                 (forall x44_1:real.
+                  ((_A_30 = (mat_of_4x4_scalar x11_21 x12_13 x13_5 x14_1
+                            x21_13 x22_9 x23_5 x24_1 x31_5 x32_5 x33_5 x34_1
+                            x41_5 x42_5 x43_5 x44_1)) ->
+                   ((mat_row _A_30) = (4))))))))))))))))))))
+
+axiom mat_of_4x4_scalar_col "expl:Lemma mat_of_4x4_scalar_col, axiom"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/base.h" 181 4 273#:
+ (forall _A_31:matrix.
+  (forall x11_22:real.
+   (forall x12_14:real.
+    (forall x13_6:real.
+     (forall x14_2:real.
+      (forall x21_14:real.
+       (forall x22_10:real.
+        (forall x23_6:real.
+         (forall x24_2:real.
+          (forall x31_6:real.
+           (forall x32_6:real.
+            (forall x33_6:real.
+             (forall x34_2:real.
+              (forall x41_6:real.
+               (forall x42_6:real.
+                (forall x43_6:real.
+                 (forall x44_2:real.
+                  ((_A_31 = (mat_of_4x4_scalar x11_22 x12_14 x13_6 x14_2
+                            x21_14 x22_10 x23_6 x24_2 x31_6 x32_6 x33_6 x34_2
+                            x41_6 x42_6 x43_6 x44_2)) ->
+                   ((mat_col _A_31) = (4))))))))))))))))))))
+
+end
+
+module Jessie_program
+
+use import int.Int
+
+use bool.Bool
+
+use import real.RealInfix
+
+use import jessie3theories.Jessie_memory_model
+
+use import Jessie_model
+
+use import ref.Ref
+
+use import jessie3.JessieDivision
+
+use import jessie3.Jessie_memory_model_parameters
+
+use import jessie3_integer.Integer
+
+exception Loop_continue_exc ()
+
+exception Loop_exit_exc ()
+
+exception Return_label_exc ()
+
+val charP_alloc_table : ref (alloc_table charP)
+
+val charP_tag_table : ref (tag_table charP)
+
+val alloc_struct_charP
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { true } writes { charP_alloc_table, charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val alloc_struct_charP_requires
+ (n:int)
+  (charP_alloc_table:ref (alloc_table charP))
+   (charP_tag_table:ref (tag_table charP)) : (pointer charP)
+    requires { (Int.(>=) n (0)) } writes { charP_alloc_table,
+    charP_tag_table }
+     ensures { ((strict_valid_struct_charP result (0) (Int.(-) n (1))
+                !charP_alloc_table)
+               /\ ((alloc_extends (old !charP_alloc_table)
+                   !charP_alloc_table)
+                  /\ ((alloc_fresh (old !charP_alloc_table) result n)
+                     /\ (instanceof !charP_tag_table result charP_tag)))) }
+
+val floatP_alloc_table : ref (alloc_table floatP)
+
+val floatP_tag_table : ref (tag_table floatP)
+
+val alloc_struct_floatP
+ (n:int)
+  (floatP_alloc_table:ref (alloc_table floatP))
+   (floatP_tag_table:ref (tag_table floatP)) : (pointer floatP)
+    requires { true } writes { floatP_alloc_table, floatP_tag_table }
+     ensures { ((strict_valid_struct_floatP result (0) (Int.(-) n (1))
+                !floatP_alloc_table)
+               /\ ((alloc_extends (old !floatP_alloc_table)
+                   !floatP_alloc_table)
+                  /\ ((alloc_fresh (old !floatP_alloc_table) result n)
+                     /\ (instanceof !floatP_tag_table result floatP_tag)))) }
+
+val alloc_struct_floatP_requires
+ (n:int)
+  (floatP_alloc_table:ref (alloc_table floatP))
+   (floatP_tag_table:ref (tag_table floatP)) : (pointer floatP)
+    requires { (Int.(>=) n (0)) } writes { floatP_alloc_table,
+    floatP_tag_table }
+     ensures { ((strict_valid_struct_floatP result (0) (Int.(-) n (1))
+                !floatP_alloc_table)
+               /\ ((alloc_extends (old !floatP_alloc_table)
+                   !floatP_alloc_table)
+                  /\ ((alloc_fresh (old !floatP_alloc_table) result n)
+                     /\ (instanceof !floatP_tag_table result floatP_tag)))) }
+
+val unsigned_charP_alloc_table : ref (alloc_table unsigned_charP)
+
+val unsigned_charP_tag_table : ref (tag_table unsigned_charP)
+
+val alloc_struct_unsigned_charP
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { true } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val alloc_struct_unsigned_charP_requires
+ (n:int)
+  (unsigned_charP_alloc_table:ref (alloc_table unsigned_charP))
+   (unsigned_charP_tag_table:ref (tag_table unsigned_charP))
+    : (pointer unsigned_charP)
+    requires { (Int.(>=) n (0)) } writes { unsigned_charP_alloc_table,
+    unsigned_charP_tag_table }
+     ensures { ((strict_valid_struct_unsigned_charP result (0)
+                (Int.(-) n (1)) !unsigned_charP_alloc_table)
+               /\ ((alloc_extends (old !unsigned_charP_alloc_table)
+                   !unsigned_charP_alloc_table)
+                  /\ ((alloc_fresh (old !unsigned_charP_alloc_table) result
+                      n)
+                     /\ (instanceof !unsigned_charP_tag_table result
+                        unsigned_charP_tag)))) }
+
+val voidP_alloc_table : ref (alloc_table voidP)
+
+val voidP_tag_table : ref (tag_table voidP)
+
+val alloc_struct_voidP
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { true } writes { voidP_alloc_table, voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val alloc_struct_voidP_requires
+ (n:int)
+  (voidP_alloc_table:ref (alloc_table voidP))
+   (voidP_tag_table:ref (tag_table voidP)) : (pointer voidP)
+    requires { (Int.(>=) n (0)) } writes { voidP_alloc_table,
+    voidP_tag_table }
+     ensures { ((strict_valid_struct_voidP result (0) (Int.(-) n (1))
+                !voidP_alloc_table)
+               /\ ((alloc_extends (old !voidP_alloc_table)
+                   !voidP_alloc_table)
+                  /\ ((alloc_fresh (old !voidP_alloc_table) result n)
+                     /\ (instanceof !voidP_tag_table result voidP_tag)))) }
+
+val charP_charM : ref (memory charP int)
+
+val floatP_floatM : ref (memory floatP real)
+
+val inst2
+ (xc:(pointer floatP))
+  (yc:(pointer floatP)) : ()
+   requires { true } reads { floatP_alloc_table, floatP_floatM }  writes
+   { floatP_floatM }
+    ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 12 12 47#
+              (in_ellipsoid _Q (vect_of_array yc (2) !floatP_floatM))) }
+
+val inst2_requires
+ (xc:(pointer floatP))
+  (yc:(pointer floatP)) : ()
+   requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/wholeprogram.jessie/" 0 0 0#
+              ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+               (Int.(<=) (offset_min !floatP_alloc_table xc) (0)))
+              /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+                  (Int.(>=) (offset_max !floatP_alloc_table xc) (1)))
+                 /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                     (Int.(<=) (offset_min !floatP_alloc_table yc) (0)))
+                    /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                        (Int.(>=) (offset_max !floatP_alloc_table yc) (1)))
+                       /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 11 13 48#
+                          (in_ellipsoid _P_0
+                          (vect_of_array xc (2) !floatP_floatM)))))))) }
+   reads { floatP_alloc_table, floatP_floatM }  writes { floatP_floatM }
+    ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 12 12 47#
+              (in_ellipsoid _Q (vect_of_array yc (2) !floatP_floatM))) }
+
+val unsigned_charP_unsigned_charM : ref (memory unsigned_charP int)
+
+let inst2_ensures_default "expl:Function inst2, default behavior"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 13 5 10#=
+ fun (xc : (pointer floatP)) (yc : (pointer floatP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+              (Int.(<=) (offset_min !floatP_alloc_table xc) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+                 (Int.(>=) (offset_max !floatP_alloc_table xc) (1)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                    (Int.(<=) (offset_min !floatP_alloc_table yc) (0)))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                       (Int.(>=) (offset_max !floatP_alloc_table yc) (1)))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 11 13 48#
+                         (in_ellipsoid _P_0
+                         (vect_of_array xc (2) !floatP_floatM))))))))  }
+  ensures { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 12 12 47#
+            (in_ellipsoid _Q (vect_of_array yc (2) !floatP_floatM))) }
+  ('Init: 
+  try
+   ('C_12: 
+   ('C_24: 
+   begin
+     (let jessie_12 =
+     ('C_9: 
+     ((Real.(+) ('C_8: 
+                ((Real.(*) ('C_7:  2.0)) ('C_6: 
+                                         ((safe_acc_ !floatP_floatM) 
+                                          ('C_5:  ((shift xc) (0)))))))) 
+      ('C_4: 
+      ((Real.(*) ('C_3:  3.0)) ('C_2: 
+                               ((safe_acc_ !floatP_floatM) ('C_1: 
+                                                           ((shift xc) (1))))))))) in
+     (let jessie_13 = yc in
+     (let jessie_17 =
+     ('C_21: 
+     ((Real.(+) ('C_20: 
+                ((Real.(*) ('C_19:  3.0)) ('C_18: 
+                                          ((safe_acc_ !floatP_floatM) 
+                                           ('C_17:  ((shift xc) (0)))))))) 
+      ('C_16: 
+      ((Real.(*) ('C_15:  5.0)) ('C_14: 
+                                ((safe_acc_ !floatP_floatM) ('C_13: 
+                                                            ((shift xc) (1))))))))) in
+     (let jessie_18 = yc in
+     (let jessie_19 = (1) in
+     (let jessie_20 = ((shift jessie_18) jessie_19) in
+     any ()
+     requires { true } reads { floatP_alloc_table, floatP_floatM }  writes
+     { floatP_floatM }
+      ensures { ((not_assigns !floatP_alloc_table (old !floatP_floatM)
+                 !floatP_floatM
+                 (pset_range (pset_singleton jessie_13) (0) (1)))
+                /\ (((select !floatP_floatM (shift jessie_13 (0))) = jessie_12)
+                   /\ ((select !floatP_floatM (shift jessie_13 (1))) = jessie_17))) } ))))));
+    (raise Return); (raise Return) end)) with Return -> () end) 
+
+let inst2_safety "expl:Function inst2, Safety"
+ #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 13 5 10#=
+ fun (xc : (pointer floatP)) (yc : (pointer floatP)) ->
+  requires { (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/wholeprogram.jessie/" 0 0 0#
+             ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+              (Int.(<=) (offset_min !floatP_alloc_table xc) (0)))
+             /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 9 13 34#
+                 (Int.(>=) (offset_max !floatP_alloc_table xc) (1)))
+                /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                    (Int.(<=) (offset_min !floatP_alloc_table yc) (0)))
+                   /\ ((#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 10 13 34#
+                       (Int.(>=) (offset_max !floatP_alloc_table yc) (1)))
+                      /\ (#"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 11 13 48#
+                         (in_ellipsoid _P_0
+                         (vect_of_array xc (2) !floatP_floatM))))))))  }
+  ensures { true }('Init: 
+                  try
+                   ('C_12: 
+                   ('C_24: 
+                   begin
+                     (let jessie_2 =
+                     ('C_9: 
+                     ((Real.(+) ('C_8: 
+                                ((Real.(*) ('C_7:  2.0)) ('C_6: 
+                                                         ("expl:pointer dereference"
+                                                         #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 15 11 16#
+                                                         (((acc_ !floatP_alloc_table) !floatP_floatM) xc)))))) 
+                      ('C_4: 
+                      ((Real.(*) ('C_3:  3.0)) ('C_2: 
+                                               ("expl:pointer dereference"
+                                               #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 15 21 26#
+                                               ((((offset_acc_ !floatP_alloc_table) !floatP_floatM) xc) (1)))))))) in
+                     (let jessie_3 = yc in
+                     (let jessie_7 =
+                     ('C_21: 
+                     ((Real.(+) ('C_20: 
+                                ((Real.(*) ('C_19:  3.0)) ('C_18: 
+                                                          ("expl:pointer dereference"
+                                                          #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 16 11 16#
+                                                          (((acc_ !floatP_alloc_table) !floatP_floatM) xc)))))) 
+                      ('C_16: 
+                      ((Real.(*) ('C_15:  5.0)) ('C_14: 
+                                                ("expl:pointer dereference"
+                                                #"/home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/control.c" 16 21 26#
+                                                ((((offset_acc_ !floatP_alloc_table) !floatP_floatM) xc) (1)))))))) in
+                     (let jessie_8 = yc in
+                     (let jessie_9 = (1) in
+                     (let jessie_10 = ((shift jessie_8) jessie_9) in
+                     any ()
+                     requires { ((Int.(<=)
+                                 (offset_min !floatP_alloc_table jessie_3)
+                                 (1))
+                                /\ ((Int.(<=) (1)
+                                    (offset_max !floatP_alloc_table jessie_3))
+                                   /\ ((Int.(<=)
+                                       (offset_min !floatP_alloc_table
+                                       jessie_3) (0))
+                                      /\ (Int.(<=) (0)
+                                         (offset_max !floatP_alloc_table
+                                         jessie_3))))) }
+                     reads { floatP_alloc_table, floatP_floatM }  writes
+                     { floatP_floatM }
+                      ensures { ((not_assigns !floatP_alloc_table
+                                 (old !floatP_floatM) !floatP_floatM
+                                 (pset_range (pset_singleton jessie_3) (0)
+                                 (1)))
+                                /\ (((select !floatP_floatM
+                                     (shift jessie_3 (0))) = jessie_2)
+                                   /\ ((select !floatP_floatM
+                                       (shift jessie_3 (1))) = jessie_7))) } ))))));
+                    (raise Return); (raise Return) end)) with Return ->
+                   () end) 
+
+end
+
+

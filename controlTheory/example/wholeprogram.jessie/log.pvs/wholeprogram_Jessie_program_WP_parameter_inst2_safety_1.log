@@ -1,0 +1,31 @@
+[12-16-2013-10:58:11]: wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs
+[12-16-2013-10:58:11]: /home/gajaka/formal/frama-c-Fluorine-20130601/tests/controlTheory/example/wholeprogram.jessie/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs
+[12-16-2013-10:58:11]: The numBeginSection of the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is: 
+[12-16-2013-10:58:11]: The numEndSection of the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is: 
+[12-16-2013-10:58:11]: Remove block from  to  in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file.
+[12-16-2013-10:58:11]: File ../pvs_patch/control_example.pvs is not empty.
+[12-16-2013-10:58:11]: Detected new theory: linear_algebra@ellipsoid
+[12-16-2013-10:58:11]: The last IMPORTING has been placed at line number:      6
+[12-16-2013-10:58:11]: IMPORTING linear_algebra@ellipsoid has been created in the pvs file.
+[12-16-2013-10:58:11]: Detected new theory: control@ellipsoid
+[12-16-2013-10:58:11]: The last IMPORTING has been placed at line number:      7
+[12-16-2013-10:58:11]: IMPORTING control@ellipsoid has been created in the pvs file.
+[12-16-2013-10:58:11]: The new libraries have been added successfully.
+[12-16-2013-10:58:11]: refinePVS:
+[12-16-2013-10:58:11]: The number of matrix in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    588
+[12-16-2013-10:58:11]: The number of vector in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    597
+[12-16-2013-10:58:11]: The number of mat_row in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    729
+[12-16-2013-10:58:11]: The number of mat_col in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    704
+[12-16-2013-10:58:11]: The number of mat_select in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    735
+[12-16-2013-10:58:11]: The number of vect_select in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    907
+[12-16-2013-10:58:11]: The number of mat_mult in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    612
+[12-16-2013-10:58:11]: The number of mat_inv in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    615
+[12-16-2013-10:58:11]: The number of transpose1 in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    618
+[12-16-2013-10:58:11]: The number of is_invertible in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    681
+[12-16-2013-10:58:11]: The number of in_ellipsoid in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file is:    678
+[12-16-2013-10:58:11]: ../pvs_patch/control_example.pvs is going to be processed.
+[12-16-2013-10:58:11]: The last IMPORTING of the ../pvs_patch/control_example.pvs file has been placed at line number:      4
+[12-16-2013-10:58:11]: The END of the ../pvs_patch/control_example.pvs file has been placed at line number:     44
+[12-16-2013-10:58:11]: The last IMPORTING of the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file has been placed at line number:      8
+[12-16-2013-10:58:11]: Add block from  to  in the wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs file.
+[12-16-2013-10:58:11]: The wholeprogram/wholeprogram_Jessie_program_WP_parameter_inst2_safety_1.pvs has been updated successfully.

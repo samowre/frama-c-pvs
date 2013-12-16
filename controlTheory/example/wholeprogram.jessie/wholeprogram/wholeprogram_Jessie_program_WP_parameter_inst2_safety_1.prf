@@ -1,0 +1,23 @@
+(WP_parameter_inst2_safety
+ (mat_select_TCC1 0
+  (mat_select_TCC1-1 nil 3596180325 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (mat_select_TCC2 0
+  (mat_select_TCC2-1 nil 3596180325 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (vect_select_TCC1 0
+  (vect_select_TCC1-1 nil 3596180325 ("" (subtype-tcc) nil nil) nil
+   nil))
+ (mat_inv_TCC1 0
+  (mat_inv_TCC1-1 nil 3596180325 ("" (subtype-tcc) nil nil) nil nil))
+ (mat_inv_TCC2 0
+  (mat_inv_TCC2-1 nil 3596180325 ("" (subtype-tcc) nil nil) nil nil))
+ (wp_parameter_inst2_safety 0
+  (wp_parameter_inst2_safety-1 nil 3596180331
+   ("" (skosimp*) (("" (smash) nil nil)) nil)
+   ((real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil))
+   shostak)))
+

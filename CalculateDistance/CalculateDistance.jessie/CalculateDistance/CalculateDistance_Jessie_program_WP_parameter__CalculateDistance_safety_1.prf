@@ -1,0 +1,69 @@
+(WP_parameter__CalculateDistance_safety
+ (aux1 0
+  (aux1-1 nil 3619343759 ("" (grind) nil nil)
+   ((nnreal_times_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil))
+   shostak))
+ (wp_parameter__calculatedistance_safety 0
+  (wp_parameter__calculatedistance_safety-1 nil 3619343413
+   ("" (skosimp*)
+    (("" (expand "difference_nonneg")
+      (("" (hide -1 -2 -3 -4 -5 -6)
+        (("" (hide -2 -3 -4 -5 -6)
+          (("" (inst-cp -1 "0")
+            (("" (inst -1 "1")
+              (("" (lemma "aux1")
+                (("" (inst?)
+                  (("1" (grind) nil nil) ("2" (grind) nil nil)
+                   ("3" (grind) nil nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (aux1 formula-decl nil WP_parameter__CalculateDistance_safety nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (real_times_real_is_real application-judgement "real" reals nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (nnreal type-eq-decl nil real_types nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (memory nonempty-type-decl nil
+     WP_parameter__CalculateDistance_safety nil)
+    (pointer nonempty-type-decl nil
+     WP_parameter__CalculateDistance_safety nil)
+    (select const-decl "v" WP_parameter__CalculateDistance_safety nil)
+    (doublep_doublem!1 skolem-const-decl "memory[doublep, real]"
+     WP_parameter__CalculateDistance_safety nil)
+    (shift const-decl "pointer[t]"
+     WP_parameter__CalculateDistance_safety nil)
+    (x!1 skolem-const-decl "pointer[doublep]"
+     WP_parameter__CalculateDistance_safety nil)
+    (y!1 skolem-const-decl "pointer[doublep]"
+     WP_parameter__CalculateDistance_safety nil)
+    (real_minus_real_is_real application-judgement "real" reals nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (difference_nonneg const-decl "bool"
+     WP_parameter__CalculateDistance_safety nil))
+   shostak)))
+

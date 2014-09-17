@@ -1,0 +1,23 @@
+(WP_parameter__CalculateDistance_safety
+ (wp_parameter__calculatedistance_safety 0
+  (wp_parameter__calculatedistance_safety-1 nil 3619343930
+   ("" (grind) nil nil)
+   ((real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number nonempty-type-decl nil numbers nil)
+    (NOT const-decl "[bool -> bool]" booleans nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (valid_struct_doublep const-decl "bool"
+     WP_parameter__CalculateDistance_safety nil)
+    (difference_nonneg const-decl "bool"
+     WP_parameter__CalculateDistance_safety nil))
+   shostak)))
+

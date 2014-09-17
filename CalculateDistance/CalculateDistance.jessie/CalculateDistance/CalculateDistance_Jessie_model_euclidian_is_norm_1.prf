@@ -1,0 +1,156 @@
+(euclidian_is_norm
+ (diff_rewrite 0
+  (diff_rewrite-1 nil 3619327840 ("" (grind) nil nil)
+   ((diff const-decl "vector" euclidian_is_norm nil)
+    (usrpcons const-decl "vector" euclidian_is_norm nil)
+    (pr2 const-decl "real" euclidian_is_norm nil)
+    (pr1 const-decl "real" euclidian_is_norm nil))
+   shostak))
+ (aux1 0
+  (aux1-1 nil 3619336406 ("" (grind) nil nil)
+   ((nnreal_times_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil))
+   shostak))
+ (euclidian_is_norm 0
+  (euclidian_is_norm-1 nil 3619327853
+   ("" (skosimp*)
+    (("" (expand "difference_nonneg")
+      (("" (inst-cp -1 "0")
+        (("" (inst -1 "1")
+          (("" (smash)
+            (("" (rewrite "diff_rewrite")
+              (("" (lemma "dist_norm")
+                (("" (expand "usrpcons")
+                  (("" (inst?)
+                    (("" (expand "norm")
+                      (("" (expand "norm")
+                        (("" (replace -1 1 rl)
+                          (("" (hide -1)
+                            (("" (expand "dist")
+                              ((""
+                                (expand "sq_dist")
+                                ((""
+                                  (expand "sq")
+                                  ((""
+                                    (expand "euclidean_norm")
+                                    ((""
+                                      (smash)
+                                      ((""
+                                        (hide 2)
+                                        ((""
+                                          (grind)
+                                          ((""
+                                            (case
+                                             "select(doublep_doublem_at_l!1, shift(p!1, 0)) *
+               select(doublep_doublem_at_l!1, shift(p!1, 0))
+               +
+               select(doublep_doublem_at_l!1, shift(p!1, 1)) *
+                select(doublep_doublem_at_l!1, shift(p!1, 1))
+               +
+               select(doublep_doublem_at_l!1, shift(q!1, 0)) *
+                select(doublep_doublem_at_l!1, shift(q!1, 0))
+               +
+               select(doublep_doublem_at_l!1, shift(q!1, 1)) *
+                select(doublep_doublem_at_l!1, shift(q!1, 1))
+               -
+               2 *
+                (select(doublep_doublem_at_l!1, shift(p!1, 0)) *
+                  select(doublep_doublem_at_l!1, shift(q!1, 0)))
+               -
+               2 *
+                (select(doublep_doublem_at_l!1, shift(p!1, 1)) *
+                  select(doublep_doublem_at_l!1, shift(q!1, 1))) =
+        (select(doublep_doublem_at_l!1, shift(p!1, 0)) - select(doublep_doublem_at_l!1, shift(q!1, 0)))*
+        (select(doublep_doublem_at_l!1, shift(p!1, 0)) - select(doublep_doublem_at_l!1, shift(q!1, 0)))+
+        (select(doublep_doublem_at_l!1, shift(p!1, 1)) - select(doublep_doublem_at_l!1, shift(q!1, 1)))*
+        (select(doublep_doublem_at_l!1, shift(p!1, 1)) - select(doublep_doublem_at_l!1, shift(q!1, 1)))")
+                                            (("1"
+                                              (replace -1 1 lr)
+                                              (("1"
+                                                (hide -1)
+                                                (("1"
+                                                  (lemma "aux1")
+                                                  (("1"
+                                                    (inst
+                                                     -1
+                                                     "(select(doublep_doublem_at_l!1, shift(p!1, 1)) -
+             select(doublep_doublem_at_l!1, shift(q!1, 1)))"
+                                                     "(select(doublep_doublem_at_l!1, shift(p!1, 0)) -
+             select(doublep_doublem_at_l!1, shift(q!1, 0)))")
+                                                    (("1"
+                                                      (grind)
+                                                      nil
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil)
+                                             ("2" (grind) nil nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((difference_nonneg const-decl "bool" euclidian_is_norm nil)
+    (diff_rewrite formula-decl nil euclidian_is_norm nil)
+    (vector nonempty-type-eq-decl nil euclidian_is_norm nil)
+    (usrpcons const-decl "vector" euclidian_is_norm nil)
+    (memory nonempty-type-decl nil euclidian_is_norm nil)
+    (pointer nonempty-type-decl nil euclidian_is_norm nil)
+    (select const-decl "v" euclidian_is_norm nil)
+    (shift const-decl "pointer[t]" euclidian_is_norm nil)
+    (norm const-decl "real" euclidian_is_norm nil)
+    (norm const-decl "nnreal" vectors_2D "vectors/")
+    (dist const-decl "nnreal" distance_2D "vectors/")
+    (real_times_real_is_real application-judgement "real" reals nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (sq const-decl "nonneg_real" sq "reals/")
+    (aux1 formula-decl nil euclidian_is_norm nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nnreal type-eq-decl nil real_types nil)
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (euclidean_norm const-decl "real" euclidian_is_norm nil)
+    (sq_dist const-decl "nnreal" distance_2D "vectors/")
+    (Vect2 type-eq-decl nil vectors_2D_def "vectors/")
+    (dist_norm formula-decl nil distance_2D "vectors/")
+    (real_minus_real_is_real application-judgement "real" reals nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil))
+   shostak)))
+

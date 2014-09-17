@@ -1,0 +1,323 @@
+[JC_1]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 45
+begin = 13
+end = 19
+
+[JC_2]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_3]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 45
+begin = 13
+end = 19
+
+[JC_4]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_5]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 46
+begin = 12
+end = 30
+
+[JC_6]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 46
+begin = 12
+end = 30
+
+[JC_7]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_8]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[CalculateDistance_ensures_default]
+name = "Function CalculateDistance"
+behavior = "default behavior"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 63
+begin = 7
+end = 24
+
+[JC_9]
+kind = UserCall
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 49
+begin = 11
+end = 18
+
+[Ine]
+name = "Lemma Ine"
+behavior = "lemma"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 36
+begin = 4
+end = 476
+
+[vector_inductive]
+name = "vector_inductive"
+behavior = "axiom"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/CalculateDistance.jc"
+line = 42
+begin = 2
+end = 126
+
+[euclidian_is_norm]
+name = "Lemma euclidian_is_norm"
+behavior = "lemma"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 41
+begin = 4
+end = 193
+
+[pr2_def]
+name = "Lemma pr2_def"
+behavior = "axiom"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 11
+begin = 4
+end = 60
+
+[JC_10]
+kind = VarDecr
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 49
+begin = 11
+end = 18
+
+[JC_11]
+kind = UserCall
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 49
+begin = 11
+end = 18
+
+[JC_12]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 51
+begin = 15
+end = 35
+
+[JC_13]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 51
+begin = 15
+end = 35
+
+[JC_14]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 52
+begin = 15
+end = 35
+
+[JC_15]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 52
+begin = 15
+end = 35
+
+[JC_16]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 53
+begin = 15
+end = 44
+
+[JC_17]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[sqrt_safety]
+name = "Function sqrt"
+behavior = "Safety"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 48
+begin = 9
+end = 13
+
+[JC_18]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_19]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 51
+begin = 15
+end = 35
+
+[JC_20]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 51
+begin = 15
+end = 35
+
+[JC_21]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 52
+begin = 15
+end = 35
+
+[JC_22]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 52
+begin = 15
+end = 35
+
+[CalculateDistance_safety]
+name = "Function CalculateDistance"
+behavior = "Safety"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 63
+begin = 7
+end = 24
+
+[JC_23]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 53
+begin = 15
+end = 44
+
+[JC_24]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_25]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_26]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 54
+begin = 14
+end = 394
+
+[JC_27]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 61
+begin = 14
+end = 74
+
+[JC_28]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/"
+line = 0
+begin = -1
+end = -1
+
+[JC_29]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 54
+begin = 14
+end = 394
+
+[norm_add]
+name = "Lemma norm_add"
+behavior = "lemma"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 33
+begin = 4
+end = 611
+
+[sqrt_ensures_default]
+name = "Function sqrt"
+behavior = "default behavior"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 48
+begin = 9
+end = 13
+
+[JC_30]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 61
+begin = 14
+end = 74
+
+[JC_31]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/"
+line = 0
+begin = -1
+end = -1
+
+[JC_32]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[pr1_def]
+name = "Lemma pr1_def"
+behavior = "axiom"
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 10
+begin = 4
+end = 60
+
+[JC_33]
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.jessie/"
+line = 0
+begin = -1
+end = -1
+
+[JC_34]
+kind = IndexBounds
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 44
+end = 48
+
+[JC_35]
+kind = IndexBounds
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 49
+end = 53
+
+[JC_36]
+kind = IndexBounds
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 56
+end = 60
+
+[JC_37]
+kind = IndexBounds
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 61
+end = 65
+
+[JC_38]
+kind = UserCall
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 12
+end = 67
+
+[JC_39]
+kind = UserCall
+file = "/home/moobar/formal/frama-c-Fluorine-20130601/tests/merge-spacing/11/CalculateDistance.c"
+line = 65
+begin = 12
+end = 67
+

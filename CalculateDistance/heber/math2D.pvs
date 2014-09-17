@@ -1,0 +1,15 @@
+Math2D: THEORY BEGIN
+
+IMPORTING vectors@vectors_2D
+
+PositionBounds(x:Vect2,e:posreal):TYPE+ ={y:Vect2| norm(x-y)<=e}
+
+NormAdd:LEMMA FORALL(a,b,c,d:Vect2):
+           norm(a-b)<=norm(c-d)+norm(a-c)+norm(b-d)
+
+Ine: LEMMA FORALL(sim,Sim,st,St:Vect2,er,err:posreal):
+           norm(sim-Sim)<=err AND norm(st-St)<=er IMPLIES
+            norm(sim-st)<=norm(Sim-St)+err+er and 
+             norm(sim-st)>=norm(Sim-St)-(err+er)
+
+END Math2D

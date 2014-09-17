@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE why3session PUBLIC "-//Why3//proof session v2//EN" "http://why3.lri.fr/why3session.dtd">
+<why3session shape_version="3">
+ <prover
+  id="0"
+  name="Alt-Ergo"
+  version="0.94"/>
+ <prover
+  id="1"
+  name="PVS"
+  version="6.0"/>
+ <file
+  name="../CalculateDistance.mlw"
+  verified="false"
+  expanded="true">
+  <theory
+   name="Jessie_model"
+   locfile="../CalculateDistance.mlw"
+   loclnum="1" loccnumb="7" loccnume="19"
+   verified="false"
+   expanded="true">
+   <goal
+    name="norm_add"
+    locfile="../../CalculateDistance.c"
+    loclnum="33" loccnumb="4" loccnume="611"
+    expl="Lemma norm_add, lemma"
+    sum="79637a4f00c115e610816e1655a0149d"
+    proved="false"
+    expanded="true"
+    shape="ainfix &lt;=anormadiffV0V1ainfix +ainfix +anormadiffV2V3anormadiffV0V2anormadiffV1V3FFFF">
+    <label
+     name="expl:Lemma norm_add, lemma"/>
+    <proof
+     prover="1"
+     timelimit="5"
+     memlimit="1000"
+     edited="CalculateDistance_Jessie_model_norm_add_1.pvs"
+     obsolete="true"
+     archived="false">
+     <undone/>
+    </proof>
+   </goal>
+   <goal
+    name="_Ine"
+    locfile="../../CalculateDistance.c"
+    loclnum="36" loccnumb="4" loccnume="476"
+    expl="Lemma Ine, lemma"
+    sum="7b7d02c307c1aedb92d369af24eba6fa"
+    proved="false"
+    expanded="true"
+    shape="ainfix &gt;=anormadiffV2V4ainfix -anormadiffV3V5ainfix +V1V0Aainfix &lt;=anormadiffV2V4ainfix +ainfix +anormadiffV3V5V1V0Iainfix &lt;=anormadiffV4V5V0Aainfix &lt;=anormadiffV2V3V1FFFFFF">
+    <label
+     name="expl:Lemma Ine, lemma"/>
+    <proof
+     prover="1"
+     timelimit="5"
+     memlimit="1000"
+     edited="CalculateDistance_Jessie_model__Ine_1.pvs"
+     obsolete="true"
+     archived="false">
+     <undone/>
+    </proof>
+   </goal>
+   <goal
+    name="euclidian_is_norm"
+    locfile="../../CalculateDistance.c"
+    loclnum="41" loccnumb="4" loccnume="193"
+    expl="Lemma euclidian_is_norm, lemma"
+    sum="4f6fe70b787c8820a3d7826834170bf1"
+    proved="false"
+    expanded="true"
+    shape="ainfix =aeuclidean_normV1V2V0anormadiffa_RPConsaselectV0ashiftV1c0aselectV0ashiftV1c1a_RPConsaselectV0ashiftV2c0aselectV0ashiftV2c1Iadifference_nonnegV1V2c0c2V0FFF">
+    <label
+     name="expl:Lemma euclidian_is_norm, lemma"/>
+    <proof
+     prover="0"
+     timelimit="5"
+     memlimit="1000"
+     obsolete="false"
+     archived="false">
+     <result status="timeout" time="4.99"/>
+    </proof>
+    <proof
+     prover="1"
+     timelimit="5"
+     memlimit="1000"
+     edited="CalculateDistance_Jessie_model_euclidian_is_norm_1.pvs"
+     obsolete="true"
+     archived="false">
+     <undone/>
+    </proof>
+   </goal>
+  </theory>
+  <theory
+   name="Jessie_program"
+   locfile="../CalculateDistance.mlw"
+   loclnum="303" loccnumb="7" loccnume="21"
+   verified="false"
+   expanded="true">
+   <goal
+    name="WP_parameter _CalculateDistance_ensures_default"
+    locfile="../../CalculateDistance.c"
+    loclnum="63" loccnumb="7" loccnume="24"
+    expl="VC for _CalculateDistance_ensures_default"
+    sum="c76fcea7e08948553223d2bf69bedbce"
+    proved="false"
+    expanded="true"
+    shape="ainfix =V6anormadiffa_RPConsaselectV2ashiftV0c0aselectV2ashiftV0c1a_RPConsaselectV2ashiftV1c0aselectV2ashiftV1c1Aainfix &gt;=V6ainfix -aeuclidean_normV9V10V2ainfix +V7V8Aainfix &lt;=V6ainfix +ainfix +aeuclidean_normV9V10V2V7V8Iainfix &lt;=aeuclidean_normV1V10V2V8Aainfix &lt;=aeuclidean_normV0V9V2V7Aadifference_nonnegV1V10c0c2V2Aadifference_nonnegV0V9c0c2V2Aadifference_nonnegV9V10c0c2V2FFFFIainfix =V6V5FIainfix =V5asqrtainfix +ainfix *ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix *ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1FIainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+    <label
+     name="expl:Function CalculateDistance, default behavior"/>
+    <label
+     name="expl:VC for _CalculateDistance_ensures_default"/>
+    <transf
+     name="split_goal_wp"
+     proved="false"
+     expanded="true">
+     <goal
+      name="WP_parameter _CalculateDistance_ensures_default.1"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="1. postcondition"
+      sum="c76fcea7e08948553223d2bf69bedbce"
+      proved="false"
+      expanded="true"
+      shape="postconditionainfix =V6anormadiffa_RPConsaselectV2ashiftV0c0aselectV2ashiftV0c1a_RPConsaselectV2ashiftV1c0aselectV2ashiftV1c1Aainfix &gt;=V6ainfix -aeuclidean_normV9V10V2ainfix +V7V8Aainfix &lt;=V6ainfix +ainfix +aeuclidean_normV9V10V2V7V8Iainfix &lt;=aeuclidean_normV1V10V2V8Aainfix &lt;=aeuclidean_normV0V9V2V7Aadifference_nonnegV1V10c0c2V2Aadifference_nonnegV0V9c0c2V2Aadifference_nonnegV9V10c0c2V2FFFFIainfix =V6V5FIainfix =V5asqrtainfix +ainfix *ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix *ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1FIainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, default behavior"/>
+      <label
+       name="expl:VC for _CalculateDistance_ensures_default"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_ensures_default_6.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+    </transf>
+   </goal>
+   <goal
+    name="WP_parameter _CalculateDistance_safety"
+    locfile="../../CalculateDistance.c"
+    loclnum="63" loccnumb="7" loccnume="24"
+    expl="VC for _CalculateDistance_safety"
+    sum="d0d203a5ce97102ea1450004f9964c0b"
+    proved="false"
+    expanded="true"
+    shape="ainfix &lt;=c0.0ainfix +ainfix *ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix *ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1Aainfix &lt;=c1aoffset_maxV3V0Aainfix &lt;=c1aoffset_maxV3V1Aainfix &lt;=c1aoffset_maxV3V0Aainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+    <label
+     name="expl:Function CalculateDistance, Safety"/>
+    <label
+     name="expl:VC for _CalculateDistance_safety"/>
+    <transf
+     name="split_goal_wp"
+     proved="false"
+     expanded="true">
+     <goal
+      name="WP_parameter _CalculateDistance_safety.1"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="1. index bounds"
+      sum="20192cea1b0727f3d1d5dca1cfd19dd1"
+      proved="false"
+      expanded="true"
+      shape="index boundsainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, Safety"/>
+      <label
+       name="expl:VC for _CalculateDistance_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_safety_5.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+     <goal
+      name="WP_parameter _CalculateDistance_safety.2"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="2. index bounds"
+      sum="58b19e71dbd91b6a2d4ae7f7dfae3d88"
+      proved="false"
+      expanded="true"
+      shape="index boundsainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, Safety"/>
+      <label
+       name="expl:VC for _CalculateDistance_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_safety_4.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+     <goal
+      name="WP_parameter _CalculateDistance_safety.3"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="3. index bounds"
+      sum="f328a0bd04ec10049d2d04077739b943"
+      proved="false"
+      expanded="true"
+      shape="index boundsainfix &lt;=c1aoffset_maxV3V1Iainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, Safety"/>
+      <label
+       name="expl:VC for _CalculateDistance_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_safety_3.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+     <goal
+      name="WP_parameter _CalculateDistance_safety.4"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="4. index bounds"
+      sum="4f5a12fc41b5f14ff1278145309887e3"
+      proved="false"
+      expanded="true"
+      shape="index boundsainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, Safety"/>
+      <label
+       name="expl:VC for _CalculateDistance_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_safety_2.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+     <goal
+      name="WP_parameter _CalculateDistance_safety.5"
+      locfile="../../CalculateDistance.c"
+      loclnum="63" loccnumb="7" loccnume="24"
+      expl="5. precondition for call"
+      sum="de713e331573c5565ef9f39b7d84ebc5"
+      proved="false"
+      expanded="true"
+      shape="precondition for callainfix &lt;=c0.0ainfix +ainfix *ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix -aselectV2ashiftV0c0aselectV2ashiftV1c0ainfix *ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1ainfix -aselectV2ashiftV0c1aselectV2ashiftV1c1Iainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix &lt;=c1aoffset_maxV3V0Iainfix &lt;=c1aoffset_maxV3V1Iainfix =V4c0.0FIadifference_nonnegV0V1c0c2V2Aainfix &gt;=aoffset_maxV3V1c1Aainfix &lt;=aoffset_minV3V1c0Aainfix &gt;=aoffset_maxV3V0c1Aainfix &lt;=aoffset_minV3V0c0Aavalid_struct_doublePV0c0c0V3Aavalid_struct_doublePV1c0c0V3FF">
+      <label
+       name="expl:Function CalculateDistance, Safety"/>
+      <label
+       name="expl:VC for _CalculateDistance_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter__CalculateDistance_safety_1.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+    </transf>
+   </goal>
+   <goal
+    name="WP_parameter sqrt_ensures_default"
+    locfile="../../CalculateDistance.c"
+    loclnum="48" loccnumb="9" loccnume="13"
+    expl="VC for sqrt_ensures_default"
+    sum="50f019f478a84625b4e8b57b112b1f0e"
+    proved="false"
+    expanded="true"
+    shape="ainfix =V2asqrtV0Iainfix =V2V1FIainfix =V1asqrtV0FIainfix &lt;=c0.0V0F">
+    <label
+     name="expl:Function sqrt, default behavior"/>
+    <label
+     name="expl:VC for sqrt_ensures_default"/>
+    <transf
+     name="split_goal_wp"
+     proved="false"
+     expanded="true">
+     <goal
+      name="WP_parameter sqrt_ensures_default.1"
+      locfile="../../CalculateDistance.c"
+      loclnum="48" loccnumb="9" loccnume="13"
+      expl="1. postcondition"
+      sum="50f019f478a84625b4e8b57b112b1f0e"
+      proved="false"
+      expanded="true"
+      shape="postconditionainfix =V2asqrtV0Iainfix =V2V1FIainfix =V1asqrtV0FIainfix &lt;=c0.0V0F">
+      <label
+       name="expl:Function sqrt, default behavior"/>
+      <label
+       name="expl:VC for sqrt_ensures_default"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter_sqrt_ensures_default_1.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+    </transf>
+   </goal>
+   <goal
+    name="WP_parameter sqrt_safety"
+    locfile="../../CalculateDistance.c"
+    loclnum="48" loccnumb="9" loccnume="13"
+    expl="variant decreases"
+    sum="ade0212f746f050a5b671353f5d17ed2"
+    proved="false"
+    expanded="true"
+    shape="variant decreasesainfix &lt;=c0.0V0Aazwf_zeroc0c0Iainfix &lt;=c0.0V0F">
+    <label
+     name="expl:Function sqrt, Safety"/>
+    <label
+     name="expl:VC for sqrt_safety"/>
+    <transf
+     name="split_goal_wp"
+     proved="false"
+     expanded="true">
+     <goal
+      name="WP_parameter sqrt_safety.1"
+      locfile="../../CalculateDistance.c"
+      loclnum="48" loccnumb="9" loccnume="13"
+      expl="1. check"
+      sum="ba6b38c112ef53f72109f8a081706cbf"
+      proved="false"
+      expanded="false"
+      shape="checkazwf_zeroc0c0Iainfix &lt;=c0.0V0F">
+      <label
+       name="expl:Function sqrt, Safety"/>
+      <label
+       name="expl:VC for sqrt_safety"/>
+     </goal>
+     <goal
+      name="WP_parameter sqrt_safety.2"
+      locfile="../../CalculateDistance.c"
+      loclnum="48" loccnumb="9" loccnume="13"
+      expl="2. precondition for call"
+      sum="bf195529eba7dbe8f989ca02c6b6c24d"
+      proved="false"
+      expanded="true"
+      shape="precondition for callainfix &lt;=c0.0V0Iainfix &lt;=c0.0V0F">
+      <label
+       name="expl:Function sqrt, Safety"/>
+      <label
+       name="expl:VC for sqrt_safety"/>
+      <proof
+       prover="1"
+       timelimit="5"
+       memlimit="1000"
+       edited="CalculateDistance_Jessie_program_WP_parameter_sqrt_safety_1.pvs"
+       obsolete="true"
+       archived="false">
+       <undone/>
+      </proof>
+     </goal>
+    </transf>
+   </goal>
+  </theory>
+ </file>
+</why3session>

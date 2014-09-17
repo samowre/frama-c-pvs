@@ -1,0 +1,83 @@
+(Math2D
+ (NormAdd 0
+  (NormAdd-1 nil 3619077570
+   ("" (skeep :preds? t)
+    (("" (lemma " norm_triangle")
+      (("" (inst -1 "a" "c" "b")
+        (("" (lemma " norm_triangle")
+          (("" (inst -1 "c" "d" "b")
+            (("" (lemma "norm_sym")
+              (("" (inst -1 "d" "b")
+                (("" (replace -1) (("" (add-formulas -2 -3) nil nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((norm_triangle formula-decl nil vectors_2D "vectors/")
+    (norm_sym formula-decl nil vectors_2D "vectors/")
+    (nnreal_plus_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil)
+    (number nonempty-type-decl nil numbers nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (<= const-decl "bool" reals nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (>= const-decl "bool" reals nil)
+    (nnreal type-eq-decl nil real_types nil)
+    (norm const-decl "nnreal" vectors_2D "vectors/") nil
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (Vect2 type-eq-decl nil vectors_2D_def "vectors/")
+    (Vector type-eq-decl nil vectors_2D "vectors/")
+    (real nonempty-type-from-decl nil reals nil))
+   shostak))
+ (Ine 0
+  (Ine-1 nil 3619077771
+   ("" (skeep :preds? t)
+    (("" (lemma "NormAdd")
+      (("" (inst -1 "sim" "st" "Sim" "St")
+        (("" (split)
+          (("1" (assert) nil nil)
+           ("2" (assert)
+            (("2" (lemma "NormAdd")
+              (("2" (inst -1 "Sim" "St" "sim" "st")
+                (("2" (grind) nil nil)) nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((NormAdd formula-decl nil Math2D nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (posreal_plus_nnreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (nnreal_plus_posreal_is_posreal application-judgement "posreal"
+     real_types nil)
+    (nnreal_plus_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_gt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (- const-decl "Vector" vectors_2D "vectors/")
+    (* const-decl "real" vectors_2D "vectors/")
+    (sqv const-decl "nnreal" vectors_2D "vectors/")
+    (norm const-decl "nnreal" vectors_2D "vectors/")
+    (real_times_real_is_real application-judgement "real" reals nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (real_minus_real_is_real application-judgement "real" reals nil)
+    (Vect2 type-eq-decl nil vectors_2D_def "vectors/")
+    (real nonempty-type-from-decl nil reals nil))
+   shostak)))
+

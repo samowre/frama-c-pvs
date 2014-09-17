@@ -1,0 +1,27 @@
+1) Copy folder Heber into nasalib dir
+   for instance : /home/moobar/formal/pvs-6.0-ix86_64-Linux-allegro/nasalib
+2) Extract CalculateDistance.tar.gz in the frama-c<versionn>/tests folder.
+   You should be able to start project using the following command: frama-c -jessie -wp-prover why3ide CalculateDistance.c
+
+
+The aim of this pilot work is to show that the calculated distance is close to "ideal" distance between two crafts.
+The predicate difference_nonneg deserves some explanation:
+There is a lack in the definition of the sqrt function:
+
+  % Why3 sqr
+  sqr(x:real): real = (x * x)
+  
+  sqrt_total(x:real): real
+  
+  % Why3 sqrt
+  sqrt(x:real): MACRO real = IF x >= 0 THEN sqrt(x) ELSE sqrt_total(x) ENDIF
+
+The  sqrt_total is not provided by default.
+In order to avoid sqrt_total(x)  the following predicate has been used :
+
+@ predicate difference_nonneg(double* a,double* b, integer start_i, integer end_i) =
+@    		\forall integer i; start_i <= i && i < end_i ==> a[i] - b[i] >=0;
+
+
+
+   

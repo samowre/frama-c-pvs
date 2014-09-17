@@ -1,0 +1,490 @@
+(WP_parameter__CalculateDistance_ensures_default
+ (diff_rewrite 0
+  (diff_rewrite-1 nil 3619512609 ("" (grind) nil nil)
+   ((pr1 const-decl "real"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (pr2 const-decl "real"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (usrpcons const-decl "vector"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (diff const-decl "vector"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (- const-decl "Vector" vectors_2D "vectors/"))
+   shostak))
+ (aux1 0
+  (aux1-1 nil 3619512504 ("" (grind) nil nil)
+   ((nnreal_times_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil))
+   shostak))
+ (wp_parameter__calculatedistance_ensures_default 0
+  (wp_parameter__calculatedistance_ensures_default-1 nil 3619512626
+   ("" (skosimp*)
+    (("" (prop)
+      (("1" (skosimp*)
+        (("1" (hide -6 -7 -8 -9 -10)
+          (("1" (hide -6 -8)
+            (("1" (use "euclidian_is_norm")
+              (("1" (prop)
+                (("1" (replace -1 -5 lr)
+                  (("1" (hide -1)
+                    (("1" (use "euclidian_is_norm")
+                      (("1" (prop)
+                        (("1" (replace -1 1 lr)
+                          (("1" (hide -1)
+                            (("1" (use "euclidian_is_norm")
+                              (("1"
+                                (prop)
+                                (("1"
+                                  (replace -1 -6 lr)
+                                  (("1"
+                                    (hide -1)
+                                    (("1"
+                                      (hide -1)
+                                      (("1"
+                                        (lemma "norm_add")
+                                        (("1"
+                                          (inst
+                                           -1
+                                           "usrpcons(select(doublep_doublem!1, shift(x!1, 0)),
+                                  select(doublep_doublem!1, shift(x!1, 1)))"
+                                           "_"
+                                           "_"
+                                           "_")
+                                          (("1"
+                                            (inst
+                                             -1
+                                             "usrpcons(select(doublep_doublem!1, shift(y!1, 0)),
+                                  select(doublep_doublem!1, shift(y!1, 1)))"
+                                             "_"
+                                             "_")
+                                            (("1"
+                                              (inst
+                                               -1
+                                               "usrpcons(select(doublep_doublem!1, shift(ussim!1, 0)),
+                                  select(doublep_doublem!1, shift(ussim!1, 1)))"
+                                               "_")
+                                              (("1"
+                                                (inst
+                                                 -1
+                                                 "usrpcons(select(doublep_doublem!1, shift(usst!1, 0)),
+                                  select(doublep_doublem!1, shift(usst!1, 1)))")
+                                                (("1"
+                                                  (smash)
+                                                  (("1"
+                                                    (grind)
+                                                    nil
+                                                    nil)
+                                                   ("2"
+                                                    (replace -8 1 lr)
+                                                    (("2"
+                                                      (replace -7 1 lr)
+                                                      (("2"
+                                                        (hide 1)
+                                                        (("2"
+                                                          (hide -7)
+                                                          (("2"
+                                                            (expand
+                                                             "difference_nonneg")
+                                                            (("2"
+                                                              (inst-cp
+                                                               -6
+                                                               "0")
+                                                              (("2"
+                                                                (inst
+                                                                 -6
+                                                                 "1")
+                                                                (("2"
+                                                                  (smash)
+                                                                  (("2"
+                                                                    (case
+                                                                     "select(doublep_doublem!1, shift(x!1, 0)) *
+                                     select(doublep_doublem!1, shift(x!1, 0))
+                                     +
+                                     select(doublep_doublem!1, shift(x!1, 1)) *
+                                      select(doublep_doublem!1, shift(x!1, 1))
+                                     +
+                                     select(doublep_doublem!1, shift(y!1, 0)) *
+                                      select(doublep_doublem!1, shift(y!1, 0))
+                                     +
+                                     select(doublep_doublem!1, shift(y!1, 1)) *
+                                      select(doublep_doublem!1, shift(y!1, 1))
+                                     -
+                                     2 *
+                                      (select(doublep_doublem!1, shift(x!1, 0)) *
+                                        select(doublep_doublem!1, shift(y!1, 0)))
+                                     -
+                                     2 *
+                                      (select(doublep_doublem!1, shift(x!1, 1)) *
+                                        select(doublep_doublem!1, shift(y!1, 1))) =
+                              (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))*
+                              (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))+
+                              (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))*
+                              (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))")
+                                                                    (("1"
+                                                                      (replace
+                                                                       -1
+                                                                       1
+                                                                       lr)
+                                                                      (("1"
+                                                                        (lemma
+                                                                         "aux1")
+                                                                        (("1"
+                                                                          (inst
+                                                                           -1
+                                                                           "(select(doublep_doublem!1, shift(x!1, 1)) -
+                             select(doublep_doublem!1, shift(y!1, 1)))"
+                                                                           "(select(doublep_doublem!1, shift(x!1, 0)) -
+                             select(doublep_doublem!1, shift(y!1, 0)))")
+                                                                          (("1"
+                                                                            (grind)
+                                                                            nil
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil)
+                                                                     ("2"
+                                                                      (grind)
+                                                                      nil
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (replace -1 -5 lr)
+                  (("2" (hide -1)
+                    (("2" (use "euclidian_is_norm")
+                      (("2" (prop)
+                        (("2" (replace -1 1 lr)
+                          (("2" (hide -1)
+                            (("2" (use "euclidian_is_norm")
+                              (("2"
+                                (prop)
+                                (("2"
+                                  (replace -1 -6 lr)
+                                  (("2"
+                                    (hide -1)
+                                    (("2"
+                                      (replace -8 1 lr)
+                                      (("2"
+                                        (hide -8)
+                                        (("2"
+                                          (replace -7 1 lr)
+                                          (("2"
+                                            (hide -7)
+                                            (("2"
+                                              (lemma "norm_add")
+                                              (("2"
+                                                (inst
+                                                 -1
+                                                 "(usrpcons(select(doublep_doublem!1, shift(ussim!1, 0)),select(doublep_doublem!1, shift(ussim!1, 1))))"
+                                                 "_"
+                                                 "_"
+                                                 "_")
+                                                (("2"
+                                                  (inst
+                                                   -1
+                                                   "(usrpcons(select(doublep_doublem!1, shift( usst!1, 0)),select(doublep_doublem!1, shift( usst!1, 1))))"
+                                                   "_"
+                                                   "_")
+                                                  (("2"
+                                                    (inst
+                                                     -1
+                                                     "(usrpcons(select(doublep_doublem!1, shift( x!1, 0)),select(doublep_doublem!1, shift( x!1, 1))))"
+                                                     "_")
+                                                    (("2"
+                                                      (inst
+                                                       -1
+                                                       "(usrpcons(select(doublep_doublem!1, shift( y!1, 0)),select(doublep_doublem!1, shift( y!1, 1))))")
+                                                      (("2"
+                                                        (smash)
+                                                        (("1"
+                                                          (grind)
+                                                          nil
+                                                          nil)
+                                                         ("2"
+                                                          (hide 2)
+                                                          (("2"
+                                                            (case
+                                                             "select(doublep_doublem!1, shift(x!1, 0)) *
+                                     select(doublep_doublem!1, shift(x!1, 0))
+                                     +
+                                     select(doublep_doublem!1, shift(x!1, 1)) *
+                                      select(doublep_doublem!1, shift(x!1, 1))
+                                     +
+                                     select(doublep_doublem!1, shift(y!1, 0)) *
+                                      select(doublep_doublem!1, shift(y!1, 0))
+                                     +
+                                     select(doublep_doublem!1, shift(y!1, 1)) *
+                                      select(doublep_doublem!1, shift(y!1, 1))
+                                     -
+                                     2 *
+                                      (select(doublep_doublem!1, shift(x!1, 0)) *
+                                        select(doublep_doublem!1, shift(y!1, 0)))
+                                     -
+                                     2 *
+                                      (select(doublep_doublem!1, shift(x!1, 1)) *
+                                        select(doublep_doublem!1, shift(y!1, 1))) =
+                              (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))*
+                              (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))+
+                              (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))*
+                              (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))")
+                                                            (("1"
+                                                              (replace
+                                                               -1
+                                                               1
+                                                               lr)
+                                                              (("1"
+                                                                (expand
+                                                                 "difference_nonneg")
+                                                                (("1"
+                                                                  (inst-cp
+                                                                   -8
+                                                                   "0")
+                                                                  (("1"
+                                                                    (inst
+                                                                     -8
+                                                                     "1")
+                                                                    (("1"
+                                                                      (smash)
+                                                                      (("1"
+                                                                        (lemma
+                                                                         "aux1")
+                                                                        (("1"
+                                                                          (inst
+                                                                           -1
+                                                                           "(select(doublep_doublem!1, shift(x!1, 1)) -
+                           select(doublep_doublem!1, shift(y!1, 1)))"
+                                                                           "(select(doublep_doublem!1, shift(x!1, 0)) -
+                           select(doublep_doublem!1, shift(y!1, 0)))")
+                                                                          (("1"
+                                                                            (grind)
+                                                                            nil
+                                                                            nil))
+                                                                          nil))
+                                                                        nil))
+                                                                      nil))
+                                                                    nil))
+                                                                  nil))
+                                                                nil))
+                                                              nil)
+                                                             ("2"
+                                                              (grind)
+                                                              nil
+                                                              nil))
+                                                            nil))
+                                                          nil))
+                                                        nil))
+                                                      nil))
+                                                    nil))
+                                                  nil))
+                                                nil))
+                                              nil))
+                                            nil))
+                                          nil))
+                                        nil))
+                                      nil))
+                                    nil))
+                                  nil))
+                                nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil)
+       ("2" (hide -1 -2 -3 -4 -5 -6 -8)
+        (("2" (replace -3 1)
+          (("2" (replace -2 1)
+            (("2" (hide -2 -3)
+              (("2" (smash)
+                (("1" (rewrite "diff_rewrite")
+                  (("1" (expand "usrpcons")
+                    (("1" (expand "norm")
+                      (("1" (expand "norm")
+                        (("1" (expand "sqv")
+                          (("1"
+                            (case "select(doublep_doublem!1, shift(x!1, 0)) *
+                                              select(doublep_doublem!1, shift(x!1, 0))
+                                              +
+                                              select(doublep_doublem!1, shift(x!1, 1)) *
+                                               select(doublep_doublem!1, shift(x!1, 1))
+                                              +
+                                              select(doublep_doublem!1, shift(y!1, 0)) *
+                                               select(doublep_doublem!1, shift(y!1, 0))
+                                              +
+                                              select(doublep_doublem!1, shift(y!1, 1)) *
+                                               select(doublep_doublem!1, shift(y!1, 1))
+                                              -
+                                              2 *
+                                               (select(doublep_doublem!1, shift(x!1, 0)) *
+                                                 select(doublep_doublem!1, shift(y!1, 0)))
+                                              -
+                                              2 *
+                                               (select(doublep_doublem!1, shift(x!1, 1)) *
+                                                 select(doublep_doublem!1, shift(y!1, 1))) =
+                                       (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))*
+                                       (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))+
+                                       (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))*
+                                       (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))")
+                            (("1" (replace -1 1)
+                              (("1" (grind) nil nil)) nil)
+                             ("2" (hide 2) (("2" (grind) nil nil))
+                              nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil)
+                 ("2" (hide 2)
+                  (("2" (expand "difference_nonneg")
+                    (("2" (inst-cp -1 "0")
+                      (("2" (inst -1 "1")
+                        (("2" (smash)
+                          (("2"
+                            (case "select(doublep_doublem!1, shift(x!1, 0)) *
+                                              select(doublep_doublem!1, shift(x!1, 0))
+                                              +
+                                              select(doublep_doublem!1, shift(x!1, 1)) *
+                                               select(doublep_doublem!1, shift(x!1, 1))
+                                              +
+                                              select(doublep_doublem!1, shift(y!1, 0)) *
+                                               select(doublep_doublem!1, shift(y!1, 0))
+                                              +
+                                              select(doublep_doublem!1, shift(y!1, 1)) *
+                                               select(doublep_doublem!1, shift(y!1, 1))
+                                              -
+                                              2 *
+                                               (select(doublep_doublem!1, shift(x!1, 0)) *
+                                                 select(doublep_doublem!1, shift(y!1, 0)))
+                                              -
+                                              2 *
+                                               (select(doublep_doublem!1, shift(x!1, 1)) *
+                                                 select(doublep_doublem!1, shift(y!1, 1))) =
+                                       (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))*
+                                       (select(doublep_doublem!1, shift(x!1, 0)) - select(doublep_doublem!1, shift(y!1, 0)))+
+                                       (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))*
+                                       (select(doublep_doublem!1, shift(x!1, 1)) - select(doublep_doublem!1, shift(y!1, 1)))")
+                            (("1" (replace -1 1)
+                              (("1"
+                                (lemma "aux1")
+                                (("1"
+                                  (inst
+                                   -1
+                                   "(select(doublep_doublem!1, shift(x!1, 1)) -
+                                   select(doublep_doublem!1, shift(y!1, 1)))"
+                                   "(select(doublep_doublem!1, shift(x!1, 0)) -
+                                   select(doublep_doublem!1, shift(y!1, 0)))")
+                                  (("1" (grind) nil nil))
+                                  nil))
+                                nil))
+                              nil)
+                             ("2" (grind) nil nil))
+                            nil))
+                          nil))
+                        nil))
+                      nil))
+                    nil))
+                  nil))
+                nil))
+              nil))
+            nil))
+          nil))
+        nil))
+      nil))
+    nil)
+   ((real_times_real_is_real application-judgement "real" reals nil)
+    (real_plus_real_is_real application-judgement "real" reals nil)
+    (real_minus_real_is_real application-judgement "real" reals nil)
+    (- const-decl "Vector" vectors_2D "vectors/")
+    (diff_rewrite formula-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (norm_add formula-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (= const-decl "[T, T -> boolean]" equalities nil)
+    (numfield nonempty-type-eq-decl nil number_fields nil)
+    (- const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (+ const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (* const-decl "[numfield, numfield -> numfield]" number_fields nil)
+    (aux1 formula-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (bool nonempty-type-eq-decl nil booleans nil)
+    (>= const-decl "bool" reals nil)
+    (nnreal type-eq-decl nil real_types nil)
+    (real_lt_is_strict_total_order name-judgement
+     "(strict_total_order?[real])" real_props nil)
+    (pr1 const-decl "real"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (pr2 const-decl "real"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (diff const-decl "vector"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (* const-decl "real" vectors_2D "vectors/")
+    (sqv const-decl "nnreal" vectors_2D "vectors/")
+    (norm const-decl "nnreal" vectors_2D "vectors/")
+    (norm const-decl "real"
+          WP_parameter__CalculateDistance_ensures_default nil)
+    (difference_nonneg const-decl "bool"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (nnreal_plus_nnreal_is_nnreal application-judgement "nnreal"
+     real_types nil)
+    (real_ge_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (real_le_is_total_order name-judgement "(total_order?[real])"
+     real_props nil)
+    (shift const-decl "pointer[t]"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (int nonempty-type-eq-decl nil integers nil)
+    (integer_pred const-decl "[rational -> boolean]" integers nil)
+    (rational nonempty-type-from-decl nil rationals nil)
+    (rational_pred const-decl "[real -> boolean]" rationals nil)
+    (select const-decl "v"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (usrpcons const-decl "vector"
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (real_pred const-decl "[number_field -> boolean]" reals nil)
+    (number_field nonempty-type-from-decl nil number_fields nil)
+    (number_field_pred const-decl "[number -> boolean]" number_fields
+     nil)
+    (boolean nonempty-type-decl nil booleans nil)
+    (number nonempty-type-decl nil numbers nil)
+    (vector nonempty-type-eq-decl nil
+            WP_parameter__CalculateDistance_ensures_default nil)
+    (real nonempty-type-from-decl nil reals nil)
+    (minus_odd_is_odd application-judgement "odd_int" integers nil)
+    (pointer nonempty-type-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (memory nonempty-type-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil)
+    (euclidian_is_norm formula-decl nil
+     WP_parameter__CalculateDistance_ensures_default nil))
+   shostak)))
+

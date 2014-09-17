@@ -1,0 +1,199 @@
+# InvariantPolicy = Arguments
+# SeparationPolicy = None
+# AnnotationPolicy = None
+# AbstractDomain = Pol
+# FloatModel = math
+
+axiomatic Padding {
+
+  logic type padding
+  
+}
+
+tag doubleP = {
+  real doubleM: 64;
+}
+
+type doubleP = [doubleP]
+
+tag unsigned_charP = {
+  integer unsigned_charM: 8;
+}
+
+type unsigned_charP = [unsigned_charP]
+
+tag charP = {
+  integer charM: 8;
+}
+
+type charP = [charP]
+
+tag voidP = {
+}
+
+type voidP = [voidP]
+
+axiomatic vector_axiomatic {
+
+  logic type vector
+   
+  logic vector RPCons(real x0, real x1) reads \nothing;
+   
+  axiom vector_inductive :
+  (\forall vector x;
+    (\exists real x1;
+      (\exists real x0;
+        (x == RPCons(x1, x0)))))
+  
+}
+
+axiomatic Vector_pair {
+
+  logic real pr1(vector p)
+   
+  logic real pr2(vector p_0)
+   
+  axiom pr1_def :
+  (\forall real x;
+    (\forall real y;
+      (pr1(RPCons(x, y)) == x)))
+   
+  axiom pr2_def :
+  (\forall real x_0;
+    (\forall real y_0;
+      (pr2(RPCons(x_0, y_0)) == y_0)))
+  
+}
+
+axiomatic Norm {
+
+  logic real norm(vector p_1)
+  
+}
+
+logic vector diff(vector u, vector v) =
+(let real u1 = pr1(u)
+in (let real u2 = pr2(u)
+   in (let real v1 = pr1(v)
+      in (let real v2 = pr2(v)
+         in (let real pr1_0 = (u1 - v1)
+            in (let real pr2_0 = (u2 - v2) in RPCons(pr1_0, pr2_0)))))))
+
+predicate difference_nonneg{L}(doubleP[..] a, doubleP[..] b, integer start_i,
+                               integer end_i) =
+\at((\forall integer i_1;
+      (((start_i <= i_1) && (i_1 < end_i)) ==>
+        (((a + i_1).doubleM - (b + i_1).doubleM) >= 0))),L)
+
+logic real euclidean_norm{L}(doubleP[..] p_2, doubleP[..] q) =
+\at(\real_sqrt(((((p_2 + 0).doubleM - (q + 0).doubleM) *
+                  ((p_2 + 0).doubleM - (q + 0).doubleM)) +
+                 (((p_2 + 1).doubleM - (q + 1).doubleM) *
+                   ((p_2 + 1).doubleM - (q + 1).doubleM)))),L)
+
+lemma norm_add :
+(\forall vector a_0;
+  (\forall vector b_0;
+    (\forall vector c;
+      (\forall vector d;
+        (norm(diff(a_0, b_0)) <=
+          ((norm(diff(c, d)) + norm(diff(a_0, c))) + norm(diff(b_0, d))))))))
+
+lemma Ine :
+(\forall real er;
+  (\forall real err;
+    (\forall vector sim;
+      (\forall vector Sim;
+        (\forall vector st;
+          (\forall vector St;
+            (((norm(diff(sim, Sim)) <= err) && (norm(diff(st, St)) <= er)) ==>
+              ((norm(diff(sim, st)) <= ((norm(diff(Sim, St)) + err) + er)) &&
+                (norm(diff(sim, st)) >= (norm(diff(Sim, St)) - (err + er)))))))))))
+
+lemma euclidian_is_norm{L} :
+(\forall doubleP[..] p_3;
+  (\forall doubleP[..] q_0;
+    (difference_nonneg{L}(p_3, q_0, 0, 2) ==>
+      (euclidean_norm{L}(p_3, q_0) ==
+        norm(diff(RPCons((p_3 + 0).doubleM, (p_3 + 1).doubleM),
+                  RPCons((q_0 + 0).doubleM, (q_0 + 1).doubleM)))))))
+
+real sqrt(real x_0)
+  requires (C_4 : (0 <= x_0));
+behavior default:
+  ensures (C_3 : (\result == \real_sqrt((\at(x_0,Old) :> real))));
+{  
+   (var real tmp);
+   
+   {  (C_2 : (tmp = (C_1 : sqrt(x_0))));
+      
+      (return tmp)
+   }
+}
+
+real CalculateDistance(doubleP[0] x, doubleP[0] y)
+  requires (C_38 : ((C_39 : (\offset_min(x) <= 0)) &&
+                     (C_40 : (\offset_max(x) >= 1))));
+  requires (C_35 : ((C_36 : (\offset_min(y) <= 0)) &&
+                     (C_37 : (\offset_max(y) >= 1))));
+  requires (C_34 : difference_nonneg{Here}(x, y, 0, 2));
+behavior default:
+  ensures (C_31 : ((C_32 : (\forall real err_0;
+                             (\forall real er_0;
+                               (\forall doubleP[..] Sim_0;
+                                 (\forall doubleP[..] St_0;
+                                   (((((difference_nonneg{Here}(Sim_0, St_0,
+                                                                0, 2) &&
+                                         difference_nonneg{Here}(\at(x,Old),
+                                                                 Sim_0, 0, 2)) &&
+                                        difference_nonneg{Here}(\at(y,Old),
+                                                                St_0, 0, 2)) &&
+                                       (euclidean_norm{Here}(\at(x,Old),
+                                                             Sim_0) <=
+                                         err_0)) &&
+                                      (euclidean_norm{Here}(\at(y,Old), St_0) <=
+                                        er_0)) ==>
+                                     ((\result <=
+                                        ((euclidean_norm{Here}(Sim_0, St_0) +
+                                           err_0) +
+                                          er_0)) &&
+                                       (\result >=
+                                         (euclidean_norm{Here}(Sim_0, St_0) -
+                                           (err_0 + er_0)))))))))) &&
+                    (C_33 : (\result ==
+                              norm(diff(RPCons((\at(x,Old) + 0).doubleM,
+                                               (\at(x,Old) + 1).doubleM),
+                                        RPCons((\at(y,Old) + 0).doubleM,
+                                               (\at(y,Old) + 1).doubleM)))))));
+{  
+   (var real p);
+   
+   {  (C_5 : (p = 0.0));
+      (C_30 : (p = (C_29 : sqrt((C_28 : ((C_27 : ((C_26 : ((C_25 : (C_24 : 
+                                                                   (x +
+                                                                    0)).doubleM) -
+                                                            (C_23 : (C_22 : 
+                                                                    (y +
+                                                                    0)).doubleM))) *
+                                                   (C_21 : ((C_20 : (C_19 : 
+                                                                    (x +
+                                                                    0)).doubleM) -
+                                                             (C_18 : 
+                                                             (C_17 : 
+                                                             (y + 0)).doubleM))))) +
+                                          (C_16 : ((C_15 : ((C_14 : (C_13 : 
+                                                                    (x +
+                                                                    1)).doubleM) -
+                                                             (C_12 : 
+                                                             (C_11 : 
+                                                             (y + 1)).doubleM))) *
+                                                    (C_10 : ((C_9 : (C_8 : 
+                                                                    (x +
+                                                                    1)).doubleM) -
+                                                              (C_7 : 
+                                                              (C_6 : 
+                                                              (y + 1)).doubleM)))))))))));
+      
+      (return p)
+   }
+}

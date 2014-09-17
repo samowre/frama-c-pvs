@@ -1,6 +1,6 @@
 1) Copy folder Heber into nasalib dir
    for instance : /home/moobar/formal/pvs-6.0-ix86_64-Linux-allegro/nasalib
-2) Extract CalculateDistance.tar.gz in the frama-c<versionn>/tests folder.
+2) Extract CalculateDistance.tar.gz in the frama-c<version>/tests folder.
    You should be able to start project using the following command: frama-c -jessie -wp-prover why3ide CalculateDistance.c
 
 
